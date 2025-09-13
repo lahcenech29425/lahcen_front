@@ -1,0 +1,217 @@
+"use client";
+import { useEffect, useState } from "react";
+import { fetchSurahList } from "@/utils/quranApi";
+import { Link } from "@/components/elements/Link";
+import { Surah } from "@/types/Surah";
+
+const PAGE_SIZE = 12;
+
+function normalizeArabic(str: string) {
+  return str
+    .replace(/[\u064B-\u0652]/g, "")
+    .replace(/\s+/g, "")
+    .toLowerCase();
+}
+
+export default function QuranPage() {
+  const [surahs, setSurahs] = useState<Surah[]>([]);
+  const [filtered, setFiltered] = useState<Surah[]>([]);
+  const [search, setSearch] = useState("");
+  const [place, setPlace] = useState(""); // Meccan/Medinan
+  const [page, setPage] = useState(1);
+  const [suggestions, setSuggestions] = useState<Surah[]>([]); // For autocomplete
+  const [showSuggestions, setShowSuggestions] = useState(false); // Control visibility of suggestions
+
+  useEffect(() => {
+    fetchSurahList().then(setSurahs);
+  }, []);
+
+  useEffect(() => {
+    let data = surahs;
+    if (search) {
+      const searchNorm = search.trim().toLowerCase();
+      const searchNormArabic = normalizeArabic(searchNorm);
+      data = data.filter(
+        (s) =>
+          normalizeArabic(s.name).includes(searchNormArabic) ||
+          s.englishName.trim().toLowerCase().includes(searchNorm) ||
+          s.englishNameTranslation.trim().toLowerCase().includes(searchNorm)
+      );
+      // Suggestions for autocomplete (max 5)
+      setSuggestions(
+        surahs
+          .filter(
+            (s) =>
+              normalizeArabic(s.name).includes(searchNormArabic) ||
+              s.englishName.trim().toLowerCase().includes(searchNorm) ||
+              s.englishNameTranslation.trim().toLowerCase().includes(searchNorm)
+          )
+          .slice(0, 5)
+      );
+    } else {
+      setSuggestions([]);
+    }
+    if (place) data = data.filter((s) => s.revelationType === place);
+    setFiltered(data);
+    setPage(1);
+  }, [search, place, surahs]);
+
+  // Pagination
+  const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const pageCount = Math.ceil(filtered.length / PAGE_SIZE);
+
+  return (
+    <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
+      {/* Navigation */}
+      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-500">
+        <Link href="/" className="hover:text-primary transition">
+          الرئيسية
+        </Link>
+        <span>/</span>
+        <span className="text-primary font-semibold">القرآن الكريم</span>
+      </nav>
+      {/* Titre & intro */}
+      <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
+        سور القرآن الكريم
+      </h1>
+      <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        تصفح جميع سور القرآن الكريم. ابحث باسم السورة أو الفلترة حسب مكان
+        النزول، ثم اضغط على السورة للقراءة والاستماع.
+      </p>
+      {/* Search & filter */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
+        <div className="relative w-full md:w-80">
+          <input
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary transition"
+            placeholder="ابحث باسم السورة أو الترجمة أو بالعربية..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
+            dir="rtl"
+            autoComplete="off"
+          />
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          {/* Autocomplete suggestions */}
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg max-h-56 overflow-auto">
+              {suggestions.map((s) => (
+                <li
+                  key={s.number}
+                  className="px-4 py-2 cursor-pointer hover:bg-primary/10 text-right"
+                  onMouseDown={() => {
+                    setSearch(s.name);
+                    setShowSuggestions(false);
+                  }}
+                >
+                  <span className="font-semibold text-primary">{s.name}</span>
+                  <span className="text-xs text-gray-500 ml-2">
+                    {s.englishName}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="relative w-full md:w-48">
+          <select
+            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary transition bg-white pr-10"
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+            dir="rtl"
+          >
+            <option value="">مكان النزول</option>
+            <option value="Meccan">مكة</option>
+            <option value="Medinan">المدينة</option>
+          </select>
+          {/* Chevron icon */}
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+      </div>
+      {/* Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {paged.map((s, idx) => (
+          <Link
+            href={`/quran/${s.number}`}
+            key={s.number}
+            className="block bg-white rounded-xl shadow hover:shadow-lg transition p-5 group border border-gray-100"
+            style={{ animationDelay: `${idx * 40}ms` }}
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xl font-semibold text-primary">
+                  {s.name}
+                </div>
+                <div className="text-gray-700">
+                  <span className="text-gray-400">({s.englishName})</span>
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  {s.revelationType === "Meccan"
+                    ? "مكان النزول: مكة"
+                    : "مكان النزول: المدينة"}{" "}
+                  • {s.numberOfAyahs} آية
+                </div>
+              </div>
+              <span className="text-2xl font-bold text-primary/80">
+                {s.number}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+      {/* Pagination */}
+      <div className="flex justify-center gap-2 mt-10">
+        {Array.from({ length: pageCount }).map((_, i) => (
+          <button
+            key={i}
+            className={`px-3 py-1 rounded-lg font-semibold transition ${
+              page === i + 1
+                ? "bg-gray-900 text-white shadow"
+                : "bg-gray-100 text-gray-700 hover:bg-primary/10"
+            }`}
+            onClick={() => setPage(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
+      <style jsx>{`
+        .animate-fade-in {
+          opacity: 0;
+          animation: fadeInUp 0.5s forwards;
+        }
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+        }
+      `}</style>
+    </div>
+  );
+}

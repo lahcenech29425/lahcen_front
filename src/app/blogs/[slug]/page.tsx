@@ -30,12 +30,12 @@ export default async function BlogDetailPage({ params }: Props) {
     <article className="max-w-2xl mx-auto py-16 px-4 bg-white rounded-xl">
       <h1 className="text-3xl font-bold text-primary mb-4">{blog.title}</h1>
       <div className="mb-6 text-gray-500 text-sm">بواسطة {blog.author}</div>
-      {blog.image && (
+      {blog.coverImage && (
         <Image
-          src={blog.image.url}
-          alt={blog.image.alternativeText || blog.title}
-          width={blog.image.width || 600}
-          height={blog.image.height || 400}
+          src={blog.coverImage.url}
+          alt={blog.coverImage.alternativeText || blog.title}
+          width={blog.coverImage.width || 600}
+          height={blog.coverImage.height || 400}
           className="rounded mb-6 object-cover w-full h-64"
         />
       )}

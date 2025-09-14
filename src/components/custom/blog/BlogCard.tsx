@@ -5,12 +5,12 @@ import Image from "next/image";
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-lg transition flex flex-col h-full">
-      {blog.image && (
+      {blog.coverImage && (
         <Image
-          src={blog.image.url}
-          alt={blog.image.alternativeText || blog.title}
-          width={blog.image.width || 400}
-          height={blog.image.height || 250}
+          src={blog.coverImage.url}
+          alt={blog.coverImage.alternativeText || blog.title}
+          width={blog.coverImage.width || 400}
+          height={blog.coverImage.height || 250}
           className="rounded-t-xl object-cover w-full h-48"
         />
       )}

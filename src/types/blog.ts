@@ -7,5 +7,5 @@ export interface BlogType {
   slug: string;
   content: string;
   author: string;
-  image: ImageType; 
+  coverImage: ImageType; 
 }

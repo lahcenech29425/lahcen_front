@@ -1,41 +1,8 @@
 import type { FooterMenu, FooterMenuLink, FooterSocialLink, FooterContact, FooterType } from "@/types/footer";
 import { normalizeImage } from "@/shared/normalizers/normalizeImage";
 
-type FooterApi = {
-  id: number;
-  documentId: string;
-  description: string;
-  copyrightText: string;
-  logo: {
-    id: number;
-    link: string;
-    image: unknown;
-  };
-  menu: {
-    id: number;
-    title: string;
-    links: {
-      id: number;
-      title: string;
-      is_external: boolean;
-      url: string;
-    }[];
-  }[];
-  socialLinks: {
-    id: number;
-    platform: string;
-    url: string;
-    is_active: boolean;
-    icon: unknown;
-  }[];
-  contact: {
-    id: number;
-    value: string;
-    icon: unknown;
-  }[];
-};
 
-export function normalizeFooter(data: FooterApi): FooterType {
+export function normalizeFooter(data: FooterType): FooterType {
   return {
     id: data.id,
     documentId: data.documentId,
@@ -44,7 +11,7 @@ export function normalizeFooter(data: FooterApi): FooterType {
     logo: {
       id: data.logo.id,
       link: data.logo.link,
-      image: normalizeImage(data.logo.image),
+      image: normalizeImage(data.logo.image) ??  data.logo.image,
     },
     menu: Array.isArray(data.menu)
       ? data.menu.map((menu): FooterMenu => ({
@@ -66,14 +33,14 @@ export function normalizeFooter(data: FooterApi): FooterType {
           platform: item.platform,
           url: item.url,
           is_active: item.is_active,
-          icon: normalizeImage(item.icon),
+          icon: normalizeImage(item.icon) ?? item.icon,
         }))
       : [],
     contact: Array.isArray(data.contact)
       ? data.contact.map((item): FooterContact => ({
           id: item.id,
           value: item.value,
-          icon: normalizeImage(item.icon),
+          icon: normalizeImage(item.icon) ?? item.icon,
         }))
       : [],
   };

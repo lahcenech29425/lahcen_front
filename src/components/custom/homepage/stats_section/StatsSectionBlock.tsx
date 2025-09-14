@@ -1,4 +1,9 @@
-export default function StatsSectionBlock({ title, subtitle }) {
+interface StatsSectionBlockProps {
+  title: string;
+  subtitle: string;
+}
+
+export default function StatsSectionBlock({ title, subtitle }: StatsSectionBlockProps) {
   return (
     <section className="bg-white py-16 text-center">
       <h3 className="text-4xl font-bold mb-2">{title}</h3>

@@ -10,14 +10,19 @@ import * as htmlToImage from "html-to-image";
 import { HadithCard } from "@/components/elements/HadithCard";
 import type { Hadith } from "@/types/Hadith";
 
+// Définir le type correctement pour les chapitres
+type Chapter = {
+  number: string | number | readonly string[] | undefined;
+  id: string | number; // Accepter string ET number
+  name: string;
+};
+
 const PAGE_SIZE = 10;
 
 export default function HadithPage() {
   const [books, setBooks] = useState<{ slug: string; name: string }[]>([]);
   const [selectedBook, setSelectedBook] = useState<string>("");
-  const [chapters, setChapters] = useState<{
-    number: string | number | readonly string[] | undefined; id: string; name: string 
-}[]>([]);
+  const [chapters, setChapters] = useState<Chapter[]>([]); // Utiliser le type corrigé
   const [selectedChapter, setSelectedChapter] = useState<string>("");
   const [hadiths, setHadiths] = useState<Hadith[]>([]);
   const [search, setSearch] = useState("");
@@ -38,7 +43,13 @@ export default function HadithPage() {
   useEffect(() => {
     if (selectedBook) {
       fetchChapters(selectedBook).then((chapters) => {
-        setChapters(chapters);
+        // Convertir les IDs en string si nécessaire
+        setChapters(
+          chapters.map((ch) => ({
+            ...ch,
+            id: ch.id.toString(), // Convertir en string si vous préférez
+          }))
+        );
         setSelectedChapter("");
       });
     }

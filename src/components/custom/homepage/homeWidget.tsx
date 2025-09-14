@@ -1,10 +1,10 @@
 "use client";
 import BlockRenderer from "./renderer";
-import type { BlockBase, BlockTypes } from "@/types/blocks"; // Import des types que tu as définis pour les blocs
+import type { BlockData } from "@/types/blocks";
 
 // Définis un type pour la structure de homepage
 type Homepage = {
-  sections: (BlockBase & BlockTypes)[];
+  sections: BlockData[];
   // Ajoute d'autres champs si nécessaire
 };
 

@@ -4,7 +4,6 @@ import { normalizeHeader } from "./normalizer";
 import { useState } from "react";
 import { Link } from "@/components/elements/Link";
 import type { HeaderCTAItem, HeaderMenuItem, HeaderType } from "@/types/header";
-import { ShoppingBag } from "lucide-react";
 
 export default function HeaderBlock({ data }: { data: HeaderType }) {
   const { logo, menu, cta } = normalizeHeader(data);
@@ -41,7 +40,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               {item.title}
             </Link>
           ))}
-          
         </nav>
 
         {/* Desktop CTA */}
@@ -60,24 +58,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                 </Link>
               );
             }
-            if (item.title.toLowerCase().includes("cart")) {
-              return (
-                <Link
-                  key={item.id}
-                  href={item.url}
-                  className="px-4 py-2 rounded bg-primary text-black font-semibold hover:bg-primary-dark transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center gap-2 relative"
-                  target={item.is_external ? "_blank" : undefined}
-                  rel={item.is_external ? "noopener noreferrer" : undefined}
-                >
-                  <ShoppingBag className="inline-block text-lg" />
-                  {getCount() > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-gray-900 text-white rounded-full px-2 py-0.5 text-xs font-bold">
-                      {getCount()}
-                    </span>
-                  )}
-                </Link>
-              );
-            }
+
             return (
               <Link
                 key={item.id}
@@ -202,25 +183,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                     rel={item.is_external ? "noopener noreferrer" : undefined}
                   >
                     {item.title}
-                  </Link>
-                );
-              }
-              if (item.title.toLowerCase().includes("cart")) {
-                return (
-                  <Link
-                    key={item.id}
-                    href={item.url}
-                    className="px-4 py-2 rounded bg-primary text-black font-semibold hover:bg-primary-dark transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary flex items-center gap-2 relative"
-                    target={item.is_external ? "_blank" : undefined}
-                    rel={item.is_external ? "noopener noreferrer" : undefined}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    <ShoppingBag className="inline-block text-lg" />
-                    {getCount() > 0 && (
-                      <span className="absolute -top-2 -right-2 bg-gray-900 text-white rounded-full px-2 py-0.5 text-xs font-bold">
-                        {getCount()}
-                      </span>
-                    )}
                   </Link>
                 );
               }

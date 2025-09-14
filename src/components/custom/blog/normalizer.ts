@@ -9,7 +9,7 @@ export function normalizeBlog(data: BlogType): BlogType {
     slug: data.slug,
     content: data.content,
     author: data.author,
-    image: data.coverImage ? normalizeImage(data.coverImage) : undefined,
+    image: normalizeImage(data.image) ?? data.image,
   };
 }
 

@@ -5,13 +5,16 @@ import Image from "next/image";
 import MarkdownRenderer from "@/components/custom/markdown/MarkdownRenderer";
 
 type Props = {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function BlogDetailPage({ params }: Props) {
+  // Await the params Promise
+  const { slug } = await params;
+  
   const res = await fetchApi(
-    `/api/blogs?populate=*&filters[slug][$eq]=${params.slug}`
+    `/api/blogs?populate=*&filters[slug][$eq]=${slug}`
   );
   const blog: BlogType | null = res?.[0] ? normalizeBlog(res[0]) : null;
 

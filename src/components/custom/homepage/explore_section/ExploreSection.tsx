@@ -38,15 +38,15 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
     fetchApi(getEndpoint())
       .then((data) => {
         const rawItems = Array.isArray(data) ? data : [];
-        let normalized: unknown[] = [];
+        let normalized: (BlogType | ImageType)[] = [];
         if (section.itemType === "blogs") {
-          normalized = normalizeBlogs(rawItems);
+          normalized = normalizeBlogs(rawItems) as BlogType[];
         } else if (
           section.itemType === "quran-images" ||
           section.itemType === "hadith-images"
         ) {
           normalized = Array.isArray(rawItems[0]?.images)
-            ? rawItems[0].images.map((img) => normalizeImage(img))
+            ? rawItems[0].images.map((img: ImageType) => normalizeImage(img) as ImageType)
             : [];
         }
         setItems(normalized);
@@ -122,9 +122,9 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
             </div>
           ) : section.itemType === "blogs" || section.itemType === "blog" ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {items.map((blog, idx) => (
-                <ScrollFadeIn key={blog.id} delay={500 + idx * 120}>
-                  <BlogCard blog={blog} />
+              {items.map((item, idx) => (
+                <ScrollFadeIn key={item.id} delay={500 + idx * 120}>
+                  <BlogCard blog={item as BlogType} />
                 </ScrollFadeIn>
               ))}
             </div>
@@ -133,7 +133,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6">
               {items.map((img, idx) => (
                 <ScrollFadeIn key={idx} delay={500 + idx * 120}>
-                  <ImageCard image={img} />
+                  <ImageCard image={img as ImageType} />
                 </ScrollFadeIn>
               ))}
             </div>

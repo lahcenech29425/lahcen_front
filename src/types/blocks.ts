@@ -9,3 +9,8 @@ export type BlockBase = {
 
 // Types des blocs spécifiques
 export type BlockTypes = HeroSection | ExploreSection | Record<string, unknown>; // Pour les autres types de blocs
+
+// Type pour le BlockRenderer - combine BlockBase avec le système d'indexation
+export type BlockData = BlockBase & {
+  [key: string]: unknown;
+};

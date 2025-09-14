@@ -12,7 +12,7 @@ export function normalizeServicesSection(data: ServicesSection): ServicesSection
           title: item.title,
           description: item.description,
           link: item.link,
-          icon: item.icon ? normalizeImage(item.icon) : undefined,
+          icon: item.icon ? normalizeImage(item.icon) || undefined : undefined,
         }))
       : [],
   };

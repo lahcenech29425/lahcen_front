@@ -64,12 +64,13 @@ export default function QuranPage() {
     <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
       {/* Navigation */}
       <nav className="mb-8 flex items-center gap-4 text-sm text-gray-500">
-        <Link href="/" className="hover:text-primary transition">
+        <Link href="/" className="hover:text-gray-700 transition">
           الرئيسية
         </Link>
         <span>/</span>
-        <span className="text-primary font-semibold">القرآن الكريم</span>
+        <span className="text-gray-700 font-semibold">القرآن الكريم</span>
       </nav>
+      
       {/* Titre & intro */}
       <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
         سور القرآن الكريم
@@ -78,11 +79,12 @@ export default function QuranPage() {
         تصفح جميع سور القرآن الكريم. ابحث باسم السورة أو الفلترة حسب مكان
         النزول، ثم اضغط على السورة للقراءة والاستماع.
       </p>
+      
       {/* Search & filter */}
       <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
         <div className="relative w-full md:w-80">
           <input
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary transition"
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
             placeholder="ابحث باسم السورة أو الترجمة أو بالعربية..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -103,19 +105,20 @@ export default function QuranPage() {
             <circle cx="11" cy="11" r="8" />
             <path d="M21 21l-4.35-4.35" />
           </svg>
+          
           {/* Autocomplete suggestions */}
           {showSuggestions && suggestions.length > 0 && (
             <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg max-h-56 overflow-auto">
               {suggestions.map((s) => (
                 <li
                   key={s.number}
-                  className="px-4 py-2 cursor-pointer hover:bg-primary/10 text-right"
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-right"
                   onMouseDown={() => {
                     setSearch(s.name);
                     setShowSuggestions(false);
                   }}
                 >
-                  <span className="font-semibold text-primary">{s.name}</span>
+                  <span className="font-semibold text-gray-800">{s.name}</span>
                   <span className="text-xs text-gray-500 ml-2">
                     {s.englishName}
                   </span>
@@ -124,9 +127,10 @@ export default function QuranPage() {
             </ul>
           )}
         </div>
+        
         <div className="relative w-full md:w-48">
           <select
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-primary transition bg-white pr-10"
+            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10"
             value={place}
             onChange={(e) => setPlace(e.target.value)}
             dir="rtl"
@@ -149,22 +153,23 @@ export default function QuranPage() {
           </svg>
         </div>
       </div>
+      
       {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {paged.map((s, idx) => (
           <Link
             href={`/quran/${s.number}`}
             key={s.number}
-            className="block bg-white rounded-xl shadow hover:shadow-lg transition p-5 group border border-gray-100"
+            className="block bg-white rounded-xl shadow hover:shadow-lg transition p-5 group border border-gray-100 animate-fade-in"
             style={{ animationDelay: `${idx * 40}ms` }}
           >
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xl font-semibold text-primary">
+                <div className="text-xl font-semibold text-gray-800">
                   {s.name}
                 </div>
                 <div className="text-gray-700">
-                  <span className="text-gray-400">({s.englishName})</span>
+                  <span className="text-gray-500">({s.englishName})</span>
                 </div>
                 <div className="text-xs text-gray-400 mt-1">
                   {s.revelationType === "Meccan"
@@ -173,29 +178,37 @@ export default function QuranPage() {
                   • {s.numberOfAyahs} آية
                 </div>
               </div>
-              <span className="text-2xl font-bold text-primary/80">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 text-gray-800 font-bold text-xl group-hover:bg-gray-900 group-hover:text-white transition">
                 {s.number}
-              </span>
+              </div>
             </div>
           </Link>
         ))}
       </div>
+      
       {/* Pagination */}
       <div className="flex justify-center gap-2 mt-10">
-        {Array.from({ length: pageCount }).map((_, i) => (
+        {page > 1 && (
           <button
-            key={i}
-            className={`px-3 py-1 rounded-lg font-semibold transition ${
-              page === i + 1
-                ? "bg-gray-900 text-white shadow"
-                : "bg-gray-100 text-gray-700 hover:bg-primary/10"
-            }`}
-            onClick={() => setPage(i + 1)}
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
+            onClick={() => setPage(page - 1)}
           >
-            {i + 1}
+            السابق
           </button>
-        ))}
+        )}
+        <span className="px-4 py-2 rounded-lg bg-gray-900 text-white font-semibold shadow">
+          {page}
+        </span>
+        {pageCount > page && (
+          <button
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
+            onClick={() => setPage(page + 1)}
+          >
+            التالي
+          </button>
+        )}
       </div>
+      
       <style jsx>{`
         .animate-fade-in {
           opacity: 0;

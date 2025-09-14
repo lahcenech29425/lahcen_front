@@ -3,6 +3,7 @@ import { normalizeServicesSection } from "./normalizer";
 import type { ServicesSection } from "@/types/servicesSection";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 export default function ServicesSection({ data }: { data: ServicesSection }) {
   const section = normalizeServicesSection(data);
@@ -10,7 +11,9 @@ export default function ServicesSection({ data }: { data: ServicesSection }) {
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">{section.title}</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">
+            {section.title}
+          </h2>
           <p className="text-gray-600 text-lg">{section.description}</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -30,13 +33,19 @@ export default function ServicesSection({ data }: { data: ServicesSection }) {
                   />
                 </div>
               )}
-              <h3 className="text-lg font-semibold mb-2 text-gray-900">{service.title}</h3>
+              <h3 className="text-lg font-semibold mb-2 text-gray-900">
+                {service.title}
+              </h3>
               <p className="text-gray-600 mb-4 flex-1">{service.description}</p>
               <Link
                 href={service.link}
-                className="text-primary font-semibold hover:underline mt-auto"
+                className="group inline-flex items-center gap-1.5 text-gray-700 font-medium hover:text-gray-900 transition-colors mt-auto"
               >
-                Learn more &rarr;
+                <span>اقرأ المزيد</span>
+                <ArrowLeft
+                  size={14}
+                  className="relative top-[1px] transition-transform group-hover:translate-x-[-2px]"
+                />
               </Link>
             </div>
           ))}

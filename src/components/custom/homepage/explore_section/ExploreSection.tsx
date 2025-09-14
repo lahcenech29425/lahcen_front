@@ -88,9 +88,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
             </ScrollFadeIn>
             <ScrollFadeIn delay={250}>
               <p
-                className={`mb-8 text-lg text-gray-600 ${
-                  isLeft ? "text-left" : "text-right"
-                }`}
+                className={`mb-8 text-lg text-gray-600 text-right`}
               >
                 {section.subtitle}
               </p>

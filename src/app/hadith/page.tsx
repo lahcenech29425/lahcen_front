@@ -83,18 +83,18 @@ export default function HadithPage() {
   return (
     <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
       {/* Navigation */}
-      <nav className="mb-8 flex items-center gap-4 text-sm text-[#171717]">
-        <Link href="/" className="hover:text-primary transition">
+      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900">
+        <Link href="/" className="hover:text-gray-600 transition">
           الرئيسية
         </Link>
         <span>/</span>
-        <span className="text-primary font-semibold">الحديث الشريف</span>
+        <span className="text-gray-600 font-semibold">الحديث الشريف</span>
       </nav>
       {/* Title & intro */}
-      <h1 className="text-3xl font-bold mb-2 text-[#171717] text-center">
+      <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
         الحديث الشريف
       </h1>
-      <p className="text-center text-[#171717] mb-8 max-w-2xl mx-auto">
+      <p className="text-center text-gray-700 mb-8 max-w-2xl mx-auto">
         تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث.
       </p>
       {/* Filters */}
@@ -102,7 +102,7 @@ export default function HadithPage() {
         {/* Book selector */}
         <div className="relative w-full md:w-64">
           <select
-            className="appearance-none border border-[#bdbdbd] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#171717] transition bg-white pr-10 text-[#171717]"
+            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10 text-gray-700"
             value={selectedBook}
             onChange={(e) => {
               setSelectedBook(e.target.value);
@@ -116,7 +116,7 @@ export default function HadithPage() {
             ))}
           </select>
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#171717]"
+            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
             width="20"
             height="20"
             fill="none"
@@ -130,7 +130,7 @@ export default function HadithPage() {
         {/* Chapter selector */}
         <div className="relative w-full md:w-64">
           <select
-            className="appearance-none border border-[#bdbdbd] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#171717] transition bg-white pr-10 text-[#171717]"
+            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10 text-gray-700"
             value={selectedChapter}
             onChange={(e) => {
               setSelectedChapter(e.target.value);
@@ -145,7 +145,7 @@ export default function HadithPage() {
             ))}
           </select>
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#171717]"
+            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
             width="20"
             height="20"
             fill="none"
@@ -159,7 +159,7 @@ export default function HadithPage() {
         {/* Search */}
         <div className="relative w-full md:w-80">
           <input
-            className="border border-[#bdbdbd] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#171717] transition bg-white text-[#171717]"
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white text-gray-700"
             placeholder="ابحث في نص الحديث..."
             value={search}
             onChange={(e) => {
@@ -170,7 +170,7 @@ export default function HadithPage() {
             autoComplete="off"
           />
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-[#171717]"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
             width="20"
             height="20"
             fill="none"
@@ -186,7 +186,7 @@ export default function HadithPage() {
       {/* Hadiths list */}
       <div className="space-y-8 mt-8">
         {loading ? (
-          <div className="text-center text-[#a67c52] py-10">
+          <div className="text-center text-gray-600 py-10">
             جاري التحميل...
           </div>
         ) : (
@@ -205,18 +205,18 @@ export default function HadithPage() {
       <div className="flex justify-center gap-2 mt-10">
         {page > 1 && (
           <button
-            className="px-4 py-2 border border-[#e2c9a5] rounded-lg bg-white hover:bg-[#f5ecd7] transition text-[#5c4327]"
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
             onClick={() => setPage(page - 1)}
           >
             السابق
           </button>
         )}
-        <span className="px-4 py-2 rounded-lg bg-[#a67c52] text-white font-semibold shadow">
+        <span className="px-4 py-2 rounded-lg bg-gray-900 text-white font-semibold shadow">
           {page}
         </span>
         {hadiths.length === PAGE_SIZE && (
           <button
-            className="px-4 py-2 border border-[#e2c9a5] rounded-lg bg-white hover:bg-[#f5ecd7] transition text-[#5c4327]"
+            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
             onClick={() => setPage(page + 1)}
           >
             التالي

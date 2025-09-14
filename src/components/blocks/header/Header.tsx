@@ -45,7 +45,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
         {/* Desktop CTA */}
         <div className="hidden md:flex gap-2">
           {cta.map((item: HeaderCTAItem) => {
-            if (item.title.toLowerCase().includes("login")) {
               return (
                 <Link
                   key={item.id}
@@ -57,7 +56,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                   {item.title}
                 </Link>
               );
-            }
+            
 
             return (
               <Link
@@ -115,7 +114,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
         aria-hidden={!mobileOpen}
       />
       <nav
-        className={`md:hidden fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-lg z-50 transform transition-transform duration-200 ${
+        className={`md:hidden text-center fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-lg z-50 transform transition-transform duration-200 ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-label="Mobile menu"
@@ -164,7 +163,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                 key={item.id}
                 href={item.url}
                 isExternal={item.is_external}
-                className="text-gray-700 font-medium hover:text-primary transition px-2 py-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="text-gray-700 hover:bg-gray-100 font-medium hover:text-primary transition px-2 py-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.title}
@@ -173,7 +172,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
           </div>
           <div className="flex flex-col gap-2 mt-6">
             {cta.map((item: HeaderCTAItem) => {
-              if (item.title.toLowerCase().includes("login")) {
                 return (
                   <Link
                     key={item.id}
@@ -185,19 +183,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                     {item.title}
                   </Link>
                 );
-              }
-              return (
-                <a
-                  key={item.id}
-                  href={item.url}
-                  className="px-4 py-2 rounded bg-primary text-black font-semibold hover:bg-primary-dark transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                  target={item.is_external ? "_blank" : undefined}
-                  rel={item.is_external ? "noopener noreferrer" : undefined}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.title}
-                </a>
-              );
             })}
           </div>
         </div>

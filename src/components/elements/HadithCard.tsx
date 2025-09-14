@@ -34,23 +34,23 @@ export function HadithCard({
           visible ? " visible" : ""
         }`}
         style={{
-          background: "linear-gradient(135deg, #f9f6f2 0%, #f3e9dd 100%)",
-          border: "1px solid #e8dbc8",
+          background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
+          border: "1px solid #dee2e6",
         }}
       >
-        <span className="mb-4 text-xs text-[#b89b72] font-semibold">
+        <span className="mb-4 text-xs text-gray-500 font-semibold">
           رقم الحديث: {hadith.number}
         </span>
-        <div className="text-2xl md:text-3xl font-arabic text-center text-[#7c6242] leading-loose select-text tracking-wide mb-4">
+        <div className="text-2xl md:text-3xl font-arabic text-center text-gray-700 leading-loose select-text tracking-wide mb-4">
           {hadith.text}
         </div>
         {hadith.heading && (
-          <div className="text-[#b89b72] text-sm mb-2">{hadith.heading}</div>
+          <div className="text-gray-500 text-sm mb-2">{hadith.heading}</div>
         )}
       </div>
       <button
         onClick={() => onDownload(idx)}
-        className="mb-2 px-4 py-1 rounded bg-[#a67c52] text-white text-sm hover:bg-[#5c4327] transition shadow"
+        className="mb-2 px-4 py-1 rounded bg-gray-800 text-white text-sm hover:bg-gray-900 transition shadow"
         style={{ direction: "ltr" }}
       >
         تحميل كصورة

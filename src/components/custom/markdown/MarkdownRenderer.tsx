@@ -11,10 +11,16 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
           <h1 className="text-3xl font-bold mb-6 text-primary" {...props} />
         ),
         h2: (props) => (
-          <h2 className="text-2xl font-semibold mt-8 mb-4 text-primary" {...props} />
+          <h2
+            className="text-2xl font-semibold mt-8 mb-4 text-primary"
+            {...props}
+          />
         ),
         h3: (props) => (
-          <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900" {...props} />
+          <h3
+            className="text-xl font-semibold mt-6 mb-3 text-gray-900"
+            {...props}
+          />
         ),
         p: (props) => (
           <p className="text-gray-800 mb-4 leading-relaxed" {...props} />
@@ -28,7 +34,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
             {...props}
           />
         ),
-        img: ({ src, alt, ...props }) =>
+        img: ({ src, alt }) =>
           typeof src === "string" && src ? (
             <Image
               src={src}
@@ -47,31 +53,40 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
         ),
         li: (props) => <li className="mb-2" {...props} />,
         blockquote: (props) => (
-          <blockquote className="border-l-4 border-primary pl-4 italic text-gray-700 bg-gray-50 py-2 mb-4" {...props} />
+          <blockquote
+            className="border-l-4 border-primary pl-4 italic text-gray-700 bg-gray-50 py-2 mb-4"
+            {...props}
+          />
         ),
         code: (props) => (
-          <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono" {...props} />
+          <code
+            className="bg-gray-100 px-2 py-1 rounded text-sm font-mono"
+            {...props}
+          />
         ),
         pre: (props) => (
-          <pre className="bg-gray-100 text-gray-800 rounded p-4 mb-4 overflow-x-auto" {...props} />
+          <pre
+            className="bg-gray-100 text-gray-800 rounded p-4 mb-4 overflow-x-auto"
+            {...props}
+          />
         ),
         hr: () => <hr className="my-8 border-gray-300" />,
         table: (props) => (
-          <table className="min-w-full border border-gray-300 my-6" {...props} />
+          <table
+            className="min-w-full border border-gray-300 my-6"
+            {...props}
+          />
         ),
-        thead: (props) => (
-          <thead className="bg-gray-100" {...props} />
-        ),
+        thead: (props) => <thead className="bg-gray-100" {...props} />,
         tbody: (props) => <tbody {...props} />,
-        tr: (props) => (
-          <tr className="border-b border-gray-200" {...props} />
-        ),
+        tr: (props) => <tr className="border-b border-gray-200" {...props} />,
         th: (props) => (
-          <th className="px-4 py-2 text-left font-semibold text-gray-700" {...props} />
+          <th
+            className="px-4 py-2 text-left font-semibold text-gray-700"
+            {...props}
+          />
         ),
-        td: (props) => (
-          <td className="px-4 py-2 text-gray-700" {...props} />
-        ),
+        td: (props) => <td className="px-4 py-2 text-gray-700" {...props} />,
       }}
     >
       {content}

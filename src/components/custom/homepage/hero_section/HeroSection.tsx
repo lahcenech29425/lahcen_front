@@ -17,24 +17,32 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/40 z-0" aria-hidden="true" />
-      <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-20 md:py-32">
+      <div className="absolute inset-0 bg-black/50 z-0" aria-hidden="true" />
+      <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 md:py-32 max-w-screen-lg mx-auto">
         <h2
-          className="text-5xl md:text-7xl font-extrabold mb-6 text-white drop-shadow-2xl tracking-tight opacity-0 translate-y-8 animate-fade-in-up"
-          style={{ animationDelay: "100ms", animationFillMode: "forwards" }}
+          className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 md:mb-8 text-white drop-shadow-2xl tracking-tight opacity-0 translate-y-8 animate-fade-in-up leading-tight md:leading-tight"
+          style={{
+            animationDelay: "100ms",
+            animationFillMode: "forwards",
+            textShadow: "0 2px 10px rgba(0,0,0,0.6)",
+          }}
         >
           {title}
         </h2>
         <p
-          className="text-2xl md:text-3xl mb-8 text-white/90 max-w-3xl mx-auto font-medium opacity-0 translate-y-8 animate-fade-in-up"
-          style={{ animationDelay: "300ms", animationFillMode: "forwards" }}
+          className="text-xl md:text-2xl lg:text-3xl mb-8 md:mb-10 text-white/90 max-w-3xl mx-auto font-medium opacity-0 translate-y-8 animate-fade-in-up leading-relaxed md:leading-relaxed"
+          style={{
+            animationDelay: "300ms",
+            animationFillMode: "forwards",
+            textShadow: "0 1px 8px rgba(0,0,0,0.5)",
+          }}
         >
           {subtitle}
         </p>
         {buttonText && (
           <a
             href={buttonLink}
-            className="inline-block px-8 py-3 rounded bg-primary text-black bg-gray-100 text-lg font-semibold shadow hover:bg-primary-dark transition opacity-0 translate-y-8 animate-fade-in-up"
+            className="inline-block px-6 py-3 md:px-8 md:py-4 rounded bg-primary text-black bg-gray-100 text-base md:text-lg font-semibold shadow-lg hover:bg-white hover:scale-105 transition-all duration-300 opacity-0 translate-y-8 animate-fade-in-up"
             style={{ animationDelay: "500ms", animationFillMode: "forwards" }}
           >
             {buttonText}

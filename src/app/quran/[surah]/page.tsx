@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useMemo } from "react"; // Ajouter useMemo ici
+import { useEffect, useState, useMemo } from "react";
 import { useParams } from "next/navigation";
 import {
   fetchSurahDetail,
@@ -28,6 +28,66 @@ type TafseerContent = {
 };
 
 type ReciterAudio = { reciter: string; url: string };
+
+// Liste complète des 8 tafsirs arabes
+const arabicTafsirs: TafseerAuthor[] = [
+  {
+    id: 1,
+    name: "التفسير الميسر",
+    language: "ar",
+    author: "نخبة من العلماء",
+    book_name: "التفسير الميسر",
+  },
+  {
+    id: 2,
+    name: "تفسير ابن كثير",
+    language: "ar",
+    author: "ابن كثير",
+    book_name: "تفسير ابن كثير",
+  },
+  {
+    id: 3,
+    name: "تفسير البغوي",
+    language: "ar",
+    author: "البغوي",
+    book_name: "تفسير البغوي",
+  },
+  {
+    id: 4,
+    name: "تفسير التنوير",
+    language: "ar",
+    author: "ابن عباس",
+    book_name: "تنوير المقباس من تفسير ابن عباس",
+  },
+  {
+    id: 5,
+    name: "التفسير الوسيط",
+    language: "ar",
+    author: "مجمع البحوث الإسلامية",
+    book_name: "التفسير الوسيط",
+  },
+  {
+    id: 6,
+    name: "تفسير الطبري",
+    language: "ar",
+    author: "الطبري",
+    book_name: "جامع البيان عن تأويل آي القرآن",
+  },
+  {
+    id: 7,
+    name: "تفسير القرطبي",
+    language: "ar",
+    author: "القرطبي",
+    book_name: "الجامع لأحكام القرآن",
+  },
+  {
+    id: 8,
+    name: "تفسير السعدي",
+    language: "ar",
+    author: "السعدي",
+    book_name: "تيسير الكريم الرحمن في تفسير كلام المنان",
+  },
+];
 
 export default function SurahDetailPage() {
   const params = useParams();
@@ -71,22 +131,26 @@ export default function SurahDetailPage() {
     };
   }, [surahNumber]);
 
-  // Chargement des auteurs de tafsir
+  // Chargement des auteurs de tafsir - utiliser directement notre liste complète
   useEffect(() => {
+    // Initialiser avec notre liste complète des tafsirs
+    setTafseerAuthors(arabicTafsirs);
+
+    // On peut toujours essayer de charger des données supplémentaires si besoin
     fetchTafseerList()
       .then((data) => {
-        // Filtrer pour avoir principalement les tafsirs arabes
-        const arabicTafseers = data
-          .filter((t: TafseerAuthor) => t.language === "ar")
-          .slice(0, 5);
-        setTafseerAuthors(arabicTafseers);
+        if (data && data.length > 0) {
+          // Si on souhaite ajouter d'autres tafsirs qui ne sont pas dans notre liste
+          const mergedTafsirs = [...arabicTafsirs];
+          setTafseerAuthors(mergedTafsirs);
+        }
       })
       .catch((error) => {
         console.error("Error fetching tafseer authors:", error);
       });
   }, []);
 
-  // Mémoriser les reciters pour éviter de recalculer à chaque rendu
+  // Mémoriser les reciters
   const reciters = useMemo(() => {
     return surah
       ? Object.values((surah.audio as Record<string, ReciterAudio>) || {})
@@ -105,10 +169,19 @@ export default function SurahDetailPage() {
     }
   }, [reciters, reciter]);
 
+  // Effet pour recharger le tafsir lorsque l'utilisateur change d'auteur
+  useEffect(() => {
+    // Si un tafsir est actuellement ouvert, rechargez-le avec le nouvel auteur
+    if (activeTafseer !== null) {
+      loadTafseer(activeTafseer, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTafseer]);
+
   // Fonction pour charger le tafsir d'un verset spécifique
-  const loadTafseer = async (ayahNumber: number) => {
-    if (activeTafseer === ayahNumber) {
-      // Si le même tafsir est cliqué, fermer le panneau
+  const loadTafseer = async (ayahNumber: number, forceReload = false) => {
+    // Si on clique sur le même verset et ce n'est pas un rechargement forcé, fermer le panneau
+    if (activeTafseer === ayahNumber && !forceReload) {
       setActiveTafseer(null);
       setTafseerContent(null);
       return;
@@ -123,12 +196,28 @@ export default function SurahDetailPage() {
         Number(surahNumber),
         ayahNumber
       );
+
       setTafseerContent(tafseerData);
     } catch (error) {
       console.error("Error loading tafseer:", error);
+      // Message d'erreur spécifique au tafsir
+      setTafseerContent({
+        tafseer_id: selectedTafseer,
+        tafseer_name:
+          tafseerAuthors.find((a) => a.id === selectedTafseer)?.name || "",
+        ayah_url: `/quran/${surahNumber}/${ayahNumber}`,
+        ayah_number: ayahNumber,
+        text: "عذراً، لم نتمكن من تحميل التفسير. يرجى المحاولة مرة أخرى.",
+      });
     } finally {
       setTafseerLoading(false);
     }
+  };
+
+  // Fonction pour gérer le changement de tafsir
+  const handleTafseerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTafseer(Number(e.target.value));
+    // Le rechargement se fait automatiquement grâce à l'effet ci-dessus
   };
 
   if (loading)
@@ -218,7 +307,7 @@ export default function SurahDetailPage() {
             <select
               className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10"
               value={selectedTafseer}
-              onChange={(e) => setSelectedTafseer(Number(e.target.value))}
+              onChange={handleTafseerChange}
               dir="rtl"
             >
               {tafseerAuthors.map((author) => (
@@ -323,11 +412,12 @@ export default function SurahDetailPage() {
                 ) : tafseerContent ? (
                   <div className="text-gray-800 leading-relaxed text-base">
                     <div className="mb-2 text-xs text-gray-500">
-                      {tafseerContent.tafseer_name} •{" "}
+                      {tafseerAuthors.find((a) => a.id === selectedTafseer)
+                        ?.name || "التفسير"}{" "}
+                      •{" "}
                       {
-                        tafseerAuthors.find(
-                          (a) => a.id === tafseerContent.tafseer_id
-                        )?.author
+                        tafseerAuthors.find((a) => a.id === selectedTafseer)
+                          ?.author
                       }
                     </div>
                     <p className="text-right">{tafseerContent.text}</p>

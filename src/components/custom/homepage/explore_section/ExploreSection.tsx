@@ -46,7 +46,9 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
           section.itemType === "hadith-images"
         ) {
           normalized = Array.isArray(rawItems[0]?.images)
-            ? rawItems[0].images.map((img: ImageType) => normalizeImage(img) as ImageType)
+            ? rawItems[0].images.map(
+                (img: ImageType) => normalizeImage(img) as ImageType
+              )
             : [];
         }
         setItems(normalized);
@@ -87,9 +89,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
               </h2>
             </ScrollFadeIn>
             <ScrollFadeIn delay={250}>
-              <p
-                className={`mb-8 text-lg text-gray-600 text-right`}
-              >
+              <p className={`mb-8 text-lg text-gray-600 text-right`}>
                 {section.subtitle}
               </p>
             </ScrollFadeIn>
@@ -115,8 +115,13 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
         {/* Cards */}
         <div className="flex-1 w-full mt-8">
           {loading ? (
-            <div className="flex justify-center items-center h-48 text-lg text-gray-400">
-              Chargement...
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6">
+              {Array.from({ length: section.fetchCount }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="h-48 bg-gray-200 animate-pulse rounded-lg"
+                />
+              ))}
             </div>
           ) : section.itemType === "blogs" || section.itemType === "blog" ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">

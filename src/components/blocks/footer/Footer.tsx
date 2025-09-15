@@ -5,6 +5,7 @@ import { FooterType } from "@/types/footer";
 
 export default async function Footer({ data }: { data: FooterType }) {
   const footer = normalizeFooter(data);
+  console.log("Footer data:", footer); // Debugging line to check the data structure
 
   return (
     <footer className="bg-gray-100 text-gray-900 pt-12 pb-6" dir="rtl">

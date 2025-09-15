@@ -1,6 +1,6 @@
 import { ImageType } from "@/types/image";
 
-export function normalizeImage(image: ImageType): ImageType | null {
+export function normalizeImage(image: ImageType | null | undefined): ImageType | null {
   if (!image) return null;
   let url = image?.url || image.url || "";
   // Add domain if url is relative

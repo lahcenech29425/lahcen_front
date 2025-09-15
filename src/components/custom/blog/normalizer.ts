@@ -2,7 +2,6 @@ import type { BlogType } from "@/types/blog";
 import { normalizeImage } from "@/shared/normalizers/normalizeImage";
 
 export function normalizeBlog(data: BlogType): BlogType {
-  console.log("Normalizing blog:", data);
   return {
     id: data.id,
     documentId: data.documentId,

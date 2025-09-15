@@ -31,9 +31,9 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
 
   return (
     <main dir="rtl" className="bg-white font-amiri">
-      {/* Hero Section with Parallax Effect - hauteur réduite */}
-      <div className="relative h-[40vh] md:h-[60vh] overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/60 z-10"></div>
+      {/* Hero Section with Parallax Effect - responsive */}
+      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden flex items-center justify-center">
+        {/* Image background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -42,24 +42,29 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
           }}
         ></div>
 
-        {/* Navigation positionnée en haut à droite */}
-        <nav className="absolute top-10 right-10 z-30 flex items-center gap-3 text-sm text-white/90">
+        {/* Dark overlay pour lisibilité */}
+        <div className="absolute inset-0 bg-black/60 z-10"></div>
+
+        {/* Navigation (inchangé) */}
+        <nav className="absolute top-4 right-4 md:top-10 md:right-10 z-30 flex items-center gap-3 text-sm text-white/90 bg-black/25/60 rounded-md px-3 py-1 md:px-0 md:py-0">
           <Link href="/" className="hover:text-white transition">
             الرئيسية
           </Link>
-          <span>/</span>
+          <span className="inline text-white">/</span>
           <span className="text-white font-semibold">تعرف علينا</span>
         </nav>
 
-        <div className="relative z-20 text-center px-4 max-w-4xl mx-auto">
-          <h1 className="font-amiri text-4xl md:text-6xl text-white mb-5 leading-tight">
+        {/* Contenu Hero */}
+        <div className="relative z-20 text-center px-4 sm:px-6 max-w-3xl mx-auto">
+          <h1 className="font-amiri text-3xl sm:text-4xl md:text-6xl text-white mb-4 sm:mb-5 leading-tight">
             {memorial.title}
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 font-light mb-6 leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl text-white/90 font-light mb-6 leading-relaxed">
             {memorial.subtitle}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-white/80">
+          {/* Dates responsives */}
+           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-white/80">
             <div className="flex items-center gap-2">
               <Calendar size={18} />
               <span>ولد: {formatter.format(birthDate)}</span>
@@ -91,7 +96,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
           </div>
 
           <div className="prose prose-lg max-w-none leading-relaxed text-gray-700">
-            <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-right first-letter:text-gray-900">
+            <p className="text-justify first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-right first-letter:text-gray-900">
               {memorial.biography_content}
             </p>
           </div>
@@ -121,7 +126,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
 
           <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
             <div
-              className="prose prose-lg max-w-none text-gray-700"
+              className="text-justify prose prose-lg max-w-none text-gray-700"
               dangerouslySetInnerHTML={{
                 __html: memorial.sadaqah_introduction.replace(/- /g, "<br/>- "),
               }}
@@ -237,7 +242,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
               <Quote size={32} className="text-gray-300 mx-auto" />
             </div>
 
-            <div className="prose prose-lg max-w-none text-center leading-relaxed text-gray-700 font-amiri text-xl">
+            <div className="text-justify prose prose-lg max-w-none leading-relaxed text-gray-700 font-amiri text-xl">
               <p>{memorial.dua_content}</p>
             </div>
           </div>

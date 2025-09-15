@@ -5,7 +5,6 @@ import AboutPageClient from "./AboutPageClient";
 async function getAboutPageData() {
   try {
     const response = await fetchApi("/api/about-page?populate=social_media.icon&populate=image");
-    console.log('response', response);
     return normalizeMemorialPage(response);
   } catch (error) {
     console.error("Error fetching about page data:", error);

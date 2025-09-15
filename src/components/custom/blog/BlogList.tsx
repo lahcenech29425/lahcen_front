@@ -15,12 +15,13 @@ export default function BlogList({ data }: BlogListProps) {
   const [blogs, setBlogs] = useState(normalizeBlogs(data || []));
   const [query, setQuery] = useState("");
 
-  // Recherche par slug
+  // Recherche par titre
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const encodedQuery = encodeURIComponent(query); // sécuriser l'encodage UTF-8
       const res = await fetchApi(
-        `/api/blogs?filters[slug][$containsi]=${query}&populate=*`
+        `/api/blogs?filters[title][$containsi]=${encodedQuery}&populate=*`
       );
       setBlogs(normalizeBlogs(res || []));
     } catch (error) {
@@ -68,7 +69,7 @@ export default function BlogList({ data }: BlogListProps) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="ابحث عن مقال عبر الرابط"
+            placeholder="ابحث عن مقال عبر العنوان"
             className="w-full rounded-xl border border-gray-300 px-4 py-2 text-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
           />
 

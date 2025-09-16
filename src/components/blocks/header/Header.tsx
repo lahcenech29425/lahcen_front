@@ -23,7 +23,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                 height={logo.image.height || 40}
                 className="h-10 w-auto object-contain"
                 priority
-                loading="lazy"
               />
             </a>
           )}
@@ -135,7 +134,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
                   height={logo.image.height || 36}
                   className="h-9 w-auto object-contain"
                   priority
-                  loading="lazy"
                 />
               </Link>
             )}

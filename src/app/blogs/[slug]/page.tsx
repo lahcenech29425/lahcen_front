@@ -60,7 +60,6 @@ export default async function BlogDetailPage({ params }: Props) {
                 height={blog.coverImage.height || 600}
                 className="rounded-xl object-cover w-full max-h-[500px]"
                 priority
-                loading="lazy"
               />
             </div>
           )}

@@ -6,7 +6,7 @@ import Footer from "@/components/blocks/footer/Footer";
 import { fetchApi } from "@/utils/fetchApi";
 import AnnouncementBar from "@/components/blocks/announcement_bar/AnnouncementBar";
 import GoToTop from "@/components/elements/GoToTop";
-
+import SocialMediaBar from "@/components/blocks/social/SocialMediaBar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,9 +20,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.lahcenway.com"),
   title: {
-    // titre exact demandé (avec saut de ligne)
     default:
-      "سِرَاجٌ يُضِيءُالدَّرْبَ\nنُورٌ لِلرُّوحِ... وَسَكِينَةٌ لِلْقَلْبِ",
+      "سِرَاجٌ يُضِيءُالدَّرْبَ",
     template: "%s | لحسن",
   },
   description:
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "سِرَاجٌ يُضِيءُالدَّرْبَ",
     description:
-      "منصة تتيح قراءة واستماع القرآن، الاطلاع على الأحاديث، وقراءة مقالات دينية نفعية.",
+      "منصة إسلامية متكاملة تُمكّنك من قراءة القرآن الكريم واستماعه، والتأمل في الأحاديث النبوية الشريفة، وقراءة مقالات دينية نافعة تثري الروح وتُعمّق الفهم الديني.",
     url: "https://www.lahcenway.com",
     siteName: "لحسن",
     images: [
@@ -92,6 +91,7 @@ export default async function RootLayout({
       >
         <AnnouncementBar data={announcementBar} />
         <Header data={header} />
+        <SocialMediaBar />
         {children}
         <Footer data={footer} />
         {showGoToTop && <GoToTop />}

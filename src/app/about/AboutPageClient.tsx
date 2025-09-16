@@ -64,7 +64,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
           </p>
 
           {/* Dates responsives */}
-           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-white/80">
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-white/80">
             <div className="flex items-center gap-2">
               <Calendar size={18} />
               <span>ولد: {formatter.format(birthDate)}</span>
@@ -126,9 +126,11 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
 
           <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
             <div
-              className="text-justify prose prose-lg max-w-none text-gray-700"
+              className="text-right prose prose-lg max-w-none text-gray-700"
               dangerouslySetInnerHTML={{
-                __html: memorial.sadaqah_introduction.replace(/- /g, "<br/>- "),
+                __html: memorial.sadaqah_introduction
+                  .replace(/^- /m, "<br/>- ") // ajouter <br/> avant le premier tiret
+                  .replace(/- $/m, "-<br/>"), // ajouter <br/> après le dernier tiret
               }}
             ></div>
 

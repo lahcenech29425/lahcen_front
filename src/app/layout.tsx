@@ -18,9 +18,57 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "idech Starter Kit",
+  metadataBase: new URL("https://lahcen-front.vercel.app"),
+  title: {
+    // titre exact demandé (avec saut de ligne)
+    default:
+      "سِرَاجٌ يُضِيءُالدَّرْبَ\nنُورٌ لِلرُّوحِ... وَسَكِينَةٌ لِلْقَلْبِ",
+    template: "%s | لحسن",
+  },
   description:
-    "The idech Next.js + TypeScript starter kit for freelance projects.",
+    "نُؤْمِنُ بِأَنَّ الْكَلِمَةَ الطَّيِّبَةَ صَدَقَةٌ جَارِيَةٌ — منصة قرآنية ومحتوى دعوي: تلاوات، أحاديث، ومقالات تربوية.",
+  keywords: [
+    "قرآن",
+    "القرآن الكريم",
+    "الحديث الشريف",
+    "مقالات إسلامية",
+    "تلاوات",
+    "سراج",
+  ],
+  authors: [{ name: "لحسن", url: "https://lahcen-front.vercel.app" }],
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+    other: [{ rel: "manifest", url: "/site.webmanifest" }],
+  },
+  openGraph: {
+    title: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+    description:
+      "منصة تتيح قراءة واستماع القرآن، الاطلاع على الأحاديث، وقراءة مقالات دينية نفعية.",
+    url: "https://lahcen-front.vercel.app",
+    siteName: "لحسن",
+    images: [
+      {
+        url: "https://lahcen-front.vercel.app/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+      },
+    ],
+    locale: "ar-SA",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://lahcen-front.vercel.app/",
+  },
 };
 
 export default async function RootLayout({
@@ -38,15 +86,15 @@ export default async function RootLayout({
 
   const showGoToTop = footer?.showGoToTop ?? false;
   return (
-    <html lang='ar' dir='rtl'>
+    <html lang="ar" dir="rtl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <AnnouncementBar data={announcementBar} />
-          <Header data={header} />
-          {children}
-          <Footer data={footer} />
-          {showGoToTop && <GoToTop />}
+        <AnnouncementBar data={announcementBar} />
+        <Header data={header} />
+        {children}
+        <Footer data={footer} />
+        {showGoToTop && <GoToTop />}
       </body>
     </html>
   );

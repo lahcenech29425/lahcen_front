@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://lahcen-front.vercel.app
+
+# Sitemaps
+Sitemap: https://lahcen-front.vercel.app/sitemap.xml

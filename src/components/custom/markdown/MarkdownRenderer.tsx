@@ -43,6 +43,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
               height={700}
               className="rounded-lg my-6 mx-auto shadow"
               style={{ maxWidth: "100%", height: "auto" }}
+              loading="lazy"
             />
           ) : null,
         ul: (props) => (

@@ -46,6 +46,7 @@ export default function SliderModal({
               width={600}
               height={400}
               className="rounded-xl object-contain bg-white"
+              loading="lazy"
             />
           </div>
           <button

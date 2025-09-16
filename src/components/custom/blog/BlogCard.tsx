@@ -14,6 +14,7 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
           width={blog.coverImage.width || 400}
           height={blog.coverImage.height || 250}
           className="rounded-t-xl object-cover w-full h-48"
+          loading="lazy"
         />
       )}
       <div className="p-6 flex flex-col flex-1">

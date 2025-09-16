@@ -17,6 +17,7 @@ export default function ImageCard({ image }: { image: ImageType }) {
           className="object-cover transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 33vw"
           priority={false}
+          loading="lazy"
         />
       </div>
     </div>

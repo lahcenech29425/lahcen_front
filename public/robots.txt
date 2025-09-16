@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://lahcen-front.vercel.app
+Host: https://lahcenway.com
 
 # Sitemaps
-Sitemap: https://lahcen-front.vercel.app/sitemap.xml
+Sitemap: https://lahcenway.com/sitemap.xml

@@ -21,6 +21,7 @@ export default async function Footer({ data }: { data: FooterType }) {
                 height={footer.logo.image.height || 40}
                 className="h-12 w-auto object-contain"
                 priority
+                loading="lazy"
               />
             </Link>
             <p className="text-gray-600 text-sm mb-5">{footer.description}</p>
@@ -43,6 +44,7 @@ export default async function Footer({ data }: { data: FooterType }) {
                       width={24}
                       height={24}
                       className="inline-block"
+                      loading="lazy"
                     />
                   </Link>
                 ))}

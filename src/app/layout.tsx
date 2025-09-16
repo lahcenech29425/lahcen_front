@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lahcen-front.vercel.app"),
+  metadataBase: new URL("https://www.lahcenway.com"),
   title: {
     // titre exact demandé (avec saut de ligne)
     default:
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     "تلاوات",
     "سراج",
   ],
-  authors: [{ name: "لحسن", url: "https://lahcen-front.vercel.app" }],
+  authors: [{ name: "لحسن", url: "https://www.lahcenway.com" }],
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
@@ -45,11 +45,11 @@ export const metadata: Metadata = {
     title: "سِرَاجٌ يُضِيءُالدَّرْبَ",
     description:
       "منصة تتيح قراءة واستماع القرآن، الاطلاع على الأحاديث، وقراءة مقالات دينية نفعية.",
-    url: "https://lahcen-front.vercel.app",
+    url: "https://www.lahcenway.com",
     siteName: "لحسن",
     images: [
       {
-        url: "https://lahcen-front.vercel.app/og-image.jpg",
+        url: "https://www.lahcenway.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "سِرَاجٌ يُضِيءُالدَّرْبَ",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://lahcen-front.vercel.app/",
+    canonical: "https://www.lahcenway.com/",
   },
 };
 

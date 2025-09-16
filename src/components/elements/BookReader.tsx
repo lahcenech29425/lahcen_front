@@ -25,6 +25,7 @@ export default function BookReader({ url, title = "Book Reader", height = "600px
           className="w-full h-full"
           frameBorder="0"
           allowFullScreen
+          loading="lazy"
         ></iframe>
       </div>
     </div>

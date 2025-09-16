@@ -47,6 +47,7 @@ export default function Slider({ data }: { data: SliderType }) {
                     alt={item.image.alt || item.title}
                     fill
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-8">
                     <h3 className="text-xl font-medium text-white">
@@ -116,6 +117,7 @@ export default function Slider({ data }: { data: SliderType }) {
                       width={300}
                       height={100}
                       className="w-full h-24 object-cover"
+                      loading="lazy"
                     />
                     <div
                       className={`absolute inset-0 bg-black transition-opacity ${

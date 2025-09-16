@@ -286,6 +286,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                       width={32}
                       height={32}
                       className="object-contain"
+                      loading="lazy"
                     />
                   </Link>
                 );

@@ -1,5 +1,5 @@
 module.exports = {
-  siteUrl: "https://lahcen-front.vercel.app",
+  siteUrl: "https://lahcenway.com",
   generateRobotsTxt: true,
   robotsTxtOptions: {
     policies: [

@@ -7,6 +7,8 @@ import { fetchApi } from "@/utils/fetchApi";
 import AnnouncementBar from "@/components/blocks/announcement_bar/AnnouncementBar";
 import GoToTop from "@/components/elements/GoToTop";
 import SocialMediaBar from "@/components/blocks/social/SocialMediaBar";
+import { headers } from "next/headers";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -81,13 +83,18 @@ export default async function RootLayout({
     "/api/footer?populate=logo.image&populate=menu.links&populate=socialLinks.icon&populate=contact.icon"
   );
   const announcementBar = await fetchApi("/api/announcement-bar");
-
   const showGoToTop = footer?.showGoToTop ?? false;
+
+  const matchedPath = (await headers()).get("x-matched-path") || "";
+  const isNotFoundRoute =
+    matchedPath === "/not-found" ||
+    matchedPath === "/404" ||
+    matchedPath.toLowerCase().includes("not-found") ||
+    matchedPath === "";
   return (
     <html lang="ar" dir="rtl">
       <head>
-        + <link rel="icon" href="/favicon.ico" />
-        +{" "}
+        + <link rel="icon" href="/favicon.ico" />+{" "}
         <link
           rel="icon"
           type="image/png"
@@ -113,12 +120,12 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AnnouncementBar data={announcementBar} />
-        <Header data={header} />
+        {!isNotFoundRoute && <AnnouncementBar data={announcementBar} />}
+        {!isNotFoundRoute && <Header data={header} />}
         <SocialMediaBar />
         {children}
-        <Footer data={footer} />
-        {showGoToTop && <GoToTop />}
+        {!isNotFoundRoute && <Footer data={footer} />}
+        {!isNotFoundRoute && showGoToTop && <GoToTop />}
       </body>
     </html>
   );

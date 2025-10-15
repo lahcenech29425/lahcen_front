@@ -56,7 +56,11 @@ interface HadithInfo {
 
 // Récupère la liste des livres (seulement les champs arabes utiles)
 export async function fetchHadithBooks(): Promise<BookInfo[]> {
-  const res = await fetch(`${BASE_URL}/books?apiKey=${API_KEY}`);
+  const res = await fetch(`${BASE_URL}/books?apiKey=${API_KEY}`, {
+    next: {
+      revalidate: 31536000,
+    },
+  });
   const data: { books: HadithBook[] } = await res.json();
   // On ne garde que le slug et le nom arabe (ou anglais si pas d'arabe)
   return (data.books || []).map((b: HadithBook) => ({

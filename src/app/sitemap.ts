@@ -1,17 +1,33 @@
+import { SeoBlog } from "@/types/blog";
+import { ImageType } from "@/types/image";
 import { MetadataRoute } from "next";
-// Types pour Strapi
-interface StrapiBlogAttributes {
-  slug: string;
-  updatedAt: string;
-}
 
 interface StrapiBlog {
-  attributes: StrapiBlogAttributes;
+  id: number;
+  documentId: string;
+  title: string;
+  slug: string;
+  content: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  seo: SeoBlog | null;
+  coverImage: ImageType | null;
 }
 
 interface StrapiResponse {
   data: StrapiBlog[];
+  meta?: {
+    pagination?: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
 }
+
 // Noms anglais des 114 sourates pour les URLs
 const SURAH_NAMES = [
   "al-fatihah",
@@ -186,14 +202,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         next: { revalidate: 3600 }, // Cache 1 heure
       }
     );
-
+    console.log("-----response from sitemap fetch:", response);
     if (response.ok) {
       const data: StrapiResponse = await response.json();
       if (data.data && Array.isArray(data.data)) {
         blogPages = data.data.map((blog: StrapiBlog) => ({
-          url: `${baseUrl}/blogs/${blog.attributes.slug}`,
-          lastModified: blog.attributes.updatedAt
-            ? new Date(blog.attributes.updatedAt)
+          url: `${baseUrl}/blogs/${blog.slug}`,
+          lastModified: blog.updatedAt
+            ? new Date(blog.updatedAt)
             : currentDate,
           changeFrequency: "weekly",
           priority: 0.7,

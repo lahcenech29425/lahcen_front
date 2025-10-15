@@ -16,8 +16,8 @@ export async function strapiFetch<T = unknown>(
   const options: RequestInit = {
     method,
     headers: finalHeaders,
+    next: { revalidate: 31536000 },
   };
-  console.log('response from strapiFetch:', finalHeaders);
   if (body && method !== "GET") options.body = JSON.stringify(body);
 
   const res = await fetch(url, options);

@@ -35,7 +35,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               key={item.id}
               href={item.url}
               isExternal={item.is_external}
-              className="text-gray-700 font-medium hover:text-primary transition px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="text-gray-800 hover:text-gray-700 font-medium hover:text-primary transition px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               {item.title}
             </Link>

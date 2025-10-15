@@ -24,6 +24,7 @@ interface HadithItem {
   chapterId: string;
   bookSlug: string;
   headingArabic?: string;
+  status: string;
 }
 
 interface HadithResponse {
@@ -113,5 +114,6 @@ export async function fetchHadiths({
     chapterId: h.chapterId,
     bookSlug: h.bookSlug,
     heading: h.headingArabic,
+    status: h.status,
   }));
 }

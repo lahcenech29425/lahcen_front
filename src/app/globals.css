@@ -7,6 +7,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Scheherazade+New:wght@700&display=swap');
 @import "tailwindcss";
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -19,6 +20,10 @@
     --foreground: #ededed;
   }
 } */
+ 
+.font-arabic {
+  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+}
 
 body {
   background: var(--background);

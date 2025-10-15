@@ -1,249 +1,43 @@
-"use client";
-import { useEffect, useState, useRef } from "react";
-import {
-  fetchHadithBooks,
-  fetchChapters,
-  fetchHadiths,
-} from "@/utils/hadithApi";
-import Link from "next/link";
-import * as htmlToImage from "html-to-image";
-import { HadithCard } from "@/components/elements/HadithCard";
-import type { Hadith } from "@/types/Hadith";
+import { Metadata } from "next";
+import HadithPageClient from "./HadithPageClient";
 
-// Définir le type correctement pour les chapitres
-type Chapter = {
-  number: string | number | readonly string[] | undefined;
-  id: string | number; // Accepter string ET number
-  name: string;
+export const metadata: Metadata = {
+  title: "الحديث الشريف | تصفح كتب الحديث النبوي الشريف",
+  description:
+    "تصفح كتب الحديث النبوي الشريف مع إمكانية البحث في النصوص والأرقام. صحيح البخاري، صحيح مسلم، سنن أبي داود، الترمذي، ابن ماجه، النسائي وغيرها.",
+  keywords:
+    "حديث, الحديث النبوي, صحيح البخاري, صحيح مسلم, سنن أبي داود, الترمذي, ابن ماجه, النسائي, أحاديث نبوية",
+  authors: [{ name: "لحسن", url: "https://www.lahcenway.com" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "الحديث الشريف | تصفح كتب الحديث النبوي",
+    description:
+      "تصفح كتب الحديث النبوي الشريف مع إمكانية البحث في النصوص والأرقام",
+    url: "https://www.lahcenway.com/hadith",
+    siteName: "لحسن",
+    locale: "ar-SA",
+    type: "website",
+    images: [
+      {
+        url: "https://www.lahcenway.com/og-hadith.jpg",
+        width: 1200,
+        height: 630,
+        alt: "الحديث الشريف",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "الحديث الشريف | تصفح كتب الحديث النبوي",
+    description:
+      "تصفح كتب الحديث النبوي الشريف مع إمكانية البحث في النصوص والأرقام",
+    images: ["https://www.lahcenway.com/og-hadith.jpg"],
+  },
+  alternates: {
+    canonical: "https://www.lahcenway.com/hadith",
+  },
 };
 
-const PAGE_SIZE = 10;
-
 export default function HadithPage() {
-  const [books, setBooks] = useState<{ slug: string; name: string }[]>([]);
-  const [selectedBook, setSelectedBook] = useState<string>("");
-  const [chapters, setChapters] = useState<Chapter[]>([]); // Utiliser le type corrigé
-  const [selectedChapter, setSelectedChapter] = useState<string>("");
-  const [hadiths, setHadiths] = useState<Hadith[]>([]);
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  // Load books on mount
-  useEffect(() => {
-    fetchHadithBooks().then((books) => {
-      setBooks(books);
-      if (books.length) setSelectedBook(books[0].slug);
-    });
-  }, []);
-
-  // Load chapters when book changes
-  useEffect(() => {
-    if (selectedBook) {
-      fetchChapters(selectedBook).then((chapters) => {
-        // Convertir les IDs en string si nécessaire
-        setChapters(
-          chapters.map((ch) => ({
-            ...ch,
-            id: ch.id.toString(), // Convertir en string si vous préférez
-          }))
-        );
-        setSelectedChapter("");
-      });
-    }
-  }, [selectedBook]);
-  // Load hadiths when filters change
-  useEffect(() => {
-    if (!selectedBook) return;
-    setLoading(true);
-    fetchHadiths({
-      book: selectedBook,
-      chapter: selectedChapter || undefined,
-      search: search || undefined,
-      page,
-      pageSize: PAGE_SIZE,
-    })
-      .then(setHadiths)
-      .finally(() => setLoading(false));
-  }, [selectedBook, selectedChapter, search, page]);
-
-  const handleDownload = async (idx: number) => {
-    const card = cardRefs.current[idx];
-    if (card) {
-      const dataUrl = await htmlToImage.toPng(card);
-      const link = document.createElement("a");
-      link.download = `hadith-${hadiths[idx].number}.png`;
-      link.href = dataUrl;
-      link.click();
-    }
-  };
-
-  return (
-    <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
-      {/* Navigation */}
-      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900">
-        <Link href="/" className="hover:text-gray-600 transition">
-          الرئيسية
-        </Link>
-        <span>/</span>
-        <span className="text-gray-600 font-semibold">الحديث الشريف</span>
-      </nav>
-      {/* Title & intro */}
-      <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
-        الحديث الشريف
-      </h1>
-      <p className="text-center text-gray-700 mb-8 max-w-2xl mx-auto">
-        تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث.
-      </p>
-      {/* Filters */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
-        {/* Book selector */}
-        <div className="relative w-full md:w-64">
-          <select
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10 text-gray-700"
-            value={selectedBook}
-            onChange={(e) => {
-              setSelectedBook(e.target.value);
-              setPage(1);
-            }}
-          >
-            {books.map((book) => (
-              <option key={book.slug} value={book.slug}>
-                {book.name}
-              </option>
-            ))}
-          </select>
-          <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </div>
-        {/* Chapter selector */}
-        <div className="relative w-full md:w-64">
-          <select
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10 text-gray-700"
-            value={selectedChapter}
-            onChange={(e) => {
-              setSelectedChapter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">كل الفصول</option>
-            {chapters.map((ch) => (
-              <option key={ch.id} value={ch.number}>
-                {ch.name}
-              </option>
-            ))}
-          </select>
-          <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </div>
-        {/* Search */}
-        <div className="relative w-full md:w-80">
-          <input
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white text-gray-700"
-            placeholder="ابحث في نص الحديث..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            dir="rtl"
-            autoComplete="off"
-          />
-          <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
-        </div>
-      </div>
-      {/* Hadiths list */}
-      <div className="space-y-8 mt-8">
-        {loading ? (
-          <div className="text-center text-gray-600 py-10">
-            جاري التحميل...
-          </div>
-        ) : (
-          hadiths.map((h, idx) => (
-            <HadithCard
-              key={h.id}
-              hadith={h}
-              idx={idx}
-              cardRefs={cardRefs}
-              onDownload={handleDownload}
-            />
-          ))
-        )}
-      </div>
-      {/* Pagination */}
-      <div className="flex justify-center gap-2 mt-10">
-        {page > 1 && (
-          <button
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
-            onClick={() => setPage(page - 1)}
-          >
-            السابق
-          </button>
-        )}
-        <span className="px-4 py-2 rounded-lg bg-gray-900 text-white font-semibold shadow">
-          {page}
-        </span>
-        {hadiths.length === PAGE_SIZE && (
-          <button
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
-            onClick={() => setPage(page + 1)}
-          >
-            التالي
-          </button>
-        )}
-      </div>
-      <style jsx>{`
-        .animate-fade-in {
-          opacity: 0;
-          animation: fadeInUp 0.5s forwards;
-        }
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-        }
-        .font-arabic {
-          font-family: "Amiri", "Scheherazade", "Noto Naskh Arabic", serif;
-          font-weight: 500;
-          letter-spacing: 1px;
-        }
-      `}</style>
-    </div>
-  );
+  return <HadithPageClient />;
 }

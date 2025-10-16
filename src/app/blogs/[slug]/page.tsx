@@ -172,7 +172,7 @@ export default async function BlogDetailPage({ params }: Props) {
         </article>
 
         {/* Suggestions d'articles */}
-        <section className="mt-10 mb-20 border-t border-gray-100 ">
+        <section className="mt-10 mb-20">
           <div className="max-w-7xl mx-auto bg-gray-50 rounded-2xl shadow-md p-6 md:p-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold flex items-center gap-3">

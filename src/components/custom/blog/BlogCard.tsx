@@ -20,7 +20,12 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
       <div className="p-6 flex flex-col flex-1">
         <h3 className="text-xl font-bold mb-2 text-gray-900">{blog.title}</h3>
         <p className="text-gray-600 mb-4 line-clamp-3">
-          {blog.content.replace(/[#*]/g, "").slice(0, 120)}...
+          {blog.content
+            .replace(/.*المقدمة.*\n?/g, "")
+            .replace(/[#*]/g, "")
+            .trim()
+            .slice(0, 120)}
+          ...
         </p>
         <div className="flex items-center justify-between mt-auto">
           <Badge bg="bg-gray-50" color="text-gray-700" className="font-normal">

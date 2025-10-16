@@ -31,11 +31,16 @@ export async function generateMetadata({ params }: Props) {
 
   const imageUrl =
     blog.seo?.metaImage?.url ?? blog.coverImage?.url ?? undefined;
-
   return {
     title: blog.seo?.metaTitle ?? blog.title,
     description: blog.seo?.metaDescription ?? undefined,
-    keywords: blog.seo?.keywords ?? undefined,
+    keywords:
+      blog.seo?.keywords ??
+      `${blog.content
+        .replace(/.*المقدمة.*\n?/g, "")
+        .replace(/[#*]/g, "")
+        .trim()
+        .slice(0, 120)}...`,
     openGraph: {
       title: blog.seo?.openGraph?.ogTitle ?? blog.seo?.metaTitle ?? blog.title,
       description:

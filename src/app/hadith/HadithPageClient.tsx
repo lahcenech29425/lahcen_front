@@ -132,9 +132,7 @@ export default function HadithPageClient() {
       pageSize: PAGE_SIZE,
     })
       .then((res) => {
-        console.log("Raw fetched hadiths:", res);
         const list = normalizeHadiths(res);
-        console.log("Fetched hadiths:", list);
 
         if (hadithNumber && selectedBook && selectedChapter) {
           const filtered = list.filter(

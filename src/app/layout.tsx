@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.lahcenway.com"),
   title: {
     default: "سِرَاجٌ يُضِيءُالدَّرْبَ",
-    template: "%s | لحسن",
+    template: "%s",
   },
   description:
     "نُؤْمِنُ بِأَنَّ الْكَلِمَةَ الطَّيِّبَةَ صَدَقَةٌ جَارِيَةٌ — منصة قرآنية ومحتوى دعوي: تلاوات، أحاديث، ومقالات تربوية.",

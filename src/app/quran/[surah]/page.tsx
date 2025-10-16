@@ -14,31 +14,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const surahNumber = await getSurahNumberFromSlug(surahSlug);
     const surah = await fetchSurahDetail(surahNumber);
 
-    const surahName = surah.surahNameArabicLong || surah.surahNameArabic;
+    // raw name from API (may already include "سُورَةُ ..." or not)
+    const surahName = surah.surahNameArabicLong || surah.surahNameArabic || "";
     const revelationType = surah.revelationPlace === "Mecca" ? "مكية" : "مدنية";
     const totalAyah = surah.totalAyah;
     const firstAyah = surah.arabic1[0] || "";
 
-    const description = `اقرأ واستمع لسورة ${surahName} كاملة مع التفسير. سورة ${revelationType} تحتوي على ${totalAyah} آية. ${
+    // Utiliser directement surahName (ne pas préfixer manuellement "سورة")
+    const description = `اقرأ واستمع لـ${surahName} كاملة مع التفسير. ${revelationType} تحتوي على ${totalAyah} آية. ${
       firstAyah ? `تبدأ بـ: ${firstAyah.substring(0, 50)}...` : ""
     } مع تفاسير ابن كثير والطبري والقرطبي والسعدي والتفسير الميسر.`;
 
-    const keywords = `سورة ${surahName}, قراءة سورة ${surahName}, استماع سورة ${surahName}, تفسير سورة ${surahName}, ${surahName} كاملة, القرآن الكريم, تفسير القرآن, ${firstAyah.substring(
+    const keywords = `${surahName}, قراءة ${surahName}, استماع ${surahName}, تفسير ${surahName}, ${surahName} كاملة, القرآن الكريم, تفسير القرآن, ${firstAyah.substring(
       0,
       30
     )}`;
 
     return {
-      title: `سورة ${surahName} | قراءة واستماع مع التفسير`,
+      title: `${surahName} | قراءة واستماع مع التفسير`,
       description,
       keywords,
       authors: [{ name: "لحسن", url: "https://www.lahcenway.com" }],
       robots: "index, follow",
       openGraph: {
-        title: `سورة ${surahName} - القرآن الكريم`,
+        title: `${surahName} - القرآن الكريم`,
         description,
         url: `https://www.lahcenway.com/quran/${surahSlug}`,
-        siteName: "لحسن",
+        siteName: "lahcenway",
         locale: "ar-SA",
         type: "article",
         images: [
@@ -46,13 +48,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             url: `https://www.lahcenway.com/og-quran.jpg`,
             width: 1200,
             height: 630,
-            alt: `سورة ${surahName}`,
+            alt: `${surahName}`,
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: `سورة ${surahName} - القرآن الكريم`,
+        title: `${surahName} - القرآن الكريم`,
         description,
         images: [`https://www.lahcenway.com/og-quran.jpg`],
       },

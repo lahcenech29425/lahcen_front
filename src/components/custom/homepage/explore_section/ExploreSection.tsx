@@ -124,7 +124,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
               ))}
             </div>
           ) : section.itemType === "blogs" || section.itemType === "blog" ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="grid xsgrid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
               {items.map((item, idx) => (
                 <ScrollFadeIn key={item.id} delay={500 + idx * 120}>
                   <BlogCard blog={item as BlogType} />
@@ -133,13 +133,21 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
             </div>
           ) : section.itemType === "quran-images" ||
             section.itemType === "hadith-images" ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6">
-              {items.map((img, idx) => (
-                <ScrollFadeIn key={idx} delay={500 + idx * 120}>
-                  <ImageCard image={img as ImageType} />
-                </ScrollFadeIn>
-              ))}
-            </div>
+            <>
+              {/* Affichage identique sur mobile et desktop : liste compacte */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {items.map((img, idx) => (
+                  <ScrollFadeIn key={idx} delay={150 + idx * 60}>
+                    <ImageCard
+                      image={img as ImageType}
+                      fetchType={
+                        section.itemType === "quran-images" ? "quran" : "hadith"
+                      }
+                    />
+                  </ScrollFadeIn>
+                ))}
+              </div>
+            </>
           ) : null}
         </div>
       </div>

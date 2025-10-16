@@ -87,11 +87,11 @@ export function HadithCard({
         {/* Header: badge + title/number on LEFT, book & chapter centered, spacer RIGHT */}
         <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 items-start md:items-center">
           {/* LEFT: status badge + title + number */}
-          <div className="flex flex-col items-start space-y-2">
+          <div className="flex flex-col items-center md:items-start space-y-2">
             <div className="flex items-center gap-3">
               <div className="flex flex-col min-w-0">
                 <span
-                  className="text-base font-semibold truncate"
+                  className="text-base hidden md:block font-semibold truncate"
                   title={h.headingArabic ?? h.hadithEnglish ?? undefined}
                   style={{ color: "#171717" }}
                 >
@@ -131,7 +131,7 @@ export function HadithCard({
           </div>
 
           {/* RIGHT: spacer (keeps layout balanced) */}
-          <div className="flex items-center justify-end">
+          <div className="flex items-center justify-center md:justify-end">
             <Badge className="bg-[#171717] text-white px-3 py-1 rounded-full text-sm">
               {statusAr}
             </Badge>
@@ -163,7 +163,7 @@ export function HadithCard({
           className="px-3 py-1 rounded-full bg-gray-100 text-gray-900 text-sm hover:bg-gray-800 hover:text-white cursor-pointer transition-shadow shadow"
           style={{ direction: "ltr" }}
         >
-          تحميل 
+          تحميل
         </button>
       </div>
     </div>

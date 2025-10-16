@@ -47,10 +47,10 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
             />
           ) : null,
         ul: (props) => (
-          <ul className="list-disc ml-6 mb-4 text-gray-800" {...props} />
+          <ul className="list-disc mr-6 mb-4 text-gray-800" {...props} />
         ),
         ol: (props) => (
-          <ol className="list-decimal ml-6 mb-4 text-gray-800" {...props} />
+          <ol className="list-decimal mr-6 mb-4 text-gray-800" {...props} />
         ),
         li: (props) => <li className="mb-2" {...props} />,
         blockquote: (props) => (

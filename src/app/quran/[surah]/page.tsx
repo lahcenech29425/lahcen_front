@@ -87,6 +87,28 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function SurahDetailPage({ params }: Props) {
-  return <SurahDetailClient params={params} />;
+
+
+export default async function SurahDetailPage({ params }: Props) {
+  // contenu SSR minimal pour les bots (ne change pas le rendu client)
+  let ssrSnippet = "";
+  try {
+    const { surah: surahSlug } = await params;
+    const surahNumber = await getSurahNumberFromSlug(surahSlug);
+    const surah = await fetchSurahDetail(surahNumber);
+    const name =
+      surah.surahNameArabicLong ||
+      surah.surahNameArabic ||
+      surah.englishName ||
+      "";
+    const firstAyah = surah.arabic1?.[0] || "";
+    ssrSnippet = `${name} — ${firstAyah}`.slice(0, 220);
+  } catch {}
+
+  return (
+    <>
+      <span className="sr-only">{ssrSnippet}</span>
+      <SurahDetailClient params={params} />
+    </>
+  );
 }

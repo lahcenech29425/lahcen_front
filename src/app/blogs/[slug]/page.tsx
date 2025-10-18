@@ -31,7 +31,6 @@ export async function generateMetadata({ params }: Props) {
 
   const imageUrl =
     blog.seo?.metaImage?.url ?? blog.coverImage?.url ?? undefined;
-
   return {
     title: blog.seo?.metaTitle ?? blog.title,
     description:

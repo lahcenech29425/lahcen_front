@@ -3,10 +3,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 
 /* Arabic  */
-@import url('https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Scheherazade+New:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Scheherazade+New:wght@700&display=swap");
 @import "tailwindcss";
-
 
 :root {
   --background: #ffffff;
@@ -20,9 +19,9 @@
     --foreground: #ededed;
   }
 } */
- 
+
 .font-arabic {
-  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
+  font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
 }
 
 body {
@@ -72,13 +71,6 @@ body {
   }
 }
 
-@media (min-width: 768px) {
-  .section {
-  }
-}
-
-
-
 /* Masonry fade-in animation */
 @keyframes fade-in-up {
   from {
@@ -91,15 +83,31 @@ body {
   }
 }
 .animate-fade-in-up {
-  animation: fade-in-up 0.7s cubic-bezier(.23,1.01,.32,1) both;
+  animation: fade-in-up 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
 }
 
 .animate-scroll-fade {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .animate-scroll-fade.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out;
 }

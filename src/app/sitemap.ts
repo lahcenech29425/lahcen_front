@@ -143,9 +143,8 @@ const SURAH_NAMES = [
   "al-masad",
   "al-ikhlaas",
   "al-falaq",
-  "an-naas"
+  "an-naas",
 ];
-
 
 // Nombre de versets par sourate (114 sourates, 6236 versets au total)
 const AYAH_COUNTS = [
@@ -209,9 +208,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (data.data && Array.isArray(data.data)) {
         blogPages = data.data.map((blog: StrapiBlog) => ({
           url: `${baseUrl}/blogs/${blog.slug}`,
-          lastModified: blog.updatedAt
-            ? new Date(blog.updatedAt)
-            : currentDate,
+          lastModified: blog.updatedAt ? new Date(blog.updatedAt) : currentDate,
           changeFrequency: "weekly",
           priority: 0.7,
         }));
@@ -268,6 +265,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ========================================
+  // 5. SECTION PRAYER TIMES
+  // ========================================
+  const prayerPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/prayer-times`,
+      lastModified: currentDate,
+      changeFrequency: "daily", // Change quotidiennement car les horaires de prière changent
+      priority: 0.9, // Haute priorité - page importante
+    },
+  ];
+
+  // ========================================
   // 5. AUTRES PAGES (si vous en avez)
   // ========================================
   const additionalPages: MetadataRoute.Sitemap = [
@@ -303,6 +312,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...surahPages, // 114 sourates
     ...ayahPages, // 6236 versets
     ...hadithPages, // Section Hadith
+    ...prayerPages, // Section Prayer Times
     ...additionalPages, // Autres pages
   ];
 
@@ -313,6 +323,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   console.log(`   📖 Sourates: ${surahPages.length}`);
   console.log(`   📜 Versets: ${ayahPages.length}`);
   console.log(`   📚 Pages Hadith: ${hadithPages.length}`);
+  console.log(`   🕌 Pages Prayer Times: ${prayerPages.length}`);
   console.log(`   🌐 TOTAL: ${allPages.length} URLs`);
 
   return allPages;

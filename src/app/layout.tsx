@@ -90,7 +90,7 @@ export default async function RootLayout({
     matchedPath === "/not-found" ||
     matchedPath === "/404" ||
     matchedPath.toLowerCase().includes("not-found") ||
-    matchedPath === "";
+    matchedPath === "ss";
   return (
     <html lang="ar" dir="rtl">
       <head>

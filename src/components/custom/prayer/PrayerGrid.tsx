@@ -40,7 +40,7 @@ export default function PrayerGrid({
   }
 
   return (
-    <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-6">
       {ORDER.map((name) => {
         const t = day.timings[name];
         if (!t) return null;

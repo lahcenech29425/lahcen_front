@@ -290,7 +290,7 @@ export default function PrayerPageClient() {
 
           {/* بطاقتا التاريخ (ميلادي / هجري) في أسفل الحاوية */}
           {day && (
-            <div className="mt-6 xs:mt-8 md:mt-12 grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4">
+            <div className="mt-6 xs:mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
               {/* الميلادي */}
               <div className="group rounded-xl xs:rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-3 xs:px-4 py-4 xs:py-5 flex flex-col xs:flex-row items-start xs:items-center justify-between">
                 <div className="flex items-center gap-2 xs:gap-3">

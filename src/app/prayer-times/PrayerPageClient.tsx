@@ -41,8 +41,10 @@ function LiveClock() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mx-auto mt-5 w-64 rounded-md border-2 border-white/20 bg-black/20 px-4 py-2">
-      <span className="block text-4xl font-bold tabular-nums">{now}</span>
+    <div className="mx-auto mt-5 w-full max-w-xs xs:max-w-sm sm:max-w-md rounded-md border-2 border-white/20 bg-black/20 px-3 xs:px-4 py-2 flex justify-center">
+      <span className="block text-2xl xs:text-3xl sm:text-4xl font-bold tabular-nums">
+        {now}
+      </span>
     </div>
   );
 }
@@ -247,7 +249,7 @@ export default function PrayerPageClient() {
       </nav>
 
       {/* Hero Section - صورة خلفية + عنوان + آية + بطاقات التاريخ */}
-      <section className="relative overflow-hidden rounded-3xl bg-[#171717] text-white shadow-2xl">
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#171717] text-white shadow-2xl">
         {/* خلفية بصورة عامة optimisée avec Next.js Image */}
         <Image
           src="/prayer/2.jpg"
@@ -255,7 +257,7 @@ export default function PrayerPageClient() {
           fill
           priority
           quality={85}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1280px"
+          sizes="(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1280px"
           className="object-cover object-center"
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
@@ -264,19 +266,19 @@ export default function PrayerPageClient() {
           className="absolute inset-0 bg-gradient-to-tr from-black/80 via-[#171717]/70 to-transparent z-10"
           aria-hidden
         />
-        <div className="relative z-20 px-6 py-10 sm:px-10 sm:py-14">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        <div className="relative z-20 px-3 py-7 sm:px-6 sm:py-10 md:px-10 md:py-14">
+          <div className="text-center max-w-full sm:max-w-3xl mx-auto">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
               أوقات الصلاة
             </h1>
-            <p className="mt-3 text-white/90 text-lg">
+            <p className="mt-2 xs:mt-3 text-white/90 text-base xs:text-lg">
               إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا
             </p>
-            <div className="mt-1 text-sm text-white/70">
+            <div className="mt-1 text-xs xs:text-sm text-white/70">
               سورة النساء • آية ١٠٣
             </div>
             {(placeAr || cc) && (
-              <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm">
+              <div className="mt-2 xs:mt-3 inline-flex items-center gap-1 xs:gap-2 rounded-full bg-white/10 px-2 xs:px-3 py-1 text-xs xs:text-sm">
                 <MapPin className="h-4 w-4" />
                 <span>{placeAr ?? cc}</span>
               </div>
@@ -288,38 +290,42 @@ export default function PrayerPageClient() {
 
           {/* بطاقتا التاريخ (ميلادي / هجري) في أسفل الحاوية */}
           {day && (
-            <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="mt-6 xs:mt-8 md:mt-12 grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4">
               {/* الميلادي */}
-              <div className="group rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-4 py-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center rounded-xl bg-white/10 p-2">
+              <div className="group rounded-xl xs:rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-3 xs:px-4 py-4 xs:py-5 flex flex-col xs:flex-row items-start xs:items-center justify-between">
+                <div className="flex items-center gap-2 xs:gap-3">
+                  <span className="inline-flex items-center justify-center rounded-lg xs:rounded-xl bg-white/10 p-2">
                     <Calendar className="h-5 w-5 text-white/90" />
                   </span>
                   <div>
                     <div className="text-xs text-white/70">
                       التاريخ الميلادي
                     </div>
-                    <div className="text-base sm:text-lg font-semibold">
+                    <div className="text-sm xs:text-base sm:text-lg font-semibold">
                       {GregorianArabic}
                     </div>
                   </div>
                 </div>
-                <div className="text-[11px] text-white/60">{day.timezone}</div>
+                <div className="text-[10px] xs:text-[11px] text-white/60 mt-2 xs:mt-0">
+                  {day.timezone}
+                </div>
               </div>
               {/* الهجري */}
-              <div className="group rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-4 py-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center rounded-xl bg-white/10 p-2">
+              <div className="group rounded-xl xs:rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-3 xs:px-4 py-4 xs:py-5 flex flex-col xs:flex-row items-start xs:items-center justify-between">
+                <div className="flex items-center gap-2 xs:gap-3">
+                  <span className="inline-flex items-center justify-center rounded-lg xs:rounded-xl bg-white/10 p-2">
                     <Moon className="h-5 w-5 text-white/90" />
                   </span>
                   <div>
                     <div className="text-xs text-white/70">التاريخ الهجري</div>
-                    <div className="text-base sm:text-lg font-semibold">
+                    <div className="text-sm xs:text-base sm:text-lg font-semibold">
                       {day.hijri.readable ?? day.hijri.date}
                     </div>
                   </div>
                 </div>
-                <div className="text-[11px] text-white/60">هجري</div>
+                <div className="text-[10px] xs:text-[11px] text-white/60 mt-2 xs:mt-0">
+                  هجري
+                </div>
               </div>
             </div>
           )}
@@ -393,7 +399,8 @@ export default function PrayerPageClient() {
                 </span>{" "}
                 قَالُوا: لَا يَبْقَى مِنْ دَرَنِهِ شَيْءٌ، قَالَ:{" "}
                 <span className="font-semibold text-gray-900">
-                  « فَذَلِكَ مَثَلُ الصَّلَوَاتِ الخَمْسِ، يَمْحُو اللَّهُ بِهِنَّ الخَطَايَا »
+                  « فَذَلِكَ مَثَلُ الصَّلَوَاتِ الخَمْسِ، يَمْحُو اللَّهُ
+                  بِهِنَّ الخَطَايَا »
                 </span>
               </p>
               <p className="text-sm text-gray-600 mt-3 pt-3 border-t border-gray-200">

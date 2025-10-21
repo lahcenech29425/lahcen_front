@@ -27,7 +27,10 @@ type Props = {
   isLoading?: boolean;
 };
 
-export default function NextPrayerBanner({ nextPrayer, isLoading = false }: Props) {
+export default function NextPrayerBanner({
+  nextPrayer,
+  isLoading = false,
+}: Props) {
   const [remaining, setRemaining] = useState<string>("--:--:--");
 
   useEffect(() => {
@@ -68,29 +71,29 @@ export default function NextPrayerBanner({ nextPrayer, isLoading = false }: Prop
               <div className="h-5 w-28 bg-gray-200 rounded animate-pulse" />
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
+            <div className="flex flex-col items-center gap-4 sm:gap-5 md:flex-row md:justify-between md:gap-6">
               {/* Left section skeleton */}
-              <div className="flex items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
+              <div className="flex flex-col items-center gap-3 w-full md:flex-row md:w-auto md:gap-4 lg:gap-6">
                 {/* Icon skeleton */}
-                <div className="rounded-xl sm:rounded-2xl bg-gray-100 p-3 sm:p-4 border-2 border-gray-200 flex-shrink-0 animate-pulse">
-                  <div className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 bg-gray-300 rounded" />
+                <div className="rounded-xl md:rounded-2xl bg-gray-100 p-3 md:p-4 border-2 border-gray-200 flex-shrink-0 animate-pulse">
+                  <div className="h-10 w-10 md:h-12 md:w-12 bg-gray-300 rounded" />
                 </div>
 
                 {/* Name and time skeleton */}
-                <div className="text-center sm:text-right flex-1 space-y-2">
-                  <div className="h-8 sm:h-10 md:h-12 w-32 sm:w-40 bg-gray-200 rounded-lg animate-pulse mx-auto sm:mx-0" />
-                  <div className="h-4 sm:h-5 w-24 sm:w-32 bg-gray-200 rounded animate-pulse mx-auto sm:mx-0" />
+                <div className="text-center md:text-right w-full md:flex-1 space-y-2">
+                  <div className="h-8 sm:h-10 md:h-12 w-32 sm:w-40 bg-gray-200 rounded-lg animate-pulse mx-auto md:mx-0" />
+                  <div className="h-4 sm:h-5 w-24 sm:w-32 bg-gray-200 rounded animate-pulse mx-auto md:mx-0" />
                 </div>
               </div>
 
               {/* Right section skeleton - countdown */}
-              <div className="text-center w-full sm:w-auto">
-                <div className="h-3 w-20 bg-gray-200 rounded animate-pulse mx-auto mb-2" />
-                <div className="inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-700 to-gray-800 px-4 py-2.5 sm:px-6 sm:py-3 shadow-lg">
-                  <div className="h-4 w-4 sm:h-5 sm:w-5 bg-gray-600 rounded animate-pulse" />
-                  <div className="h-6 sm:h-8 w-24 sm:w-32 bg-gray-600 rounded animate-pulse" />
+              <div className="text-center w-full md:w-auto">
+                <div className="h-3 sm:h-4 w-20 bg-gray-200 rounded animate-pulse mx-auto mb-2" />
+                <div className="inline-flex items-center gap-2 md:gap-3 rounded-xl md:rounded-2xl bg-gradient-to-br from-gray-700 to-gray-800 px-4 py-3 md:px-6 md:py-3.5 shadow-lg">
+                  <div className="h-5 w-5 bg-gray-600 rounded animate-pulse" />
+                  <div className="h-8 w-28 sm:w-32 bg-gray-600 rounded animate-pulse" />
                 </div>
-                <div className="mt-1.5 sm:mt-2 h-3 w-32 bg-gray-200 rounded animate-pulse mx-auto" />
+                <div className="mt-2 h-3 w-32 bg-gray-200 rounded animate-pulse mx-auto" />
               </div>
             </div>
           </div>
@@ -126,55 +129,58 @@ export default function NextPrayerBanner({ nextPrayer, isLoading = false }: Prop
             </h2>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-            {/* Section gauche: Info de la prière */}
-            <div className="flex items-center gap-3 sm:gap-4 md:gap-6 w-full sm:w-auto">
+          <div className="flex flex-col items-center gap-4 sm:gap-5 md:flex-row md:justify-between md:gap-6">
+            {/* Section Info de la prière */}
+            <div className="flex flex-col items-center gap-3 w-full md:flex-row md:w-auto md:gap-4 lg:gap-6">
               {/* Icône grande avec fond doré subtil */}
-              <div className="rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#ecad20]/10 to-[#ecad20]/5 p-3 sm:p-4 border-2 border-[#ecad20]/20 shadow-sm flex-shrink-0">
+              <div className="rounded-xl md:rounded-2xl bg-gradient-to-br from-[#ecad20]/10 to-[#ecad20]/5 p-3 md:p-4 border-2 border-[#ecad20]/20 shadow-sm flex-shrink-0">
                 <Icon
-                  className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
+                  className="h-10 w-10 md:h-12 md:w-12"
                   style={{ color: "#ecad20" }}
                   strokeWidth={2}
                 />
               </div>
 
               {/* Nom et heure */}
-              <div className="text-center sm:text-right flex-1">
-                <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#171717] tracking-tight">
+              <div className="text-center md:text-right w-full md:flex-1">
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <h3 className="text-2xl sm:text-3xl md:text-4xl font-black text-[#171717] tracking-tight whitespace-nowrap">
                     {LABELS_AR[nextPrayer.name]}
                   </h3>
-                  <span className="inline-block h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-[#ecad20] animate-pulse shadow-md" />
+                  <span className="inline-block h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-[#ecad20] animate-pulse shadow-md" />
                 </div>
-                <div className="mt-1.5 sm:mt-2 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-gray-700 flex-wrap">
-                  <span className="text-xs sm:text-sm font-medium">
+                <div className="mt-1.5 md:mt-2 flex items-center justify-center md:justify-start gap-1.5">
+                  <span className="text-xs sm:text-sm font-medium text-gray-700">
                     في الساعة
                   </span>
-                  <span className="text-base sm:text-lg font-bold tabular-nums text-[#171717]">
+                  <span className="text-base sm:text-lg md:text-xl font-bold tabular-nums text-[#171717]">
                     {nextTimeLabel}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Section droite: Compte à rebours avec design premium */}
-            <div className="text-center w-full sm:w-auto">
-              <div className="text-[10px] sm:text-xs md:text-sm text-gray-600 font-medium mb-1.5 sm:mb-2">
+            {/* Section Compte à rebours avec design premium */}
+            <div className="text-center w-full md:w-auto">
+              <div className="text-xs sm:text-sm text-gray-600 font-medium mb-2">
                 الوقت المتبقي
               </div>
-              <div className="inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[#171717] to-[#2a2a2a] px-4 py-2.5 sm:px-6 sm:py-3 shadow-lg border border-[#ecad20]/30">
-                <Clock
-                  className="h-4 w-4 sm:h-5 sm:w-5"
-                  style={{ color: "#ecad20" }}
-                />
+              <div className="inline-flex items-center gap-2 md:gap-3 rounded-xl md:rounded-2xl bg-gradient-to-br from-[#171717] to-[#2a2a2a] px-4 py-3 md:px-6 md:py-3.5 shadow-lg border border-[#ecad20]/30">
+                <Clock className="h-5 w-5" style={{ color: "#ecad20" }} />
                 <span
-                  className="text-xl sm:text-2xl md:text-3xl font-black tabular-nums text-white"
+                  className="text-2xl sm:text-3xl md:text-3xl font-black tabular-nums text-white leading-none"
                   aria-live="polite"
                 >
                   {remaining}
                 </span>
               </div>
-              
+              <div className="mt-2 flex items-center justify-center gap-1 text-[10px] sm:text-xs text-gray-500 font-medium">
+                <span>ثوانٍ</span>
+                <span>•</span>
+                <span>دقائق</span>
+                <span>•</span>
+                <span>ساعات</span>
+              </div>
             </div>
           </div>
         </div>

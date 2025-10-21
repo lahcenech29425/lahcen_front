@@ -393,8 +393,7 @@ export default function PrayerPageClient() {
                 </span>{" "}
                 قَالُوا: لَا يَبْقَى مِنْ دَرَنِهِ شَيْءٌ، قَالَ:{" "}
                 <span className="font-semibold text-gray-900">
-                  «فَذَلِكَ مَثَلُ الصَّلَوَاتِ الخَمْسِ، يَمْحُو اللَّهُ
-                  بِهِنَّ الخَطَايَا»
+                  « فَذَلِكَ مَثَلُ الصَّلَوَاتِ الخَمْسِ، يَمْحُو اللَّهُ بِهِنَّ الخَطَايَا »
                 </span>
               </p>
               <p className="text-sm text-gray-600 mt-3 pt-3 border-t border-gray-200">

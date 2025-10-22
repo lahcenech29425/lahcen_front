@@ -8,7 +8,8 @@ import {
 import { Link } from "@/components/elements/Link";
 import { Surah } from "@/types/Surah";
 import { X } from "lucide-react";
-import { getSurahNumberFromSlug } from "@/utils/surahHelpers";
+import { getSurahNumberFromSlug, getSurahSlug } from "@/utils/surahHelpers";
+import { fetchSurahList } from "@/utils/quranApi";
 
 // Types pour le tafsir
 type TafseerAuthor = {
@@ -101,6 +102,8 @@ export default function SurahDetailClient({ params }: Props) {
   }, [params]);
 
   const [surahNumber, setSurahNumber] = useState<number | null>(null);
+  const [prevSlug, setPrevSlug] = useState<string | null>(null);
+  const [nextSlug, setNextSlug] = useState<string | null>(null);
   const [surah, setSurah] = useState<Surah | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -119,6 +122,32 @@ export default function SurahDetailClient({ params }: Props) {
   useEffect(() => {
     getSurahNumberFromSlug(surahSlug).then(setSurahNumber);
   }, [surahSlug]);
+
+  // Compute prev/next slugs using the surah list so links use slugs instead of numbers
+  useEffect(() => {
+    if (!surahNumber) return;
+    let mounted = true;
+    (async () => {
+      try {
+        const list = await fetchSurahList();
+        if (!mounted || !Array.isArray(list)) return;
+
+        const prev = list[surahNumber - 2]; // index-1 for previous
+        const next = list[surahNumber]; // index+1 for next
+
+        setPrevSlug(prev ? getSurahSlug(prev) : null);
+        setNextSlug(next ? getSurahSlug(next) : null);
+      } catch {
+        // if fetching fails, fallback to numeric links (do nothing)
+        setPrevSlug(null);
+        setNextSlug(null);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [surahNumber]);
 
   // Chargement des données de la sourate
   useEffect(() => {
@@ -459,7 +488,7 @@ export default function SurahDetailClient({ params }: Props) {
       <div className="flex justify-between mt-10 pt-4 border-t border-gray-100">
         {surahNumber && surahNumber > 1 && (
           <Link
-            href={`/quran/${surahNumber - 1}`} // ← Garde le number pour la navigation
+            href={prevSlug ? `/quran/${prevSlug}` : `/quran/${surahNumber - 1}`}
             className="text-sm text-gray-500 hover:text-gray-700 transition"
           >
             « السورة السابقة
@@ -467,7 +496,7 @@ export default function SurahDetailClient({ params }: Props) {
         )}
         {surahNumber && surahNumber < 114 && (
           <Link
-            href={`/quran/${surahNumber + 1}`}
+            href={nextSlug ? `/quran/${nextSlug}` : `/quran/${surahNumber + 1}`}
             className="text-sm text-gray-500 hover:text-gray-700 transition mr-auto"
           >
             السورة التالية »

@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import SurahDetailClient from "./SurahDetailClient";
 import { fetchSurahDetail } from "@/utils/quranApi";
 import { getSurahNumberFromSlug } from "@/utils/surahHelpers";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ surah: string }>;
@@ -87,14 +88,21 @@ export async function generateStaticParams() {
   }));
 }
 
-
-
 export default async function SurahDetailPage({ params }: Props) {
-  // contenu SSR minimal pour les bots (ne change pas le rendu client)
   let ssrSnippet = "";
   try {
     const { surah: surahSlug } = await params;
     const surahNumber = await getSurahNumberFromSlug(surahSlug);
+
+    const isInvalidSlug =
+      surahNumber === 1 &&
+      surahSlug !== "1" &&
+      surahSlug.toLowerCase() !== "al-faatiha";
+
+    if (isInvalidSlug) {
+      notFound();
+    }
+
     const surah = await fetchSurahDetail(surahNumber);
     const name =
       surah.surahNameArabicLong ||
@@ -103,7 +111,9 @@ export default async function SurahDetailPage({ params }: Props) {
       "";
     const firstAyah = surah.arabic1?.[0] || "";
     ssrSnippet = `${name} — ${firstAyah}`.slice(0, 220);
-  } catch {}
+  } catch {
+    notFound();
+  }
 
   return (
     <>

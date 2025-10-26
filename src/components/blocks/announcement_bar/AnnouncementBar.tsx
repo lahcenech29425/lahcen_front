@@ -5,7 +5,7 @@ const AnnouncementBar = ({ data }: { data: AnnouncementBarType }) => {
   if (!data.active) return null;
 
   return (
-    <div className="w-full bg-[#171717] text-white text-sm md:text-base py-2 px-4 text-center transition-colors duration-300 hover:bg-gray-900">
+    <div className="w-full bg-[#171717] text-white text-sm md:text-base py-2 px-4 text-center transition-colors duration-300 hover:bg-[#1a1a1a]">
       <Link
         href={data.link || "#"}
         className="inline-block font-medium hover:underline"

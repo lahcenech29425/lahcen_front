@@ -90,10 +90,28 @@ export default async function RootLayout({
     matchedPath === "/not-found" ||
     matchedPath === "/404" ||
     matchedPath.toLowerCase().includes("not-found") ||
-    matchedPath === "";
+    matchedPath === "ss";
   return (
     <html lang="ar" dir="rtl">
       <head>
+        {/* Inject dark mode script before CSS for instant theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function() {
+  try {
+    var theme = localStorage.getItem('theme');
+    if (
+      theme === 'dark' ||
+      (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    }
+  } catch(e){}
+})();
+            `,
+          }}
+        />
         <link rel="icon" href="/favicon.ico" />{" "}
         <link
           rel="icon"

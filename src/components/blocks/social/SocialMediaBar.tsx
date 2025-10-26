@@ -42,7 +42,7 @@ export default function SocialMediaBar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={s.platform}
-            className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-900 text-white shadow-md hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
+            className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#2b2b2b] dark:bg-[#171717] text-white shadow-md hover:bg-gray-700 dark:hover:bg-[#d1d1d1] transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
           >
             <Image
               src={iconUrl}

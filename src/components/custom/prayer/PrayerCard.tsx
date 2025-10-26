@@ -34,11 +34,11 @@ export default function PrayerCard({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-white border-2 transition-all duration-300
+      className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-white dark:bg-[#232323] border-2 transition-all duration-300
         ${
           highlight || isCurrent
             ? "border-[#ecad20] shadow-2xl scale-[1.02] ring-2 ring-[#ecad20]/20"
-            : "border-gray-200 shadow-md hover:shadow-xl hover:border-[#ecad20]/50"
+            : "border-gray-200 dark:border-[#1a1a1a] shadow-md hover:shadow-xl hover:border-[#ecad20]/50"
         }
       `}
       aria-label={`${LABELS_AR[t.name]} ${t.timeLabel}`}
@@ -50,13 +50,15 @@ export default function PrayerCard({
             className={`inline-flex items-center gap-1 sm:gap-2 rounded-full px-2 py-0.5 sm:px-3 sm:py-1 text-[10px] sm:text-xs font-medium shadow-lg border ${
               isCurrent
                 ? "bg-gradient-to-r from-[#171717] to-[#2a2a2a] text-white border-[#ecad20]/30"
-                : "bg-white text-[#171717] border-gray-300"
+                : "bg-white dark:bg-[#232323] text-[#171717] dark:text-[#ededed] border-gray-300 dark:border-[#1a1a1a]"
             }`}
           >
             {isCurrent ? "الآن" : "القادمة"}
             <span
               className={`inline-block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full ${
-                isCurrent ? "bg-[#ecad20] animate-pulse" : "bg-gray-400"
+                isCurrent
+                  ? "bg-[#ecad20] animate-pulse"
+                  : "bg-gray-400 dark:bg-[#ededed]"
               }`}
             />
           </span>
@@ -80,9 +82,9 @@ export default function PrayerCard({
       </div>
 
       {/* المحتوى */}
-      <div className="flex h-40 sm:h-48 md:h-56 flex-col justify-end p-3 sm:p-4 md:p-6 bg-gradient-to-br from-white via-gray-50/30 to-white">
+      <div className="flex h-40 sm:h-48 md:h-56 flex-col justify-end p-3 sm:p-4 md:p-6 bg-gradient-to-br from-white dark:from-[#232323] via-gray-50/30 dark:via-[#232323]/30 to-white dark:to-[#232323]">
         {/* الاسم */}
-        <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
+        <div className="text-sm sm:text-base md:text-lg font-semibold text-gray-700 dark:text-[#ededed]">
           {LABELS_AR[t.name]}
         </div>
 
@@ -91,14 +93,14 @@ export default function PrayerCard({
           className={`mt-0.5 sm:mt-1 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight tabular-nums leading-none ${
             highlight || isCurrent
               ? "text-[#ecad20]"
-              : "bg-gradient-to-br from-[#171717] via-[#2a2a2a] to-[#171717] bg-clip-text text-transparent"
+              : "bg-gradient-to-br from-[#171717] via-[#2a2a2a] to-[#171717] dark:from-[#ededed] dark:via-[#ededed] dark:to-[#ededed] bg-clip-text text-transparent"
           }`}
         >
           {t.timeLabel}
         </div>
 
         {/* سطر معلومات صغير */}
-        <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200 text-[10px] sm:text-xs md:text-sm text-gray-600">
+        <div className="mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-200 dark:border-[#1a1a1a] text-[10px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400">
           توقيت محلي
         </div>
       </div>

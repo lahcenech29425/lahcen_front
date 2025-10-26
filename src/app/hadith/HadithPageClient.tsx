@@ -200,18 +200,23 @@ export default function HadithPageClient() {
 
   return (
     <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
-      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900">
-        <Link href="/" className="hover:text-gray-600 transition">
+      <nav className="mb-8 flex items-center gap-4 text-sm text-[#232323] dark:text-[#ededed]">
+        <Link
+          href="/"
+          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
+        >
           الرئيسية
         </Link>
         <span>/</span>
-        <span className="text-gray-600 font-semibold">الحديث الشريف</span>
+        <span className="text-[#232323] dark:text-[#ededed] font-semibold">
+          الحديث الشريف
+        </span>
       </nav>
 
-      <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
+      <h1 className="text-3xl font-bold mb-2 text-[#232323] dark:text-[#ededed] text-center">
         الحديث الشريف
       </h1>
-      <p className="text-center text-gray-700 mb-8 max-w-2xl mx-auto">
+      <p className="text-center text-[#232323] dark:text-[#ededed] mb-8 max-w-2xl mx-auto">
         تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث أو برقم
         الحديث.
       </p>
@@ -219,7 +224,7 @@ export default function HadithPageClient() {
       <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
         <div className="relative w-full md:w-64">
           <select
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full bg-white text-gray-700"
+            className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
             value={selectedBook}
             onChange={(e) => {
               setSelectedBook(e.target.value);
@@ -236,7 +241,7 @@ export default function HadithPageClient() {
 
         <div className="relative w-full md:w-64">
           <select
-            className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full bg-white text-gray-700"
+            className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
             value={selectedChapter}
             onChange={(e) => {
               setSelectedChapter(e.target.value);
@@ -254,7 +259,7 @@ export default function HadithPageClient() {
 
         <div className="relative w-full md:w-80">
           <input
-            className="border border-gray-300 rounded-lg px-4 py-2 w-full bg-white text-gray-700"
+            className="border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
             placeholder="ابحث في نص الحديث..."
             value={search}
             onChange={(e) => {
@@ -273,7 +278,7 @@ export default function HadithPageClient() {
             <input
               inputMode="numeric"
               pattern="[0-9]*"
-              className="border border-gray-300 rounded-lg px-4 py-2 w-full bg-white text-gray-700"
+              className="border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
               placeholder="ابحث برقم الحديث (مثال: 1)"
               value={hadithNumber}
               onChange={(e) => {
@@ -291,9 +296,11 @@ export default function HadithPageClient() {
 
       <div className="space-y-8 mt-8">
         {loading ? (
-          <div className="text-center text-gray-600 py-10">جاري التحميل...</div>
+          <div className="text-center text-[#232323] dark:text-[#ededed] py-10">
+            جاري التحميل...
+          </div>
         ) : hadiths.length === 0 ? (
-          <div className="text-center text-gray-600 py-10">
+          <div className="text-center text-[#232323] dark:text-[#ededed] py-10">
             لا توجد أحاديث مطابقة.
           </div>
         ) : (
@@ -351,18 +358,18 @@ export default function HadithPageClient() {
       <div className="flex justify-center gap-2 mt-10">
         {page > 1 && (
           <button
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 text-gray-700"
+            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] text-[#232323] dark:text-[#ededed]"
             onClick={() => setPage(page - 1)}
           >
             السابق
           </button>
         )}
-        <span className="px-4 py-2 rounded-lg bg-gray-900 text-white font-semibold shadow">
+        <span className="px-4 py-2 rounded-lg bg-[#232323] dark:bg-[#1a1a1a] text-[#ededed] font-semibold shadow">
           {page}
         </span>
         {hadiths.length === PAGE_SIZE && (
           <button
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 text-gray-700"
+            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] text-[#232323] dark:text-[#ededed]"
             onClick={() => setPage(page + 1)}
           >
             التالي

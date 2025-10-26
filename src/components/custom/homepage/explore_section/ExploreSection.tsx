@@ -61,7 +61,9 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
   // Alternance alignement : pair = left, impair = right
   const isLeft = index % 2 !== 0;
   // Alternance background
-  const bgClass = isLeft ? "bg-gray-50" : "bg-gray-100";
+  const bgClass = isLeft
+    ? "bg-gray-50 dark:bg-[#232323]"
+    : "bg-gray-100 dark:bg-[#1a1a1a]";
 
   // Détermine le flex selon le type d'item
   const sectionFlex =
@@ -78,18 +80,20 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
         <div
           className={`flex-1 flex flex-col justify-center ${
             isLeft
-              ? "md:pr-12 text-left items-start"
+              ? "text-left items-start"
               : "md:pl-12 text-right items-end"
           }`}
         >
           <div className="w-full md:w-auto">
             <ScrollFadeIn delay={100}>
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-primary text-right">
+              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-primary dark:text-primary-light text-right">
                 {section.title}
               </h2>
             </ScrollFadeIn>
             <ScrollFadeIn delay={250}>
-              <p className={`mb-8 text-lg text-gray-600 text-right`}>
+              <p
+                className={`mb-8 text-lg text-gray-600 dark:text-gray-300 text-right`}
+              >
                 {section.subtitle}
               </p>
             </ScrollFadeIn>
@@ -101,8 +105,8 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
                   className={`inline-block px-8 py-3 rounded-lg font-bold shadow transition
                     ${
                       isLeft
-                        ? "bg-gray-700 text-white hover:bg-gray-600"
-                        : "bg-gray-900 text-white hover:bg-gray-800"
+                        ? "bg-gray-700 dark:bg-[#454545] text-white hover:bg-gray-600 dark:hover:bg-[#1a1a1a]"
+                        : "bg-gray-900 dark:bg-[#454545] text-white hover:bg-gray-800 dark:hover:bg-[#2d2d2d]"
                     }
                   `}
                 >
@@ -119,7 +123,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
               {Array.from({ length: section.fetchCount }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="h-48 bg-gray-200 animate-pulse rounded-lg"
+                  className="h-48 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-lg"
                 />
               ))}
             </div>

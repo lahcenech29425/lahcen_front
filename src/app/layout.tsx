@@ -8,6 +8,7 @@ import AnnouncementBar from "@/components/blocks/announcement_bar/AnnouncementBa
 import GoToTop from "@/components/elements/GoToTop";
 import SocialMediaBar from "@/components/blocks/social/SocialMediaBar";
 import { headers } from "next/headers";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -143,6 +144,7 @@ export default async function RootLayout({
         {!isNotFoundRoute && <Footer data={footer} />}
         {!isNotFoundRoute && showGoToTop && <GoToTop />}
       </body>
+      <GoogleAnalytics gaId="G-0KRYV6CWTN" />
     </html>
   );
 }

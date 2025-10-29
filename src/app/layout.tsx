@@ -95,6 +95,11 @@ export default async function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4133177659377237"
+          crossOrigin="anonymous"
+        ></script>
         {/* Inject dark mode script before CSS for instant theme */}
         <script
           dangerouslySetInnerHTML={{

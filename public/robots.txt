@@ -1,9 +1,17 @@
-# *
+# Allow all bots
 User-agent: *
 Allow: /
 
-# Host
-Host: https://lahcenway.com
+# Block API routes and admin paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin
 
-# Sitemaps
-Sitemap: https://lahcenway.com/sitemap.xml
+# Crawl rate optimization (1 second delay between requests)
+Crawl-delay: 1
+
+# Preferred domain (with www)
+Host: https://www.lahcenway.com
+
+# Sitemap location
+Sitemap: https://www.lahcenway.com/sitemap.xml

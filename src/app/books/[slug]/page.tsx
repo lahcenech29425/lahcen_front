@@ -72,7 +72,7 @@ export default async function BookDetailPage({ params }: Props) {
     const recommendedRes = await fetchApi(
         `/api/books?populate=*&filters[slug][$ne]=${slug}&filters[category][$eq]=${encodeURIComponent(book.category)}&pagination[limit]=4`
     );
-    let recommendations: BookType[] = recommendedRes
+    const recommendations: BookType[] = recommendedRes
         ? normalizeBooks(recommendedRes)
         : [];
 

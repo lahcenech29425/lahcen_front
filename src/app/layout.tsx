@@ -116,12 +116,14 @@ export default async function RootLayout({
         <meta name="theme-color" content="#0f172a" />{" "}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
         {!isNotFoundRoute && <AnnouncementBar data={announcementBar} />}
         {!isNotFoundRoute && <Header data={header} />}
         <SocialMediaBar />
-        {children}
+        <main className="flex-1 min-h-[calc(100vh-200px)]">
+          {children}
+        </main>
         {!isNotFoundRoute && <Footer data={footer} />}
         {!isNotFoundRoute && showGoToTop && <GoToTop />}
       </body>

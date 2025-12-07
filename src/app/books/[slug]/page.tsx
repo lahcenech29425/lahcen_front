@@ -161,7 +161,7 @@ export default async function BookDetailPage({ params }: Props) {
                         </div>
 
                         {/* Metadata Cards */}
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                             <div className="bg-gray-50 rounded-xl p-4 text-center">
                                 <BookOpen size={24} className="mx-auto text-gray-600 mb-2" />
                                 <div className="text-2xl font-bold text-gray-800">{book.pageCount}</div>

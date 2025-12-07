@@ -41,8 +41,10 @@ function LiveClock() {
     return () => clearInterval(id);
   }, []);
   return (
-    <div className="mx-auto mt-5 w-64 rounded-md border-2 border-white/20 bg-black/20 px-4 py-2">
-      <span className="block text-4xl font-bold tabular-nums">{now}</span>
+    <div className="mx-auto mt-5 w-full max-w-xs xs:max-w-sm sm:max-w-md rounded-md border-2 border-white/20 bg-black/20 px-3 xs:px-4 py-2 flex justify-center">
+      <span className="block text-2xl xs:text-3xl sm:text-4xl font-bold tabular-nums">
+        {now}
+      </span>
     </div>
   );
 }
@@ -234,20 +236,28 @@ export default function PrayerPageClient() {
   return (
     <div dir="rtl" className="max-w-7xl mx-auto px-4 py-8 text-right">
       {/* Breadcrumb */}
-      <nav className="mb-10 text-sm text-gray-900" aria-label="مسار التنقل">
+      <nav
+        className="mb-10 text-sm text-gray-900 dark:text-[#ededed]"
+        aria-label="مسار التنقل"
+      >
         <ol className="flex items-center gap-2">
           <li>
-            <Link href="/" className="hover:text-gray-700">
+            <Link
+              href="/"
+              className="hover:text-gray-700 dark:hover:text-white"
+            >
               الرئيسية
             </Link>
           </li>
           <li>/</li>
-          <li className="text-gray-900 font-medium">أوقات الصلاة</li>
+          <li className="text-gray-900 dark:text-[#ededed] font-medium">
+            أوقات الصلاة
+          </li>
         </ol>
       </nav>
 
       {/* Hero Section - صورة خلفية + عنوان + آية + بطاقات التاريخ */}
-      <section className="relative overflow-hidden rounded-3xl bg-[#171717] text-white shadow-2xl">
+      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-[#171717] dark:bg-[#171717] text-white shadow-2xl">
         {/* خلفية بصورة عامة optimisée avec Next.js Image */}
         <Image
           src="/prayer/2.jpg"
@@ -255,28 +265,28 @@ export default function PrayerPageClient() {
           fill
           priority
           quality={85}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1280px"
+          sizes="(max-width: 480px) 100vw, (max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1280px"
           className="object-cover object-center"
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWEREiMxUf/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
         />
         <div
-          className="absolute inset-0 bg-gradient-to-tr from-black/80 via-[#171717]/70 to-transparent z-10"
+          className="absolute inset-0 bg-gradient-to-tr from-black/80 via-[#171717]/70 to-transparent z-10 dark:from-black/80 dark:via-[#171717]/70 dark:to-transparent"
           aria-hidden
         />
-        <div className="relative z-20 px-6 py-10 sm:px-10 sm:py-14">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        <div className="relative z-20 px-3 py-7 sm:px-6 sm:py-10 md:px-10 md:py-14">
+          <div className="text-center max-w-full sm:max-w-3xl mx-auto">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
               أوقات الصلاة
             </h1>
-            <p className="mt-3 text-white/90 text-lg">
+            <p className="mt-2 xs:mt-3 text-white/90 text-base xs:text-lg">
               إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا مَوْقُوتًا
             </p>
-            <div className="mt-1 text-sm text-white/70">
+            <div className="mt-1 text-xs xs:text-sm text-white/70">
               سورة النساء • آية ١٠٣
             </div>
             {(placeAr || cc) && (
-              <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-sm">
+              <div className="mt-2 xs:mt-3 inline-flex items-center gap-1 xs:gap-2 rounded-full bg-white/10 px-2 xs:px-3 py-1 text-xs xs:text-sm">
                 <MapPin className="h-4 w-4" />
                 <span>{placeAr ?? cc}</span>
               </div>
@@ -288,38 +298,42 @@ export default function PrayerPageClient() {
 
           {/* بطاقتا التاريخ (ميلادي / هجري) في أسفل الحاوية */}
           {day && (
-            <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="mt-6 xs:mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3 xs:gap-4">
               {/* الميلادي */}
-              <div className="group rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-4 py-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center rounded-xl bg-white/10 p-2">
+              <div className="group rounded-xl xs:rounded-2xl bg-white/5 dark:bg-[#232323]/30 border border-white/10 dark:border-[#232323] backdrop-blur px-3 xs:px-4 py-4 xs:py-5 flex flex-col xs:flex-row items-start xs:items-center justify-between">
+                <div className="flex items-center gap-2 xs:gap-3">
+                  <span className="inline-flex items-center justify-center rounded-lg xs:rounded-xl bg-white/10 dark:bg-[#232323]/40 p-2">
                     <Calendar className="h-5 w-5 text-white/90" />
                   </span>
                   <div>
                     <div className="text-xs text-white/70">
                       التاريخ الميلادي
                     </div>
-                    <div className="text-base sm:text-lg font-semibold">
+                    <div className="text-sm xs:text-base sm:text-lg font-semibold">
                       {GregorianArabic}
                     </div>
                   </div>
                 </div>
-                <div className="text-[11px] text-white/60">{day.timezone}</div>
+                <div className="text-[10px] xs:text-[11px] text-white/60 mt-2 xs:mt-0">
+                  {day.timezone}
+                </div>
               </div>
               {/* الهجري */}
-              <div className="group rounded-2xl bg-white/5 border border-white/10 backdrop-blur px-4 py-5 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center justify-center rounded-xl bg-white/10 p-2">
+              <div className="group rounded-xl xs:rounded-2xl bg-white/5 dark:bg-[#232323]/30 border border-white/10 dark:border-[#232323] backdrop-blur px-3 xs:px-4 py-4 xs:py-5 flex flex-col xs:flex-row items-start xs:items-center justify-between">
+                <div className="flex items-center gap-2 xs:gap-3">
+                  <span className="inline-flex items-center justify-center rounded-lg xs:rounded-xl bg-white/10 dark:bg-[#232323]/40 p-2">
                     <Moon className="h-5 w-5 text-white/90" />
                   </span>
                   <div>
                     <div className="text-xs text-white/70">التاريخ الهجري</div>
-                    <div className="text-base sm:text-lg font-semibold">
+                    <div className="text-sm xs:text-base sm:text-lg font-semibold">
                       {day.hijri.readable ?? day.hijri.date}
                     </div>
                   </div>
                 </div>
-                <div className="text-[11px] text-white/60">هجري</div>
+                <div className="text-[10px] xs:text-[11px] text-white/60 mt-2 xs:mt-0">
+                  هجري
+                </div>
               </div>
             </div>
           )}
@@ -343,7 +357,7 @@ export default function PrayerPageClient() {
 
       {/* Avoid duplicating geolocation denial error when manual selection is shown */}
       {error && coords && (
-        <div className="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-800">
+        <div className="mb-4 rounded-lg border border-red-300 bg-red-50 dark:bg-[#232323] dark:border-red-700 p-3 text-sm text-red-800 dark:text-red-300">
           {error}
         </div>
       )}
@@ -352,7 +366,7 @@ export default function PrayerPageClient() {
       {coords && !day ? (
         <>
           <NextPrayerBanner nextPrayer={null} isLoading={true} />
-          <div className="mt-6 text-center text-gray-500 animate-pulse">
+          <div className="mt-6 text-center text-gray-500 dark:text-[#ededed] animate-pulse">
             جاري تحميل أوقات الصلاة...
           </div>
         </>
@@ -365,39 +379,39 @@ export default function PrayerPageClient() {
 
       <>
         {/* فضائل الصلاة */}
-        <section className="mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-gray-900 rounded-full"></span>
+        <section className="mt-12 bg-white dark:bg-[#232323] rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-[#1a1a1a] shadow-sm">
+          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-[#ededed] flex items-center gap-3">
+            <span className="inline-block h-1.5 w-10 bg-gray-900 dark:bg-[#ededed] rounded-full"></span>
             فضائل الصلاة
           </h2>
           <div className="space-y-4">
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200">
-              <p className="text-lg leading-relaxed text-gray-800">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <p className="text-lg leading-relaxed text-gray-800 dark:text-[#ededed]">
                 قال رسول الله ﷺ:{" "}
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   «الصَّلَوَاتُ الخَمْسُ، وَالْجُمُعَةُ إِلَى الْجُمُعَةِ،
                   كَفَّارَاتٌ لِمَا بَيْنَهُنَّ، مَا لَمْ تُغْشَ الكَبَائِرُ»
                 </span>
               </p>
-              <p className="text-sm text-gray-600 mt-3 pt-3 border-t border-gray-200">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 pt-3 border-t border-gray-200 dark:border-[#232323]">
                 رواه مسلم
               </p>
             </div>
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200">
-              <p className="text-lg leading-relaxed text-gray-800">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <p className="text-lg leading-relaxed text-gray-800 dark:text-[#ededed]">
                 قال رسول الله ﷺ:{" "}
-                <span className="font-semibold text-gray-900">
+                <span className="font-semibold text-gray-900 dark:text-white">
                   «أَرَأَيْتُمْ لَوْ أَنَّ نَهْرًا بِبَابِ أَحَدِكُمْ يَغْتَسِلُ
                   مِنْهُ كُلَّ يَوْمٍ خَمْسَ مَرَّاتٍ، هَلْ يَبْقَى مِنْ
                   دَرَنِهِ شَيْءٌ؟»
                 </span>{" "}
                 قَالُوا: لَا يَبْقَى مِنْ دَرَنِهِ شَيْءٌ، قَالَ:{" "}
-                <span className="font-semibold text-gray-900">
-                  «فَذَلِكَ مَثَلُ الصَّلَوَاتِ الخَمْسِ، يَمْحُو اللَّهُ
-                  بِهِنَّ الخَطَايَا»
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  « فَذَلِكَ مَثَلُ الصَّلَوَاتِ الخَمْسِ، يَمْحُو اللَّهُ
+                  بِهِنَّ الخَطَايَا »
                 </span>
               </p>
-              <p className="text-sm text-gray-600 mt-3 pt-3 border-t border-gray-200">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mt-3 pt-3 border-t border-gray-200 dark:border-[#232323]">
                 متفق عليه
               </p>
             </div>
@@ -405,53 +419,57 @@ export default function PrayerPageClient() {
         </section>
 
         {/* آداب الصلاة */}
-        <section className="mt-8 bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-gray-900 rounded-full"></span>
+        <section className="mt-8 bg-white dark:bg-[#232323] rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-[#1a1a1a] shadow-sm">
+          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-[#ededed] flex items-center gap-3">
+            <span className="inline-block h-1.5 w-10 bg-gray-900 dark:bg-[#ededed] rounded-full"></span>
             آداب الصلاة
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">الطهارة</h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323] hover:bg-gray-100 dark:hover:bg-[#232323] hover:border-gray-300 dark:hover:border-[#ededed] transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">
+                الطهارة
+              </h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 تأكد من الوضوء الصحيح وطهارة الثوب والمكان
               </p>
             </div>
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323] hover:bg-gray-100 dark:hover:bg-[#232323] hover:border-gray-300 dark:hover:border-[#ededed] transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">
                 ستر العورة
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 الزم الحشمة واللباس المناسب للصلاة
               </p>
             </div>
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323] hover:bg-gray-100 dark:hover:bg-[#232323] hover:border-gray-300 dark:hover:border-[#ededed] transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">
                 استقبال القبلة
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 توجه نحو الكعبة المشرفة في مكة المكرمة
               </p>
             </div>
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">الخشوع</h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323] hover:bg-gray-100 dark:hover:bg-[#232323] hover:border-gray-300 dark:hover:border-[#ededed] transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">
+                الخشوع
+              </h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 حضور القلب والتركيز في الصلاة والابتعاد عن الوساوس
               </p>
             </div>
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323] hover:bg-gray-100 dark:hover:bg-[#232323] hover:border-gray-300 dark:hover:border-[#ededed] transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">
                 الطمأنينة
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 أداء الأركان بسكينة وعدم العجلة
               </p>
             </div>
-            <div className="p-5 rounded-xl bg-gray-50 border border-gray-200 hover:bg-gray-100 hover:border-gray-300 transition-all">
-              <h3 className="font-bold text-gray-900 mb-2 text-lg">
+            <div className="p-5 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323] hover:bg-gray-100 dark:hover:bg-[#232323] hover:border-gray-300 dark:hover:border-[#ededed] transition-all">
+              <h3 className="font-bold text-gray-900 dark:text-white mb-2 text-lg">
                 الصلاة في وقتها
               </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
                 المبادرة لأداء الصلاة في أول وقتها
               </p>
             </div>
@@ -459,39 +477,39 @@ export default function PrayerPageClient() {
         </section>
 
         {/* نصائح للمحافظة على الصلاة */}
-        <section className="mt-8 bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-gray-900 rounded-full"></span>
+        <section className="mt-8 bg-white dark:bg-[#232323] rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-[#1a1a1a] shadow-sm">
+          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-[#ededed] flex items-center gap-3">
+            <span className="inline-block h-1.5 w-10 bg-gray-900 dark:bg-[#ededed] rounded-full"></span>
             نصائح للمحافظة على الصلاة
           </h2>
           <ul className="space-y-3">
-            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-200">
-              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 flex-shrink-0"></span>
-              <span className="text-gray-800 leading-relaxed">
+            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 dark:bg-[#ededed] flex-shrink-0"></span>
+              <span className="text-gray-800 dark:text-[#ededed] leading-relaxed">
                 اضبط المنبه قبل وقت كل صلاة بـ 10-15 دقيقة للاستعداد
               </span>
             </li>
-            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-200">
-              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 flex-shrink-0"></span>
-              <span className="text-gray-800 leading-relaxed">
+            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 dark:bg-[#ededed] flex-shrink-0"></span>
+              <span className="text-gray-800 dark:text-[#ededed] leading-relaxed">
                 حافظ على صلاة الجماعة في المسجد لما لها من أجر عظيم
               </span>
             </li>
-            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-200">
-              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 flex-shrink-0"></span>
-              <span className="text-gray-800 leading-relaxed">
+            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 dark:bg-[#ededed] flex-shrink-0"></span>
+              <span className="text-gray-800 dark:text-[#ededed] leading-relaxed">
                 اجعل لنفسك مكاناً ثابتاً للصلاة في البيت نظيفاً وهادئاً
               </span>
             </li>
-            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-200">
-              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 flex-shrink-0"></span>
-              <span className="text-gray-800 leading-relaxed">
+            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 dark:bg-[#ededed] flex-shrink-0"></span>
+              <span className="text-gray-800 dark:text-[#ededed] leading-relaxed">
                 احرص على الأذكار بعد الصلاة لتحصيل الأجر الكامل
               </span>
             </li>
-            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-200">
-              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 flex-shrink-0"></span>
-              <span className="text-gray-800 leading-relaxed">
+            <li className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <span className="inline-block mt-1.5 h-2 w-2 rounded-full bg-gray-900 dark:bg-[#ededed] flex-shrink-0"></span>
+              <span className="text-gray-800 dark:text-[#ededed] leading-relaxed">
                 تذكر أن الصلاة هي الفارق بين المسلم وغيره، فلا تتهاون بها
               </span>
             </li>
@@ -499,36 +517,36 @@ export default function PrayerPageClient() {
         </section>
 
         {/* آيات قرآنية عن الصلاة */}
-        <section className="mt-8 mb-12 bg-white rounded-2xl p-6 sm:p-8 border border-gray-200 shadow-sm">
-          <h2 className="text-2xl font-bold mb-6 text-gray-900 flex items-center gap-3">
-            <span className="inline-block h-1.5 w-10 bg-gray-900 rounded-full"></span>
+        <section className="mt-8 mb-12 bg-white dark:bg-[#232323] rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-[#1a1a1a] shadow-sm">
+          <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-[#ededed] flex items-center gap-3">
+            <span className="inline-block h-1.5 w-10 bg-gray-900 dark:bg-[#ededed] rounded-full"></span>
             آيات قرآنية عن الصلاة
           </h2>
           <div className="space-y-4">
-            <div className="p-6 rounded-xl bg-gray-50 border border-gray-200">
-              <p className="text-xl md:text-2xl leading-relaxed mb-3 font-arabic text-gray-900">
+            <div className="p-6 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <p className="text-xl md:text-2xl leading-relaxed mb-3 font-arabic text-gray-900 dark:text-[#ededed]">
                 ﴿ حَافِظُوا عَلَى الصَّلَوَاتِ وَالصَّلَاةِ الْوُسْطَىٰ
                 وَقُومُوا لِلَّهِ قَانِتِينَ ﴾
               </p>
-              <p className="text-sm text-gray-600 pt-3 border-t border-gray-200">
+              <p className="text-sm text-gray-600 dark:text-gray-300 pt-3 border-t border-gray-200 dark:border-[#232323]">
                 سورة البقرة • آية ٢٣٨
               </p>
             </div>
-            <div className="p-6 rounded-xl bg-gray-50 border border-gray-200">
-              <p className="text-xl md:text-2xl leading-relaxed mb-3 font-arabic text-gray-900">
+            <div className="p-6 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <p className="text-xl md:text-2xl leading-relaxed mb-3 font-arabic text-gray-900 dark:text-[#ededed]">
                 ﴿ وَأَقِمِ الصَّلَاةَ إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ
                 الْفَحْشَاءِ وَالْمُنكَرِ ﴾
               </p>
-              <p className="text-sm text-gray-600 pt-3 border-t border-gray-200">
+              <p className="text-sm text-gray-600 dark:text-gray-300 pt-3 border-t border-gray-200 dark:border-[#232323]">
                 سورة العنكبوت • آية ٤٥
               </p>
             </div>
-            <div className="p-6 rounded-xl bg-gray-50 border border-gray-200">
-              <p className="text-xl md:text-2xl leading-relaxed mb-3 font-arabic text-gray-900">
+            <div className="p-6 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#232323]">
+              <p className="text-xl md:text-2xl leading-relaxed mb-3 font-arabic text-gray-900 dark:text-[#ededed]">
                 ﴿ وَاسْتَعِينُوا بِالصَّبْرِ وَالصَّلَاةِ وَإِنَّهَا لَكَبِيرَةٌ
                 إِلَّا عَلَى الْخَاشِعِينَ ﴾
               </p>
-              <p className="text-sm text-gray-600 pt-3 border-gray-200">
+              <p className="text-sm text-gray-600 dark:text-gray-300 pt-3 border-gray-200 dark:border-[#232323]">
                 سورة البقرة • آية ٤٥
               </p>
             </div>

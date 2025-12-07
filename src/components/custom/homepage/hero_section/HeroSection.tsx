@@ -17,7 +17,7 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-0" aria-hidden="true" />
+      <div className="absolute inset-0 bg-black/70 z-0" aria-hidden="true" />
       <div className="relative z-10 flex flex-col items-center justify-center w-full px-4 py-16 md:py-32 max-w-screen-lg mx-auto">
         <h2
           className="text-4xl md:text-5xl lg:text-7xl font-extrabold mb-6 md:mb-8 text-white drop-shadow-2xl tracking-tight opacity-0 translate-y-8 animate-fade-in-up leading-tight md:leading-tight"
@@ -42,7 +42,7 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
         {buttonText && (
           <a
             href={buttonLink}
-            className="inline-block px-6 py-3 md:px-8 md:py-4 rounded bg-primary text-black bg-gray-100 text-base md:text-lg font-semibold shadow-lg hover:bg-white hover:scale-105 transition-all duration-300 opacity-0 translate-y-8 animate-fade-in-up"
+            className="inline-block px-6 py-3 md:px-8 md:py-4 rounded bg-gray-100 dark:bg-[#1a1a1a] text-black dark:text-white text-base md:text-lg font-semibold shadow-lg hover:bg-white dark:hover:bg-[#232323] hover:scale-105 transition-all duration-300 opacity-0 translate-y-8 animate-fade-in-up"
             style={{ animationDelay: "500ms", animationFillMode: "forwards" }}
           >
             {buttonText}

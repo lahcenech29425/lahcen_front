@@ -106,8 +106,8 @@ export default function AyahDetailClient({ params }: Props) {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto py-12 text-center">
-        <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-gray-600">جاري التحميل...</p>
+        <div className="w-8 h-8 border-2 border-[#ededed] dark:border-[#232323] border-t-[#232323] dark:border-t-[#ededed] rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-[#232323] dark:text-[#ededed]">جاري التحميل...</p>
       </div>
     );
   }
@@ -128,61 +128,71 @@ export default function AyahDetailClient({ params }: Props) {
   return (
     <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
       {/* Navigation */}
-      <nav className="mb-8 flex items-center gap-2 text-sm text-gray-500 flex-wrap">
-        <Link href="/" className="hover:text-gray-700 transition">
+      <nav className="mb-8 flex items-center gap-2 text-sm text-[#232323] dark:text-[#ededed] flex-wrap">
+        <Link
+          href="/"
+          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
+        >
           الرئيسية
         </Link>
         <span>/</span>
-        <Link href="/quran" className="hover:text-gray-700 transition">
+        <Link
+          href="/quran"
+          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
+        >
           القرآن الكريم
         </Link>
         <span>/</span>
         <Link
           href={`/quran/${surahSlug}`}
-          className="hover:text-gray-700 transition"
+          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
         >
           {surah.surahNameArabicLong || surah.surahNameArabic}
         </Link>
         <span>/</span>
-        <span className="text-gray-700 font-semibold">الآية {ayahNumber}</span>
+        <span className="text-[#232323] dark:text-[#ededed] font-semibold">
+          الآية {ayahNumber}
+        </span>
       </nav>
 
       {/* En-tête */}
       <header className="mb-10 text-center">
-        <div className="inline-flex items-center gap-2 mb-4 text-sm text-gray-500">
+        <div className="inline-flex items-center gap-2 mb-4 text-sm text-[#232323] dark:text-[#ededed]">
           <BookOpen size={16} />
           <span>
             {surah.surahNameArabicLong || surah.surahNameArabic} • الآية{" "}
             {ayahNumber}
           </span>
         </div>
-        <h1 className="text-2xl font-semibold text-gray-800 mb-2">
+        <h1 className="text-2xl font-semibold text-[#232323] dark:text-[#ededed] mb-2">
           تفسير الآية {ayahNumber} من سورة {surah.surahNameArabic}
         </h1>
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-[#232323] dark:text-[#ededed]">
           {surah.revelationPlace === "Mecca" ? "مكة" : "المدينة"} •{" "}
           {surah.totalAyah} آية
         </div>
       </header>
 
       {/* Texte de la Ayah */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 md:p-12 mb-8 shadow-sm border border-gray-200">
-        <p className="text-3xl md:text-4xl font-arabic text-center text-gray-900 leading-loose tracking-wide">
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 md:p-12 mb-8 shadow-sm border border-gray-200 dark:from-[#232323] dark:to-[#1a1a1a] dark:border-[#1a1a1a]">
+        <p className="text-3xl md:text-4xl font-arabic text-center text-[#232323] dark:text-[#ededed] leading-loose tracking-wide">
           {ayahText}
         </p>
       </div>
 
       {/* Sélecteur de Tafsir */}
-      <div className="bg-white rounded-xl p-6 mb-8 shadow-sm border border-gray-100">
-        <h2 className="text-xl font-semibold mb-4 text-gray-800 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#232323] rounded-xl p-6 mb-8 shadow-sm border border-[#ededed] dark:border-[#1a1a1a]">
+        <h2 className="text-xl font-semibold mb-4 text-[#232323] dark:text-[#ededed] flex items-center gap-2">
           <BookOpen size={20} />
           التفسير
         </h2>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
-          <span className="text-sm text-gray-600">اختر التفسير:</span>
+          <span className="text-sm text-[#232323] dark:text-[#ededed]">
+            اختر التفسير:
+          </span>
           <div className="relative w-full sm:max-w-md">
             <select
-              className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10"
+              className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] pr-10 text-[#232323] dark:text-[#ededed]"
               value={selectedTafseer}
               onChange={(e) => setSelectedTafseer(Number(e.target.value))}
               dir="rtl"
@@ -194,7 +204,7 @@ export default function AyahDetailClient({ params }: Props) {
               ))}
             </select>
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#232323] dark:text-[#ededed]"
               width="20"
               height="20"
               fill="none"
@@ -210,34 +220,34 @@ export default function AyahDetailClient({ params }: Props) {
         {/* Contenu du Tafsir */}
         {tafseerLoading ? (
           <div className="flex justify-center py-8">
-            <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+            <div className="w-6 h-6 border-2 border-[#ededed] dark:border-[#232323] border-t-[#232323] dark:border-t-[#ededed] rounded-full animate-spin"></div>
           </div>
         ) : tafseerContent ? (
           <div className="prose prose-lg max-w-none">
-            <div className="mb-3 text-sm text-gray-500 pb-3 border-b border-gray-100">
+            <div className="mb-3 text-sm text-[#232323] dark:text-[#ededed] pb-3 border-b border-[#ededed] dark:border-[#232323]">
               {arabicTafsirs.find((a) => a.id === selectedTafseer)?.name} •{" "}
               {arabicTafsirs.find((a) => a.id === selectedTafseer)?.author}
             </div>
-            <p className="text-gray-800 leading-relaxed text-right text-lg">
+            <p className="text-[#232323] dark:text-[#ededed] leading-relaxed text-right text-lg">
               {tafseerContent.text}
             </p>
           </div>
         ) : (
-          <div className="text-gray-500 text-center py-8">
+          <div className="text-[#232323] dark:text-[#ededed] text-center py-8">
             لم يتم العثور على تفسير لهذه الآية.
           </div>
         )}
       </div>
 
       {/* Navigation entre versets */}
-      <div className="flex justify-center items-center gap-4 mt-10 pt-6 border-t border-gray-200 flex-wrap">
+      <div className="flex justify-center items-center gap-4 mt-10 pt-6 border-t border-[#ededed] dark:border-[#232323] flex-wrap">
         {prevAyah ? (
           <Link href={`/quran/${surahSlug}/${prevAyah}`}>
             <Badge
-              bg="bg-gray-100"
-              color="text-gray-800"
+              bg="bg-[#ededed] dark:bg-[#232323]"
+              color="text-[#232323] dark:text-[#ededed]"
               rounded="rounded-lg"
-              className="flex items-center gap-2 hover:bg-gray-200 transition cursor-pointer px-4 py-2"
+              className="flex items-center gap-2 hover:bg-[#232323] dark:hover:bg-[#1a1a1a] hover:text-white dark:hover:text-white transition cursor-pointer px-4 py-2"
             >
               <ChevronRight size={16} />
               <span>الآية السابقة</span>
@@ -249,10 +259,10 @@ export default function AyahDetailClient({ params }: Props) {
 
         <Link href={`/quran/${surahSlug}`}>
           <Badge
-            bg="bg-gray-800"
-            color="text-white"
+            bg="bg-[#232323]"
+            color="text-[#ededed]"
             rounded="rounded-lg"
-            className="hover:bg-gray-700 transition cursor-pointer px-5 py-2"
+            className="hover:bg-[#1a1a1a] transition cursor-pointer px-5 py-2"
           >
             العودة للسورة
           </Badge>
@@ -261,10 +271,10 @@ export default function AyahDetailClient({ params }: Props) {
         {nextAyah ? (
           <Link href={`/quran/${surahSlug}/${nextAyah}`}>
             <Badge
-              bg="bg-gray-100"
-              color="text-gray-800"
+              bg="bg-[#ededed] dark:bg-[#232323]"
+              color="text-[#232323] dark:text-[#ededed]"
               rounded="rounded-lg"
-              className="flex items-center gap-2 hover:bg-gray-200 transition cursor-pointer px-4 py-2"
+              className="flex items-center gap-2 hover:bg-[#232323] dark:hover:bg-[#1a1a1a] hover:text-white dark:hover:text-white transition cursor-pointer px-4 py-2"
             >
               <span>الآية التالية</span>
               <ChevronLeft size={16} />

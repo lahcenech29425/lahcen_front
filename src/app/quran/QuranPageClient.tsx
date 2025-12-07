@@ -74,22 +74,27 @@ export default function QuranPageClient() {
   return (
     <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
       {/* Navigation */}
-      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-700 transition">
+      <nav className="mb-8 flex items-center gap-4 text-sm text-[#232323] dark:text-[#ededed]">
+        <Link
+          href="/"
+          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
+        >
           الرئيسية
         </Link>
         <span>/</span>
-        <span className="text-gray-700 font-semibold">القرآن الكريم</span>
+        <span className="text-[#232323] dark:text-[#ededed] font-semibold">
+          القرآن الكريم
+        </span>
       </nav>
 
       <div className="max-w-4xl mx-auto py-10" dir="rtl">
         {/* Titre principal */}
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
+        <h1 className="text-3xl font-bold mb-2 text-[#232323] dark:text-[#ededed] text-center">
           القرآن الكريم
         </h1>
 
         {/* Introduction */}
-        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
+        <p className="text-center text-[#232323] dark:text-[#ededed] mb-8 max-w-2xl mx-auto">
           تصفح سور القرآن الكريم، ابحث باسم السورة أو الفلترة حسب مكان النزول،
           ثم اختر المصحف المفضل (حفص أو ورش) للقراءة المباشرة.
         </p>
@@ -100,7 +105,7 @@ export default function QuranPageClient() {
             <select
               value={type}
               onChange={(e) => setType(e.target.value as "hafs" | "warsh")}
-              className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10"
+              className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] pr-10 text-[#232323] dark:text-[#ededed]"
               dir="rtl"
             >
               <option value="hafs">رواية حفص</option>
@@ -109,7 +114,7 @@ export default function QuranPageClient() {
 
             {/* أيقونة السهم */}
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#232323] dark:text-[#ededed]"
               width="20"
               height="20"
               fill="none"
@@ -123,7 +128,7 @@ export default function QuranPageClient() {
 
           <button
             onClick={() => setShow(!show)}
-            className="px-6 py-2 bg-gray-900 text-white rounded-lg shadow hover:bg-gray-700 transition"
+            className="px-6 py-2 bg-[#232323] dark:bg-[#1a1a1a] text-[#ededed] rounded-lg shadow hover:bg-[#1a1a1a] dark:hover:bg-[#232323] transition"
           >
             {show ? "إخفاء المصحف" : "عرض المصحف"}
           </button>
@@ -140,10 +145,10 @@ export default function QuranPageClient() {
 
         {/* Section de recherche et filtres */}
         <div className="mt-10">
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900 text-center">
+          <h2 className="text-2xl font-semibold mb-4 text-[#232323] dark:text-[#ededed] text-center">
             البحث والفلترة
           </h2>
-          <p className="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
+          <p className="text-center text-[#232323] dark:text-[#ededed] mb-6 max-w-2xl mx-auto">
             ابحث باسم السورة أو الترجمة أو بالعربية، أو قم بفلترة السور حسب مكان
             النزول.
           </p>
@@ -152,7 +157,7 @@ export default function QuranPageClient() {
             {/* Input de recherche */}
             <div className="relative w-full md:w-80">
               <input
-                className="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition"
+                className="border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
                 placeholder="ابحث باسم السورة أو الترجمة أو بالعربية..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -162,7 +167,7 @@ export default function QuranPageClient() {
                 autoComplete="off"
               />
               <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#232323] dark:text-[#ededed]"
                 width="20"
                 height="20"
                 fill="none"
@@ -176,20 +181,20 @@ export default function QuranPageClient() {
 
               {/* Suggestions autocomplete */}
               {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg mt-1 shadow-lg max-h-56 overflow-auto">
+                <ul className="absolute z-10 w-full bg-white dark:bg-[#232323] border border-[#232323] dark:border-[#1a1a1a] rounded-lg mt-1 shadow-lg max-h-56 overflow-auto">
                   {suggestions.map((s) => (
                     <li
                       key={s.number}
-                      className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-right"
+                      className="px-4 py-2 cursor-pointer hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] text-right"
                       onMouseDown={() => {
                         setSearch(s.name);
                         setShowSuggestions(false);
                       }}
                     >
-                      <span className="font-semibold text-gray-800">
+                      <span className="font-semibold text-[#232323] dark:text-[#ededed]">
                         {s.name}
                       </span>
-                      <span className="text-xs text-gray-500 ml-2">
+                      <span className="text-xs text-[#232323] dark:text-[#ededed] ml-2">
                         {s.englishName}
                       </span>
                     </li>
@@ -201,7 +206,7 @@ export default function QuranPageClient() {
             {/* Select lieu de révélation */}
             <div className="relative w-full md:w-48">
               <select
-                className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10"
+                className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed] pr-10"
                 value={place}
                 onChange={(e) => setPlace(e.target.value)}
                 dir="rtl"
@@ -211,7 +216,7 @@ export default function QuranPageClient() {
                 <option value="Medinan">المدينة</option>
               </select>
               <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#232323] dark:text-[#ededed]"
                 width="20"
                 height="20"
                 fill="none"
@@ -230,27 +235,29 @@ export default function QuranPageClient() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {paged.map((s, idx) => (
           <Link
-            href={`/quran/${getSurahSlug(s)}`} // ← Utilise englishName
+            href={`/quran/${getSurahSlug(s)}`}
             key={s.number}
-            className="block bg-white rounded-xl shadow hover:shadow-lg transition p-5 group border border-gray-100 animate-fade-in"
+            className="block bg-white dark:bg-[#232323] rounded-xl shadow hover:shadow-lg transition p-5 group border border-[#ededed] dark:border-[#1a1a1a] animate-fade-in"
             style={{ animationDelay: `${idx * 40}ms` }}
           >
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-xl font-semibold text-gray-800">
+                <div className="text-xl font-semibold text-[#232323] dark:text-[#ededed]">
                   {s.name}
                 </div>
-                <div className="text-gray-700">
-                  <span className="text-gray-500">({s.englishName})</span>
+                <div className="text-[#232323] dark:text-[#ededed]">
+                  <span className="text-[#232323] dark:text-[#ededed]">
+                    ({s.englishName})
+                  </span>
                 </div>
-                <div className="text-xs text-gray-400 mt-1">
+                <div className="text-xs text-[#232323] dark:text-[#ededed] mt-1">
                   {s.revelationType === "Meccan"
                     ? "مكان النزول: مكة"
                     : "مكان النزول: المدينة"}{" "}
                   • {s.numberOfAyahs} آية
                 </div>
               </div>
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 text-gray-800 font-bold text-xl group-hover:bg-gray-900 group-hover:text-white transition">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#ededed] dark:bg-[#232323] text-[#232323] dark:text-[#ededed] font-bold text-xl group-hover:bg-[#232323] group-hover:text-white dark:group-hover:bg-[#1a1a1a] dark:group-hover:text-white transition">
                 {s.number}
               </div>
             </div>
@@ -262,18 +269,18 @@ export default function QuranPageClient() {
       <div className="flex justify-center gap-2 mt-10">
         {page > 1 && (
           <button
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
+            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] transition text-[#232323] dark:text-[#ededed]"
             onClick={() => setPage(page - 1)}
           >
             السابق
           </button>
         )}
-        <span className="px-4 py-2 rounded-lg bg-gray-900 text-white font-semibold shadow">
+        <span className="px-4 py-2 rounded-lg bg-[#232323] dark:bg-[#1a1a1a] text-[#ededed] font-semibold shadow">
           {page}
         </span>
         {pageCount > page && (
           <button
-            className="px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-100 transition text-gray-700"
+            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] transition text-[#232323] dark:text-[#ededed]"
             onClick={() => setPage(page + 1)}
           >
             التالي

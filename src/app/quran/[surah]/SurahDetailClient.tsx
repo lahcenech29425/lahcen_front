@@ -8,7 +8,8 @@ import {
 import { Link } from "@/components/elements/Link";
 import { Surah } from "@/types/Surah";
 import { X } from "lucide-react";
-import { getSurahNumberFromSlug } from "@/utils/surahHelpers";
+import { getSurahNumberFromSlug, getSurahSlug } from "@/utils/surahHelpers";
+import { fetchSurahList } from "@/utils/quranApi";
 
 // Types pour le tafsir
 type TafseerAuthor = {
@@ -101,6 +102,8 @@ export default function SurahDetailClient({ params }: Props) {
   }, [params]);
 
   const [surahNumber, setSurahNumber] = useState<number | null>(null);
+  const [prevSlug, setPrevSlug] = useState<string | null>(null);
+  const [nextSlug, setNextSlug] = useState<string | null>(null);
   const [surah, setSurah] = useState<Surah | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -119,6 +122,32 @@ export default function SurahDetailClient({ params }: Props) {
   useEffect(() => {
     getSurahNumberFromSlug(surahSlug).then(setSurahNumber);
   }, [surahSlug]);
+
+  // Compute prev/next slugs using the surah list so links use slugs instead of numbers
+  useEffect(() => {
+    if (!surahNumber) return;
+    let mounted = true;
+    (async () => {
+      try {
+        const list = await fetchSurahList();
+        if (!mounted || !Array.isArray(list)) return;
+
+        const prev = list[surahNumber - 2]; // index-1 for previous
+        const next = list[surahNumber]; // index+1 for next
+
+        setPrevSlug(prev ? getSurahSlug(prev) : null);
+        setNextSlug(next ? getSurahSlug(next) : null);
+      } catch {
+        // if fetching fails, fallback to numeric links (do nothing)
+        setPrevSlug(null);
+        setNextSlug(null);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [surahNumber]);
 
   // Chargement des données de la sourate
   useEffect(() => {
@@ -254,26 +283,32 @@ export default function SurahDetailClient({ params }: Props) {
   return (
     <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
       {/* Navigation */}
-      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-500">
-        <Link href="/" className="hover:text-gray-700 transition">
+      <nav className="mb-8 flex items-center gap-4 text-sm text-gray-500 dark:text-[#ededed]">
+        <Link
+          href="/"
+          className="hover:text-gray-700 dark:hover:text-white transition"
+        >
           الرئيسية
         </Link>
         <span>/</span>
-        <Link href="/quran" className="hover:text-gray-700 transition">
+        <Link
+          href="/quran"
+          className="hover:text-gray-700 dark:hover:text-white transition"
+        >
           القرآن الكريم
         </Link>
         <span>/</span>
-        <span className="text-gray-700 font-semibold">
+        <span className="text-gray-700 dark:text-[#ededed] font-semibold">
           {surah.surahNameArabicLong || surah.surahNameArabic}
         </span>
       </nav>
 
       {/* En-tête minimaliste */}
-      <header className="mb-10 border-b border-gray-100 pb-6">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 text-center">
+      <header className="mb-10 border-b border-gray-100 dark:border-[#232323] pb-6">
+        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-[#ededed] text-center">
           {surah.surahNameArabicLong || surah.surahNameArabic}
         </h1>
-        <div className="text-center text-sm text-gray-500 mb-2">
+        <div className="text-center text-sm text-gray-500 dark:text-gray-300 mb-2">
           {surah.revelationPlace === "Mecca" ? "مكة" : "المدينة"} •{" "}
           {surah.totalAyah} آية
         </div>
@@ -284,7 +319,7 @@ export default function SurahDetailClient({ params }: Props) {
         <div className="relative w-full max-w-xs mb-3">
           <select
             id="reciter"
-            className="appearance-none border border-gray-200 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-gray-400 transition bg-white pr-10"
+            className="appearance-none border border-gray-200 dark:border-[#232323] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-1 focus:ring-gray-400 dark:focus:ring-[#ededed] transition bg-white dark:bg-[#232323] pr-10 text-gray-900 dark:text-[#ededed]"
             value={reciter}
             onChange={(e) => setReciter(e.target.value)}
           >
@@ -295,7 +330,7 @@ export default function SurahDetailClient({ params }: Props) {
             ))}
           </select>
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 dark:text-[#ededed]"
             width="16"
             height="16"
             fill="none"
@@ -315,13 +350,17 @@ export default function SurahDetailClient({ params }: Props) {
       </div>
 
       {/* Sélecteur de Tafsir */}
-      <div className="mb-8 bg-white border border-gray-100 rounded-lg p-5 shadow-sm">
-        <h3 className="text-xl font-semibold mb-4 text-gray-800">التفسير</h3>
+      <div className="mb-8 bg-white dark:bg-[#232323] border border-gray-100 dark:border-[#232323] rounded-lg p-5 shadow-sm">
+        <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-[#ededed]">
+          التفسير
+        </h3>
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-          <span className="text-sm text-gray-600">اختر التفسير:</span>
+          <span className="text-sm text-gray-600 dark:text-gray-300">
+            اختر التفسير:
+          </span>
           <div className="relative w-full sm:max-w-xs">
             <select
-              className="appearance-none border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 transition bg-white pr-10"
+              className="appearance-none border border-gray-300 dark:border-[#232323] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-[#ededed] transition bg-white dark:bg-[#232323] pr-10 text-gray-900 dark:text-[#ededed]"
               value={selectedTafseer}
               onChange={handleTafseerChange}
               dir="rtl"
@@ -334,7 +373,7 @@ export default function SurahDetailClient({ params }: Props) {
             </select>
             {/* Chevron icon */}
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 dark:text-[#ededed]"
               width="20"
               height="20"
               fill="none"
@@ -346,9 +385,9 @@ export default function SurahDetailClient({ params }: Props) {
             </svg>
           </div>
         </div>
-        <p className="text-xs text-gray-500 mt-4 flex items-center gap-2">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 flex items-center gap-2">
           <svg
-            className="w-4 h-4 text-gray-400"
+            className="w-4 h-4 text-gray-400 dark:text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -374,9 +413,9 @@ export default function SurahDetailClient({ params }: Props) {
             style={{ animationDelay: `${idx * 30}ms` }}
           >
             <Link href={`/quran/${surahSlug}/${idx + 1}`}>
-              <div className="bg-white rounded-lg px-5 py-8 relative group shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <div className="bg-white dark:bg-[#232323] rounded-lg px-5 py-8 relative group shadow-sm hover:shadow-md transition-shadow cursor-pointer">
                 {/* Numéro discret */}
-                <span className="absolute right-3 top-3 bg-gray-100 text-gray-600 rounded-full w-8 h-8 flex items-center justify-center text-sm">
+                <span className="absolute right-3 top-3 bg-gray-100 dark:bg-[#1a1a1a] text-gray-600 dark:text-[#ededed] rounded-full w-8 h-8 flex items-center justify-center text-sm">
                   {idx + 1}
                 </span>
 
@@ -387,7 +426,7 @@ export default function SurahDetailClient({ params }: Props) {
                     e.stopPropagation();
                     loadTafseer(idx + 1);
                   }}
-                  className="absolute left-3 top-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full w-8 h-8 flex items-center justify-center text-xs transition-colors z-10"
+                  className="absolute left-3 top-3 bg-gray-100 dark:bg-[#1a1a1a] hover:bg-gray-200 dark:hover:bg-[#232323] text-gray-700 dark:text-[#ededed] rounded-full w-8 h-8 flex items-center justify-center text-xs transition-colors z-10"
                   title="عرض التفسير"
                 >
                   <svg
@@ -407,7 +446,7 @@ export default function SurahDetailClient({ params }: Props) {
                 </button>
 
                 {/* Texte arabe */}
-                <div className="text-2xl md:text-3xl font-arabic text-center text-gray-800 leading-loose tracking-wide pt-4 group-hover:text-gray-900 transition-colors">
+                <div className="text-2xl md:text-3xl font-arabic text-center text-gray-800 dark:text-[#ededed] leading-loose tracking-wide pt-4 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                   {ayah}
                 </div>
               </div>
@@ -415,25 +454,25 @@ export default function SurahDetailClient({ params }: Props) {
 
             {/* Panneau tafsir */}
             {activeTafseer === idx + 1 && (
-              <div className="mt-2 bg-gray-50 rounded-lg p-4 border border-gray-100 relative animate-fade-in">
+              <div className="mt-2 bg-gray-100 dark:bg-[#232323] p-4 border border-gray-200 dark:border-[#1a1a1a] rounded-lg relative animate-fade-in">
                 <button
                   onClick={() => setActiveTafseer(null)}
-                  className="absolute left-2 top-2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute left-2 top-2 text-gray-600 dark:text-[#ededed] hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   <X size={18} />
                 </button>
 
-                <h4 className="text-lg font-medium text-gray-900 mb-2">
+                <h4 className="text-lg font-medium text-gray-800 dark:text-[#ededed] mb-2">
                   تفسير الآية {idx + 1}
                 </h4>
 
                 {tafseerLoading ? (
                   <div className="flex justify-center py-4">
-                    <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+                    <div className="w-5 h-5 border-2 border-gray-200 dark:border-[#232323] border-t-gray-700 dark:border-t-[#ededed] rounded-full animate-spin"></div>
                   </div>
                 ) : tafseerContent ? (
-                  <div className="text-gray-800 leading-relaxed text-base">
-                    <div className="mb-2 text-xs text-gray-500">
+                  <div className="text-gray-800 dark:text-[#ededed] leading-relaxed text-base">
+                    <div className="mb-2 text-xs text-gray-600 dark:text-gray-400">
                       {tafseerAuthors.find((a) => a.id === selectedTafseer)
                         ?.name || "التفسير"}{" "}
                       •{" "}
@@ -445,7 +484,7 @@ export default function SurahDetailClient({ params }: Props) {
                     <p className="text-right">{tafseerContent.text}</p>
                   </div>
                 ) : (
-                  <div className="text-gray-500 text-center py-4">
+                  <div className="text-gray-600 dark:text-gray-400 text-center py-4">
                     لم يتم العثور على تفسير لهذه الآية.
                   </div>
                 )}
@@ -456,19 +495,19 @@ export default function SurahDetailClient({ params }: Props) {
       </div>
 
       {/* Navigation simple entre sourates */}
-      <div className="flex justify-between mt-10 pt-4 border-t border-gray-100">
+      <div className="flex justify-between mt-10 pt-4 border-t border-gray-100 dark:border-[#232323]">
         {surahNumber && surahNumber > 1 && (
           <Link
-            href={`/quran/${surahNumber - 1}`} // ← Garde le number pour la navigation
-            className="text-sm text-gray-500 hover:text-gray-700 transition"
+            href={prevSlug ? `/quran/${prevSlug}` : `/quran/${surahNumber - 1}`}
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white transition mr-auto"
           >
             « السورة السابقة
           </Link>
         )}
         {surahNumber && surahNumber < 114 && (
           <Link
-            href={`/quran/${surahNumber + 1}`}
-            className="text-sm text-gray-500 hover:text-gray-700 transition mr-auto"
+            href={nextSlug ? `/quran/${nextSlug}` : `/quran/${surahNumber + 1}`}
+            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white transition mr-auto"
           >
             السورة التالية »
           </Link>

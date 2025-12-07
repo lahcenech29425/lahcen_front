@@ -6,7 +6,7 @@ import Badge from "@/components/elements/Badge";
 
 export default function BlogCard({ blog }: { blog: BlogType }) {
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg transition flex flex-col h-full">
+    <div className="bg-white dark:bg-[#2b2b2b] rounded-xl shadow hover:shadow-lg transition flex flex-col h-full">
       {blog.coverImage && (
         <Image
           src={blog.coverImage.url}
@@ -18,8 +18,10 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
         />
       )}
       <div className="p-6 flex flex-col flex-1">
-        <h3 className="text-xl font-bold mb-2 text-gray-900">{blog.title}</h3>
-        <p className="text-gray-600 mb-4 line-clamp-3">
+        <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+          {blog.title}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
           {blog.content
             .replace(/.*المقدمة.*\n?/g, "")
             .replace(/[#*]/g, "")
@@ -28,12 +30,16 @@ export default function BlogCard({ blog }: { blog: BlogType }) {
           ...
         </p>
         <div className="flex items-center justify-between mt-auto">
-          <Badge bg="bg-gray-50" color="text-gray-700" className="font-normal">
+          <Badge
+            bg="bg-gray-50 dark:bg-[#232323]"
+            color="text-gray-700 dark:text-gray-200"
+            className="font-normal"
+          >
             {blog.author}
           </Badge>
           <Link
             href={`/blogs/${blog.slug}`}
-            className="group inline-flex items-center gap-1.5 text-gray-700 font-medium hover:text-gray-900 transition-colors mt-auto"
+            className="group inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-200 font-medium hover:text-gray-900 dark:hover:text-white transition-colors mt-auto"
           >
             <span>اقرأ المزيد</span>
             <ArrowLeft

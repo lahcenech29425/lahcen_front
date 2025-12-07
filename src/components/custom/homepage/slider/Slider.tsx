@@ -24,12 +24,16 @@ export default function Slider({ data }: { data: SliderType }) {
   }, [slider.timer, slides.length]);
 
   return (
-    <section className="w-full py-8">
+    <section className="w-full py-8 bg-white dark:bg-[#232323]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">{slider.title}</h2>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            {slider.title}
+          </h2>
           {slider.description && (
-            <p className="mt-4 text-lg text-gray-600">{slider.description}</p>
+            <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
+              {slider.description}
+            </p>
           )}
         </div>
         <div className="mt-12">
@@ -62,24 +66,24 @@ export default function Slider({ data }: { data: SliderType }) {
                 </div>
               ))}
               <button
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 shadow-lg hover:bg-white transition-colors z-20"
+                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-colors z-20"
                 style={{ pointerEvents: "auto" }}
                 onClick={handlePrev}
                 aria-label="Slide précédente"
               >
                 <ChevronLeft
-                  className="w-6 h-6 text-gray-800"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   strokeWidth={1.5}
                 />
               </button>
               <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 shadow-lg hover:bg-white transition-colors z-20"
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/80 dark:bg-gray-800/80 shadow-lg hover:bg-white dark:hover:bg-gray-700 transition-colors z-20"
                 style={{ pointerEvents: "auto" }}
                 onClick={handleNext}
                 aria-label="Slide suivante"
               >
                 <ChevronRight
-                  className="w-6 h-6 text-gray-800"
+                  className="w-6 h-6 text-gray-800 dark:text-white"
                   strokeWidth={1.5}
                 />
               </button>
@@ -89,8 +93,8 @@ export default function Slider({ data }: { data: SliderType }) {
                     key={idx}
                     className={`w-2 h-2 rounded-full transition-colors ${
                       activeIdx === idx
-                        ? "bg-white"
-                        : "bg-white/50 hover:bg-white/75"
+                        ? "bg-white dark:bg-gray-200"
+                        : "bg-white/50 dark:bg-gray-600 hover:bg-white/75 dark:hover:bg-gray-400"
                     }`}
                     onClick={() => setActiveIdx(idx)}
                     aria-label={`Image ${idx + 1}`}
@@ -107,7 +111,9 @@ export default function Slider({ data }: { data: SliderType }) {
                   <button
                     key={item.id}
                     className={`relative rounded-lg overflow-hidden group ring-2 ${
-                      activeIdx === idx ? "ring-gray-600" : "ring-transparent"
+                      activeIdx === idx
+                        ? "ring-gray-600 dark:ring-gray-200"
+                        : "ring-transparent"
                     }`}
                     onClick={() => setActiveIdx(idx)}
                   >

@@ -61,10 +61,10 @@ export default function LocationSelector({
   };
 
   return (
-    <div className="mt-6 bg-white rounded-2xl p-4 sm:p-7 border-2 border-gray-200 shadow-lg max-w-md mx-auto">
+    <div className="mt-6 bg-white dark:bg-[#232323] rounded-2xl p-4 sm:p-7 border-2 border-gray-200 dark:border-[#1a1a1a] shadow-lg max-w-md mx-auto">
       <div className="flex items-center gap-2 mb-5">
         <MapPin className="h-5 w-5 text-[#ecad20]" />
-        <h3 className="text-lg sm:text-xl font-bold text-[#171717]">
+        <h3 className="text-lg sm:text-xl font-bold text-[#171717] dark:text-[#ededed]">
           اختيار الموقع يدوياً
         </h3>
       </div>
@@ -77,22 +77,22 @@ export default function LocationSelector({
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="ابحث عن مدينة..."
-            className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg bg-white text-right text-sm font-semibold focus:border-[#ecad20] focus:ring-2 focus:ring-[#ecad20]/20 outline-none transition-all max-w-md"
+            className="w-full px-4 py-3 pr-10 border border-gray-300 dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] text-right text-sm font-semibold focus:border-[#ecad20] focus:ring-2 focus:ring-[#ecad20]/20 outline-none transition-all max-w-md text-[#232323] dark:text-[#ededed]"
             dir="rtl"
           />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-[#ededed]" />
         </div>
 
         {/* City Select */}
         <div className="max-w-md mx-auto">
-          <label className="block text-sm font-semibold text-gray-700 mb-2 text-right">
+          <label className="block text-sm font-semibold text-gray-700 dark:text-[#ededed] mb-2 text-right">
             المدينة
           </label>
           <div className="relative">
             <select
               value={selectedCity}
               onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg bg-white text-right text-sm font-semibold focus:border-[#ecad20] focus:ring-2 focus:ring-[#ecad20]/20 outline-none transition-all appearance-none max-w-md"
+              className="w-full px-4 py-3 pr-10 border border-gray-300 dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] text-right text-sm font-semibold focus:border-[#ecad20] focus:ring-2 focus:ring-[#ecad20]/20 outline-none transition-all appearance-none max-w-md text-[#232323] dark:text-[#ededed]"
               dir="rtl"
               required
             >
@@ -110,7 +110,7 @@ export default function LocationSelector({
             </select>
           </div>
           {!loadingCities && cities.length === 0 && (
-            <p className="mt-2 text-xs text-gray-500">
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
               لا توجد نتائج، جرّب كتابة اسم المدينة.
             </p>
           )}
@@ -155,7 +155,7 @@ export default function LocationSelector({
         </button>
       </form>
 
-      <p className="mt-4 text-xs text-gray-500 text-center">
+      <p className="mt-4 text-xs text-gray-500 dark:text-gray-400 text-center">
         {loadingCities ? "جاري التحميل..." : `${cities.length} نتيجة`}
       </p>
     </div>

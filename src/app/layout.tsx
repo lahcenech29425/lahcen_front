@@ -8,6 +8,7 @@ import AnnouncementBar from "@/components/blocks/announcement_bar/AnnouncementBa
 import GoToTop from "@/components/elements/GoToTop";
 import SocialMediaBar from "@/components/blocks/social/SocialMediaBar";
 import { headers } from "next/headers";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -94,6 +95,29 @@ export default async function RootLayout({
   return (
     <html lang="ar" dir="rtl">
       <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4133177659377237"
+          crossOrigin="anonymous"
+        ></script>
+        {/* Inject dark mode script before CSS for instant theme */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function() {
+  try {
+    var theme = localStorage.getItem('theme');
+    if (
+      theme === 'dark' ||
+      (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark');
+    }
+  } catch(e){}
+})();
+            `,
+          }}
+        />
         <link rel="icon" href="/favicon.ico" />{" "}
         <link
           rel="icon"
@@ -127,6 +151,7 @@ export default async function RootLayout({
         {!isNotFoundRoute && <Footer data={footer} />}
         {!isNotFoundRoute && showGoToTop && <GoToTop />}
       </body>
+      <GoogleAnalytics gaId="G-0KRYV6CWTN" />
     </html>
   );
 }

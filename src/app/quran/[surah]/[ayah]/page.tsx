@@ -19,25 +19,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const revelationType = surah.revelationPlace === "Mecca" ? "مكية" : "مدنية";
     const ayahText = surah.arabic1[ayahNumber - 1] || "";
 
-    // Tronquer le texte pour la description (max 160 caractères)
-    const truncatedAyah =
-      ayahText.length > 100 ? ayahText.substring(0, 100) + "..." : ayahText;
+    const description = `اقرأ الآية ${ayahNumber} من ${surahName} مع التفسير الكامل. ${ayahText} - تفسير ابن كثير، الطبري، القرطبي، السعدي، التفسير الميسر وغيرها من التفاسير المعتمدة.`;
 
-    const description = `اقرأ الآية ${ayahNumber} من سورة ${surahName} مع التفسير الكامل. ${truncatedAyah} - تفسير ابن كثير، الطبري، القرطبي، السعدي، التفسير الميسر وغيرها من التفاسير المعتمدة.`;
-
-    const keywords = `آية ${ayahNumber} سورة ${surahName}, تفسير آية ${ayahNumber} ${surahName}, ${ayahText.substring(
+    const keywords = `آية ${ayahNumber} ${surahName}, تفسير آية ${ayahNumber} ${surahName}, ${ayahText.substring(
       0,
       50
     )}, القرآن الكريم, تفسير القرآن`;
 
     return {
-      title: `الآية ${ayahNumber} من سورة ${surahName} | تفسير ومعنى`,
+      title: `الآية ${ayahNumber} من ${surahName} | تفسير ومعنى`,
       description,
       keywords,
       authors: [{ name: "لحسن", url: "https://www.lahcenway.com" }],
       robots: "index, follow",
       openGraph: {
-        title: `الآية ${ayahNumber} من سورة ${surahName}`,
+        title: `الآية ${ayahNumber} من ${surahName}`,
         description,
         url: `https://www.lahcenway.com/quran/${surahSlug}/${ayahNumber}`,
         siteName: "لحسن",
@@ -48,13 +44,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             url: `https://www.lahcenway.com/og-quran.jpg`,
             width: 1200,
             height: 630,
-            alt: `الآية ${ayahNumber} من سورة ${surahName}`,
+            alt: `الآية ${ayahNumber} من ${surahName}`,
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: `الآية ${ayahNumber} من سورة ${surahName}`,
+        title: `الآية ${ayahNumber} من ${surahName}`,
         description,
         images: [`https://www.lahcenway.com/og-quran.jpg`],
       },

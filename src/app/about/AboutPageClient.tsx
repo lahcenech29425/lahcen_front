@@ -30,9 +30,9 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
   });
 
   return (
-    <main dir="rtl" className="bg-white font-amiri">
+    <main dir="rtl" className="bg-white dark:bg-[#232323] font-amiri">
       {/* Hero Section with Parallax Effect - responsive */}
-      <div className="relative h-[50vh] md:h-[60vh] overflow-hidden flex items-center justify-center">
+      <div className="relative h-[50vh] md:h-[40vh] overflow-hidden flex items-center justify-center">
         {/* Image background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -55,7 +55,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
         </nav>
 
         {/* Contenu Hero */}
-        <div className="relative z-20 text-center px-4 sm:px-6 max-w-3xl mx-auto">
+        <div className="relative z-20 text-center px-4 sm:px-6 mt-15 max-w-3xl mx-auto">
           <h1 className="font-amiri text-3xl sm:text-4xl md:text-6xl text-white mb-4 sm:mb-5 leading-tight">
             {memorial.title}
           </h1>
@@ -78,16 +78,19 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
       </div>
 
       {/* Biography Section */}
-      <section className="py-20 px-4">
+      <section className="py-20 px-4 bg-white dark:bg-[#232323]">
         <div className="max-w-4xl mx-auto">
           <div className="mb-16 text-center">
-            <div className="inline-block p-2 bg-gray-100 rounded-full mb-4">
-              <BookOpen size={28} className="text-gray-700" />
+            <div className="inline-block p-2 bg-gray-100 dark:bg-[#1a1a1a] rounded-full mb-4">
+              <BookOpen
+                size={28}
+                className="text-gray-700 dark:text-[#ededed]"
+              />
             </div>
-            <h2 className="text-3xl font-semibold mb-3 text-gray-800">
+            <h2 className="text-3xl font-semibold mb-3 text-gray-800 dark:text-[#ededed]">
               سيرة المرحوم
             </h2>
-            <p className="text-lg text-gray-600 mb-5 leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-5 leading-relaxed">
               في هذه السطور نستحضر بعضاً من محطات حياته وخصاله الحميدة، تخليداً
               لذكراه العطرة ودعاءً له بالرحمة والمغفرة.
             </p>
@@ -95,8 +98,8 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             <div className="h-1 w-24 bg-gray-300 mx-auto"></div>
           </div>
 
-          <div className="prose prose-lg max-w-none leading-relaxed text-gray-700">
-            <p className="text-justify first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-right first-letter:text-gray-900">
+          <div className="prose prose-lg max-w-none leading-relaxed text-gray-700 dark:text-[#ededed]">
+            <p className="text-justify first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-right first-letter:text-gray-900 dark:first-letter:text-[#ededed]">
               {memorial.biography_content}
             </p>
           </div>
@@ -104,16 +107,16 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
       </section>
 
       {/* Mission Section with Gradient Background */}
-      <section className="py-20 px-4 bg-gradient-to-br from-gray-100 to-white">
+      <section className="py-20 px-4 bg-gradient-to-br from-gray-100 dark:from-[#232323] to-white dark:to-[#1a1a1a]">
         <div className="max-w-4xl mx-auto">
           <div className="mb-12 text-center">
-            <div className="inline-block p-2 bg-white rounded-full mb-4 shadow-sm">
-              <Heart size={28} className="text-gray-700" />
+            <div className="inline-block p-2 bg-white dark:bg-[#232323] rounded-full mb-4 shadow-sm">
+              <Heart size={28} className="text-gray-700 dark:text-[#ededed]" />
             </div>
-            <h2 className="text-3xl font-semibold mb-3 text-gray-800">
+            <h2 className="text-3xl font-semibold mb-3 text-gray-800 dark:text-[#ededed]">
               {memorial.section_title}
             </h2>
-            <p className="text-lg text-gray-600 mb-5 leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-5 leading-relaxed">
               نطمح أن يكون هذا المشروع منبرًا لنشر الخير والوعي، ووسيلة تربط
               المسلمين بكتاب الله وسنة نبيه صلى الله عليه وسلم. إنه مشروع يبدأ
               بخطوات متواضعة، لكنه بإذن الله سيمتد أثره، ليكون صدقة جارية متجددة
@@ -124,23 +127,23 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             <div className="h-1 w-24 bg-gray-300 mx-auto"></div>
           </div>
 
-          <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
+          <div className="bg-white dark:bg-[#232323] p-8 rounded-lg shadow-sm border border-gray-100 dark:border-[#1a1a1a]">
             <div
-              className="text-right prose prose-lg max-w-none text-gray-700"
+              className="text-right prose prose-lg max-w-none text-gray-700 dark:text-[#ededed]"
               dangerouslySetInnerHTML={{
                 __html: memorial.sadaqah_introduction
-                  .replace(/^- /m, "<br/>- ") // ajouter <br/> avant le premier tiret
-                  .replace(/- $/m, "-<br/>"), // ajouter <br/> après le dernier tiret
+                  .replace(/^- /m, "<br/>- ")
+                  .replace(/- $/m, "-<br/>"),
               }}
             ></div>
 
             {/* Featured Benefits */}
             <div className="mt-10 grid md:grid-cols-3 gap-6">
-              <div className="p-5 bg-gray-50 rounded-lg text-center hover:shadow-md transition-shadow">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-50 rounded-full mb-4">
+              <div className="p-5 bg-gray-50 dark:bg-[#1a1a1a] rounded-lg text-center hover:shadow-md transition-shadow">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-50 dark:bg-[#232323] rounded-full mb-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-gray-900"
+                    className="h-6 w-6 text-gray-900 dark:text-[#ededed]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -153,17 +156,19 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                     />
                   </svg>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">القرآن الكريم</h3>
-                <p className="text-gray-600">
+                <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-[#ededed]">
+                  القرآن الكريم
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   تلاوات متنوعة بأصوات عذبة، وتفاسير ميسرة
                 </p>
               </div>
 
-              <div className="p-5 bg-gray-50 rounded-lg text-center hover:shadow-md transition-shadow">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-50 rounded-full mb-4">
+              <div className="p-5 bg-gray-50 dark:bg-[#1a1a1a] rounded-lg text-center hover:shadow-md transition-shadow">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-50 dark:bg-[#232323] rounded-full mb-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-gray-900"
+                    className="h-6 w-6 text-gray-900 dark:text-[#ededed]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -176,15 +181,19 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                     />
                   </svg>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">الحديث الشريف</h3>
-                <p className="text-gray-600">أحاديث نبوية صحيحة مع شروحاتها</p>
+                <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-[#ededed]">
+                  الحديث الشريف
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  أحاديث نبوية صحيحة مع شروحاتها
+                </p>
               </div>
 
-              <div className="p-5 bg-gray-50 rounded-lg text-center hover:shadow-md transition-shadow">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-50 rounded-full mb-4">
+              <div className="p-5 bg-gray-50 dark:bg-[#1a1a1a] rounded-lg text-center hover:shadow-md transition-shadow">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-50 dark:bg-[#232323] rounded-full mb-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-gray-900"
+                    className="h-6 w-6 text-gray-900 dark:text-[#ededed]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -197,8 +206,10 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                     />
                   </svg>
                 </div>
-                <h3 className="font-semibold text-lg mb-2">مقالات وبحوث</h3>
-                <p className="text-gray-600">
+                <h3 className="font-semibold text-lg mb-2 text-gray-900 dark:text-[#ededed]">
+                  مقالات وبحوث
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   محتوى تعليمي وتربوي في مختلف المجالات الاسلامية
                 </p>
               </div>
@@ -208,16 +219,22 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
       </section>
 
       {/* Dua Section with Decorative Border */}
-      <section id="dua-section" className="py-20 px-4 bg-gray-50">
+      <section
+        id="dua-section"
+        className="py-20 px-4 bg-gray-50 dark:bg-[#1a1a1a]"
+      >
         <div className="max-w-3xl mx-auto">
           <div className="mb-10 text-center">
-            <div className="inline-block p-2 bg-white rounded-full mb-4 shadow-sm">
-              <HandHelping size={28} className="text-gray-700" />
+            <div className="inline-block p-2 bg-white dark:bg-[#232323] rounded-full mb-4 shadow-sm">
+              <HandHelping
+                size={28}
+                className="text-gray-700 dark:text-[#ededed]"
+              />
             </div>
-            <h2 className="text-3xl font-semibold mb-3 text-gray-800">
+            <h2 className="text-3xl font-semibold mb-3 text-gray-800 dark:text-[#ededed]">
               {memorial.dua_title}
             </h2>
-            <p className="text-lg text-gray-600 mb-5 leading-relaxed font-amiri">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-5 leading-relaxed font-amiri">
               يعد الدعاء من أعظم العبادات التي يتقرب بها المسلم إلى الله تعالى،
               وهو سلاح المؤمن في السراء والضراء. فادعوا لأخيكم المتوفى بالرحمة
               والمغفرة، فإن الدعاء ينفع الميت بإذن الله، ويكون له صدقة جارية.
@@ -233,18 +250,21 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             <div className="h-1 w-24 bg-gray-300 mx-auto"></div>
           </div>
 
-          <div className="relative p-10 bg-white rounded-lg shadow-sm border border-gray-100">
+          <div className="relative p-10 bg-white dark:bg-[#232323] rounded-lg shadow-sm border border-gray-100 dark:border-[#1a1a1a]">
             {/* Decorative corner elements */}
-            <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-gray-200 rounded-tr-lg"></div>
-            <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-gray-200 rounded-br-lg"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-gray-200 rounded-tl-lg"></div>
-            <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-gray-200 rounded-bl-lg"></div>
+            <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-gray-200 dark:border-[#1a1a1a] rounded-tr-lg"></div>
+            <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-gray-200 dark:border-[#1a1a1a] rounded-br-lg"></div>
+            <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-gray-200 dark:border-[#1a1a1a] rounded-tl-lg"></div>
+            <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-gray-200 dark:border-[#1a1a1a] rounded-bl-lg"></div>
 
             <div className="text-center mb-6">
-              <Quote size={32} className="text-gray-300 mx-auto" />
+              <Quote
+                size={32}
+                className="text-gray-300 dark:text-[#ededed] mx-auto"
+              />
             </div>
 
-            <div className="text-justify prose prose-lg max-w-none leading-relaxed text-gray-700 font-amiri text-xl">
+            <div className="text-justify prose prose-lg max-w-none leading-relaxed text-gray-700 dark:text-[#ededed] font-amiri text-xl">
               <p>{memorial.dua_content}</p>
             </div>
           </div>
@@ -252,13 +272,13 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
       </section>
 
       {/* Social Media Section */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-white dark:bg-[#232323]">
         <div className="max-w-4xl mx-auto text-center">
           <div className="mb-10">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800">
+            <h2 className="text-2xl md:text-3xl font-semibold mb-4 text-gray-800 dark:text-[#ededed]">
               تابعونا على وسائل التواصل
             </h2>
-            <p className="text-gray-600 max-w-3xl mx-auto mb-6 text-lg leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6 text-lg leading-relaxed">
               ابقوا على اتصال معنا عبر منصات التواصل الاجتماعي لمتابعة آخر
               المنشورات والتلاوات القرآنية والأحاديث النبوية الشريفة والمقالات
               التربوية. نسعد بمشاركتكم ودعمكم لإيصال هذه الصدقة الجارية لأكبر
@@ -278,14 +298,14 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.platform}
-                    className="inline-flex items-center justify-center p-3 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                    className="inline-flex items-center justify-center p-3 bg-gray-100 dark:bg-[#1a1a1a] hover:bg-gray-200 dark:hover:bg-[#232323] rounded-full transition-colors"
                   >
                     <Image
                       src={social.icon?.url || ""}
                       alt={social.platform}
                       width={32}
                       height={32}
-                      className="object-contain"
+                      className="object-contain dark:invert"
                       loading="lazy"
                     />
                   </Link>

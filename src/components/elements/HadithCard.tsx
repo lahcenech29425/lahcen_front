@@ -75,11 +75,8 @@ export function HadithCard({
         ref={setRefs}
         className={`rounded-xl shadow-md group transition hover:shadow-lg ${
           visible ? "animate-fade-in" : ""
-        }`}
+        } bg-white dark:bg-[#232323] border border-gray-200 dark:border-[#1a1a1a]`}
         style={{
-          // restored original site background + border
-          background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
-          border: "1px solid #e2e8f0",
           padding: "1.25rem",
           width: "100%",
         }}
@@ -91,21 +88,20 @@ export function HadithCard({
             <div className="flex items-center gap-3">
               <div className="flex flex-col min-w-0">
                 <span
-                  className="text-base hidden md:block font-semibold truncate"
+                  className="text-base hidden md:block font-semibold truncate text-[#171717] dark:text-[#ededed]"
                   title={h.headingArabic ?? h.hadithEnglish ?? undefined}
-                  style={{ color: "#171717" }}
                 >
                   رقم الحديث
                 </span>
 
-                <span className="hidden md:inline text-md text-center text-gray-600 mt-1">
+                <span className="hidden md:inline text-md text-center text-gray-600 dark:text-gray-300 mt-1">
                   <span className="font-medium">{numberVal || "—"}</span>
                 </span>
               </div>
             </div>
 
             {/* mobile number row */}
-            <div className="md:hidden text-xs text-gray-600">
+            <div className="md:hidden text-xs text-gray-600 dark:text-gray-300">
               رقم الحديث:&nbsp;
               <span className="font-medium">{numberVal || "—"}</span>
             </div>
@@ -114,7 +110,7 @@ export function HadithCard({
           {/* CENTER: book & chapter (centered) */}
           <div className="flex flex-col items-center justify-center text-center">
             <span
-              className="text-base font-semibold text-gray-900 truncate max-w-[260px]"
+              className="text-base font-semibold text-gray-900 dark:text-white truncate max-w-[260px]"
               title={bookLabel || undefined}
             >
               {bookLabel || "—"}
@@ -122,7 +118,7 @@ export function HadithCard({
 
             {chapterLabelFinal ? (
               <span
-                className="text-xs text-gray-600 bg-white/60 border border-gray-200 px-2 py-1 rounded-full mt-2 whitespace-nowrap"
+                className="text-xs text-gray-600 dark:text-gray-300 bg-white/60 dark:bg-[#232323]/60 border border-gray-200 dark:border-[#1a1a1a] px-2 py-1 rounded-full mt-2 whitespace-nowrap"
                 title={chapterLabelFinal}
               >
                 {chapterLabelFinal}
@@ -132,7 +128,7 @@ export function HadithCard({
 
           {/* RIGHT: spacer (keeps layout balanced) */}
           <div className="flex items-center justify-center md:justify-end">
-            <Badge className="bg-[#171717] text-white px-3 py-1 rounded-full text-sm">
+            <Badge className="bg-[#171717] dark:bg-[#ededed] text-white dark:text-[#232323] px-3 py-1 rounded-full text-sm">
               {statusAr}
             </Badge>
           </div>
@@ -141,7 +137,7 @@ export function HadithCard({
         {/* Body: Arabic text */}
         <div className="mt-4">
           <p
-            className="text-2xl md:text-3xl font-arabic text-center text-gray-800 leading-relaxed select-text tracking-wide"
+            className="text-2xl md:text-3xl font-arabic text-center text-gray-800 dark:text-gray-200 leading-relaxed select-text tracking-wide"
             dir="rtl"
             title={h.hadithArabic ?? h.text ?? h.hadithEnglish ?? ""}
           >
@@ -151,7 +147,10 @@ export function HadithCard({
 
         {/* optional heading */}
         {h.headingArabic ? (
-          <div className="mt-3 text-center text-gray-500 text-sm" dir="rtl">
+          <div
+            className="mt-3 text-center text-gray-500 dark:text-gray-400 text-sm"
+            dir="rtl"
+          >
             {h.headingArabic}
           </div>
         ) : null}
@@ -160,7 +159,7 @@ export function HadithCard({
       <div className="flex justify-end">
         <button
           onClick={() => onDownload(idx)}
-          className="px-3 py-1 rounded-full bg-gray-100 text-gray-900 text-sm hover:bg-gray-800 hover:text-white cursor-pointer transition-shadow shadow"
+          className="px-3 py-1 rounded-full bg-gray-100 dark:bg-[#232323] text-gray-900 dark:text-[#ededed] text-sm hover:bg-gray-800 dark:hover:bg-[#1a1a1a] hover:text-white dark:hover:text-white cursor-pointer transition-shadow shadow"
           style={{ direction: "ltr" }}
         >
           تحميل

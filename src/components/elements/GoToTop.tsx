@@ -21,7 +21,7 @@ export default function GoToTop() {
     <button
       onClick={handleClick}
       aria-label="Go to top"
-      className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white rounded-lg shadow-lg p-3 hover:cursor-pointer transition focus:outline-none"
+      className="fixed bottom-6 right-6 z-50 bg-[#2b2b2b] dark:bg-[#171717] text-white rounded-lg shadow-lg p-2 hover:cursor-pointer transition focus:outline-none"
     >
       <ArrowUp size={24} />
     </button>

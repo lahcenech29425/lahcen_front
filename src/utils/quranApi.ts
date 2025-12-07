@@ -136,3 +136,54 @@ function getTafsirName(tafseerID: number): string {
   const tafsir = defaultArabicTafsirs.find((t) => t.id === tafseerID);
   return tafsir?.name || "التفسير";
 }
+
+// Types for Quran search
+export interface QuranSearchResult {
+  number: number;
+  text: string;
+  surah: {
+    number: number;
+    name: string;
+    englishName: string;
+  };
+  numberInSurah: number;
+}
+
+// Search Quran verses by keyword
+export async function searchQuran(keyword: string): Promise<QuranSearchResult[]> {
+  if (!keyword || keyword.length < 2) return [];
+
+  try {
+    const encodedKeyword = encodeURIComponent(keyword);
+    const res = await fetch(
+      `https://api.alquran.cloud/v1/search/${encodedKeyword}/all/ar`,
+      { next: { revalidate: 3600 } }
+    );
+
+    if (!res.ok) return [];
+
+    const data = await res.json();
+
+    if (data.code !== 200 || !data.data?.matches) return [];
+
+    // Return first 5 results
+    return data.data.matches.slice(0, 5).map((match: {
+      number: number;
+      text: string;
+      surah: { number: number; name: string; englishName: string };
+      numberInSurah: number;
+    }) => ({
+      number: match.number,
+      text: match.text,
+      surah: {
+        number: match.surah.number,
+        name: match.surah.name,
+        englishName: match.surah.englishName,
+      },
+      numberInSurah: match.numberInSurah,
+    }));
+  } catch (error) {
+    console.error("Error searching Quran:", error);
+    return [];
+  }
+}

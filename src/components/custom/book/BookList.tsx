@@ -1,0 +1,239 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import BookCard from "./BookCard";
+import { normalizeBooks } from "./normalizer";
+import { fetchApi } from "@/utils/fetchApi";
+import type { BookType } from "@/types/book";
+import { BOOK_CATEGORIES, BookCategory } from "@/types/book";
+import { Search, X } from "lucide-react";
+
+interface BookListProps {
+    data: BookType[];
+}
+
+export default function BookList({ data }: BookListProps) {
+    const [books, setBooks] = useState(normalizeBooks(data || []));
+    const [query, setQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState<BookCategory | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Search by title
+    const handleSearch = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+        try {
+            let endpoint = `/api/books?populate=*`;
+            const filters: string[] = [];
+
+            if (query) {
+                const encodedQuery = encodeURIComponent(query);
+                filters.push(`filters[title][$containsi]=${encodedQuery}`);
+            }
+
+            if (selectedCategory) {
+                const encodedCategory = encodeURIComponent(selectedCategory);
+                filters.push(`filters[category][$eq]=${encodedCategory}`);
+            }
+
+            if (filters.length > 0) {
+                endpoint += `&${filters.join("&")}`;
+            }
+
+            const res = await fetchApi(endpoint);
+            setBooks(normalizeBooks(res || []));
+        } catch (error) {
+            console.error("Error searching books:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Filter by category
+    const handleCategoryFilter = async (category: BookCategory | null) => {
+        setSelectedCategory(category);
+        setIsLoading(true);
+        try {
+            let endpoint = `/api/books?populate=*`;
+            const filters: string[] = [];
+
+            if (query) {
+                const encodedQuery = encodeURIComponent(query);
+                filters.push(`filters[title][$containsi]=${encodedQuery}`);
+            }
+
+            if (category) {
+                const encodedCategory = encodeURIComponent(category);
+                filters.push(`filters[category][$eq]=${encodedCategory}`);
+            }
+
+            if (filters.length > 0) {
+                endpoint += `&${filters.join("&")}`;
+            }
+
+            const res = await fetchApi(endpoint);
+            setBooks(normalizeBooks(res || []));
+        } catch (error) {
+            console.error("Error filtering books:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Reset search and filters
+    const handleReset = async () => {
+        setQuery("");
+        setSelectedCategory(null);
+        setIsLoading(true);
+        try {
+            const res = await fetchApi("/api/books?populate=*");
+            setBooks(normalizeBooks(res || []));
+        } catch (error) {
+            console.error("Error resetting:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <section className="py-16 bg-gray-50 min-h-screen">
+            <div className="max-w-7xl mx-auto px-4">
+                {/* Navigation */}
+                <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900">
+                    <Link href="/" className="hover:text-gray-600 transition">
+                        الرئيسية
+                    </Link>
+                    <span>/</span>
+                    <span className="text-gray-600 font-semibold">المكتبة</span>
+                </nav>
+
+                {/* Title */}
+                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4 text-center">
+                    المكتبة الإسلامية
+                </h1>
+
+                {/* Description */}
+                <p className="text-lg text-gray-600 mb-10 leading-relaxed text-center font-amiri max-w-2xl mx-auto">
+                    مكتبة شاملة تضم كتبًا قيّمة في علوم القرآن والحديث والفقه والعقيدة والسيرة وغيرها،
+                    متاحة للتحميل المجاني لنشر العلم النافع.
+                </p>
+
+                {/* Search */}
+                <form
+                    onSubmit={handleSearch}
+                    className="mb-6 flex flex-col sm:flex-row justify-center items-center gap-2 max-w-md mx-auto"
+                >
+                    <div className="relative w-full">
+                        <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <input
+                            type="text"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            placeholder="ابحث عن كتاب..."
+                            className="w-full rounded-xl border border-gray-300 pr-10 pl-4 py-2 text-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                    </div>
+
+                    <div className="flex gap-2 mt-2 sm:mt-0">
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="px-4 py-2 bg-gray-700 text-white rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
+                        >
+                            بحث
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleReset}
+                            disabled={isLoading}
+                            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-xl hover:bg-gray-400 transition disabled:opacity-50"
+                        >
+                            إعادة
+                        </button>
+                    </div>
+                </form>
+
+                {/* Category Filters */}
+                <div className="mb-10 flex flex-wrap justify-center gap-2">
+                    <button
+                        onClick={() => handleCategoryFilter(null)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedCategory === null
+                                ? "bg-gray-800 text-white"
+                                : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                            }`}
+                    >
+                        الكل
+                    </button>
+                    {BOOK_CATEGORIES.map((category) => (
+                        <button
+                            key={category}
+                            onClick={() => handleCategoryFilter(category)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedCategory === category
+                                    ? "bg-gray-800 text-white"
+                                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                                }`}
+                        >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Active Filters Display */}
+                {(query || selectedCategory) && (
+                    <div className="mb-6 flex items-center justify-center gap-2 flex-wrap">
+                        <span className="text-sm text-gray-500">الفلاتر النشطة:</span>
+                        {query && (
+                            <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                البحث: {query}
+                                <button
+                                    onClick={() => {
+                                        setQuery("");
+                                        handleCategoryFilter(selectedCategory);
+                                    }}
+                                    className="hover:text-gray-900"
+                                >
+                                    <X size={14} />
+                                </button>
+                            </span>
+                        )}
+                        {selectedCategory && (
+                            <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
+                                {selectedCategory}
+                                <button
+                                    onClick={() => handleCategoryFilter(null)}
+                                    className="hover:text-gray-900"
+                                >
+                                    <X size={14} />
+                                </button>
+                            </span>
+                        )}
+                    </div>
+                )}
+
+                {/* Loading State */}
+                {isLoading && (
+                    <div className="text-center py-10">
+                        <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-gray-800 rounded-full animate-spin"></div>
+                    </div>
+                )}
+
+                {/* Books Grid */}
+                {!isLoading && books.length === 0 ? (
+                    <div className="text-center text-gray-500 py-20">
+                        لم يتم العثور على كتب.
+                    </div>
+                ) : (
+                    !isLoading && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {books.map((book) => (
+                                <BookCard key={book.id} book={book} />
+                            ))}
+                        </div>
+                    )
+                )}
+            </div>
+        </section>
+    );
+}

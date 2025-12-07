@@ -5,10 +5,25 @@ import { useState, useEffect } from "react";
 import { Link } from "@/components/elements/Link";
 import { Moon, Sun } from "lucide-react";
 import type { HeaderCTAItem, HeaderMenuItem, HeaderType } from "@/types/header";
+import { Search } from "lucide-react";
+import GlobalSearchModal from "@/components/custom/search/GlobalSearchModal";
 
 export default function HeaderBlock({ data }: { data: HeaderType }) {
   const { logo, menu, cta } = normalizeHeader(data);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Keyboard shortcut for search (Cmd+K or Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   // Dark mode state
   const [darkMode, setDarkMode] = useState<boolean>(() => {
@@ -34,10 +49,10 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
   }, [darkMode]);
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-white dark:bg-[#232323] shadow-sm transition-colors">
-      <div className="max-w-7xl mx-auto flex items-center justify-between py-3 px-4 md:px-8">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
+    <header className="sticky top-0 z-30 w-full bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center py-3 px-4 md:px-8">
+        {/* Logo - Left */}
+        <div className="flex items-center gap-2 justify-start">
           {logo?.image?.url && (
             <a href={logo.link || "/"} className="flex items-center gap-2">
               <Image
@@ -52,41 +67,46 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
           )}
         </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6 lg:gap-10 items-center">
+        {/* Desktop Nav - Center */}
+        <nav className="hidden md:flex gap-4 lg:gap-8 items-center justify-center">
           {menu.map((item: HeaderMenuItem) => (
             <Link
               key={item.id}
               href={item.url}
               isExternal={item.is_external}
-              className="text-gray-800 dark:text-gray-100 hover:text-gray-700 dark:hover:text-white font-medium transition px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="text-gray-800 hover:text-gray-700 font-medium hover:text-primary transition px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap"
             >
               {item.title}
             </Link>
           ))}
         </nav>
 
-        {/* Desktop CTA + Dark mode button */}
-        <div className="hidden md:flex gap-2 items-center">
-          {cta.map((item: HeaderCTAItem) => (
-            <Link
-              key={item.id}
-              href={item.url}
-              className="px-4 py-2 rounded bg-[#171717] dark:bg-[#1a1a1a] text-white dark:text-white font-semibold hover:bg-gray-800 dark:hover:bg-gray-700 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-              target={item.is_external ? "_blank" : undefined}
-              rel={item.is_external ? "noopener noreferrer" : undefined}
-            >
-              {item.title}
-            </Link>
-          ))}
-          {/* Dark mode toggle */}
+        {/* Search + CTA - Right */}
+        <div className="hidden md:flex gap-2 items-center justify-end">
+          {/* Search Button */}
           <button
-            aria-label="Toggle dark mode"
-            onClick={() => setDarkMode((v) => !v)}
-            className="p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary bg-transparent text-gray-700 dark:text-gray-200 hover:cursor-pointer transition"
+            onClick={() => setSearchOpen(true)}
+            className="flex items-center gap-1.5 p-2 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+            aria-label="البحث"
           >
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            <Search size={18} />
+            <kbd className="hidden lg:inline-block px-1.5 py-0.5 text-xs bg-gray-200 rounded">⌘K</kbd>
           </button>
+
+          {/* Desktop CTA */}
+          {cta.map((item: HeaderCTAItem) => {
+            return (
+              <Link
+                key={item.id}
+                href={item.url}
+                className="px-4 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                target={item.is_external ? "_blank" : undefined}
+                rel={item.is_external ? "noopener noreferrer" : undefined}
+              >
+                {item.title}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Mobile menu button */}
@@ -121,19 +141,17 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
 
       {/* Mobile Nav Drawer */}
       <div
-        className={`md:hidden fixed inset-0 z-40 transition-opacity duration-200 ${
-          mobileOpen
-            ? "opacity-100 pointer-events-auto backdrop-blur-sm"
-            : "opacity-0 pointer-events-none"
-        }`}
+        className={`md:hidden fixed inset-0 z-40 transition-opacity duration-200 ${mobileOpen
+          ? "opacity-100 pointer-events-auto backdrop-blur-sm"
+          : "opacity-0 pointer-events-none"
+          }`}
         style={{ background: mobileOpen ? "rgba(0,0,0,0.15)" : "transparent" }}
         onClick={() => setMobileOpen(false)}
         aria-hidden={!mobileOpen}
       />
       <nav
-        className={`md:hidden text-center fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-[#232323] shadow-lg z-50 transform transition-transform duration-200 ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`md:hidden text-center fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-lg z-50 transform transition-transform duration-200 ${mobileOpen ? "translate-x-0" : "translate-x-full"
+          }`}
         aria-label="Mobile menu"
       >
         <div
@@ -191,17 +209,19 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
             ))}
           </div>
           <div className="flex flex-col gap-2 mt-6">
-            {cta.map((item: HeaderCTAItem) => (
-              <Link
-                key={item.id}
-                href={item.url}
-                className="px-4 py-2 rounded bg-gray-900 dark:bg-[#1a1a1a] text-white dark:text-white font-semibold hover:bg-gray-800 dark:hover:bg-[#232323] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                target={item.is_external ? "_blank" : undefined}
-                rel={item.is_external ? "noopener noreferrer" : undefined}
-              >
-                {item.title}
-              </Link>
-            ))}
+            {cta.map((item: HeaderCTAItem) => {
+              return (
+                <Link
+                  key={item.id}
+                  href={item.url}
+                  className="px-4 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  target={item.is_external ? "_blank" : undefined}
+                  rel={item.is_external ? "noopener noreferrer" : undefined}
+                >
+                  {item.title}
+                </Link>
+              );
+            })}
           </div>
           <button
             aria-label="Toggle dark mode"
@@ -212,6 +232,9 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
           </button>
         </div>
       </nav>
+
+      {/* Global Search Modal */}
+      <GlobalSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

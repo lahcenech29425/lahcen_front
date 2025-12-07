@@ -22,9 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const firstAyah = surah.arabic1[0] || "";
 
     // Utiliser directement surahName (ne pas préfixer manuellement "سورة")
-    const description = `اقرأ واستمع لـ${surahName} كاملة مع التفسير. ${revelationType} تحتوي على ${totalAyah} آية. ${
-      firstAyah ? `تبدأ بـ: ${firstAyah.substring(0, 50)}...` : ""
-    } مع تفاسير ابن كثير والطبري والقرطبي والسعدي والتفسير الميسر.`;
+    const description = `اقرأ واستمع لـ${surahName} كاملة مع التفسير. ${revelationType} تحتوي على ${totalAyah} آية. ${firstAyah ? `تبدأ بـ: ${firstAyah.substring(0, 50)}...` : ""
+      } مع تفاسير ابن كثير والطبري والقرطبي والسعدي والتفسير الميسر.`;
 
     const keywords = `${surahName}, قراءة ${surahName}, استماع ${surahName}, تفسير ${surahName}, ${surahName} كاملة, القرآن الكريم, تفسير القرآن, ${firstAyah.substring(
       0,
@@ -111,9 +110,7 @@ export default async function SurahDetailPage({ params }: Props) {
       "";
     const firstAyah = surah.arabic1?.[0] || "";
     ssrSnippet = `${name} — ${firstAyah}`.slice(0, 220);
-  } catch {
-    notFound();
-  }
+  } catch { }
 
   return (
     <>

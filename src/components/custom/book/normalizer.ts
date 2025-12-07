@@ -46,6 +46,14 @@ export function normalizeBook(data: Record<string, unknown>): BookType {
 /**
  * Normalize an array of books
  */
-export function normalizeBooks(books: Record<string, unknown>[]): BookType[] {
-    return Array.isArray(books) ? books.map(normalizeBook) : [];
+export function normalizeBooks(books: BookType[] | Record<string, unknown>[]): BookType[] {
+    if (!Array.isArray(books)) return [];
+
+    // If already BookType[], return as is
+    if (books.length > 0 && 'title' in books[0] && 'author' in books[0]) {
+        return books as BookType[];
+    }
+
+    // Otherwise normalize from Record<string, unknown>[]
+    return (books as Record<string, unknown>[]).map(normalizeBook);
 }

@@ -14,13 +14,14 @@ export default function DownloadButton({ book }: DownloadButtonProps) {
     const [downloadCount, setDownloadCount] = useState(Number(book.downloadCount) || 0);
 
     const handleView = () => {
-        if (!book.pdfFile?.url) return;
-        // Open PDF in new tab without counting as download
-        window.open(book.pdfFile.url, "_blank");
+        if (!book.documentId) return;
+        // Use Next.js API route with book ID (completely hides backend URL)
+        const viewUrl = `/api/view?id=${book.documentId}`;
+        window.open(viewUrl, "_blank");
     };
 
     const handleDownload = async () => {
-        if (!book.pdfFile?.url || isDownloading) return;
+        if (!book.documentId || isDownloading) return;
 
         setIsDownloading(true);
 
@@ -45,8 +46,8 @@ export default function DownloadButton({ book }: DownloadButtonProps) {
             // Update local state
             setDownloadCount(newCount);
 
-            // Use Next.js API route to proxy download (hides backend URL)
-            const downloadUrl = `/api/download?url=${encodeURIComponent(book.pdfFile.url)}&filename=${encodeURIComponent(book.title + '.pdf')}`;
+            // Use Next.js API route with book ID (hides backend URL)
+            const downloadUrl = `/api/download?id=${book.documentId}&filename=${encodeURIComponent(book.title + '.pdf')}`;
 
             // Create a temporary link and trigger download
             const link = document.createElement('a');
@@ -57,8 +58,9 @@ export default function DownloadButton({ book }: DownloadButtonProps) {
             document.body.removeChild(link);
         } catch (error) {
             console.error("Error downloading PDF:", error);
-            // Fallback: try to open in new tab if download fails
-            window.open(book.pdfFile.url, "_blank");
+            // Fallback: try direct API call
+            const downloadUrl = `/api/download?id=${book.documentId}&filename=${encodeURIComponent(book.title + '.pdf')}`;
+            window.open(downloadUrl, "_blank");
         } finally {
             setIsDownloading(false);
         }

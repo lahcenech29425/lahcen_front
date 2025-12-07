@@ -4,9 +4,8 @@ export async function GET(request: NextRequest) {
     try {
         const searchParams = request.nextUrl.searchParams;
         const bookId = searchParams.get('id');
-        const filename = searchParams.get('filename');
 
-        console.log('Download request for book:', bookId, 'filename:', filename);
+        console.log('View request for book:', bookId);
 
         if (!bookId) {
             console.error('No book ID provided');
@@ -58,19 +57,16 @@ export async function GET(request: NextRequest) {
         const blob = await pdfResponse.blob();
         console.log('PDF blob size:', blob.size);
 
-        // Encode filename for Content-Disposition header (RFC 5987)
-        const encodedFilename = encodeURIComponent(filename || 'download.pdf');
-
-        // Create response with proper headers to force download
+        // Create response to display PDF inline (not download)
         return new NextResponse(blob, {
             headers: {
                 'Content-Type': 'application/pdf',
-                'Content-Disposition': `attachment; filename="document.pdf"; filename*=UTF-8''${encodedFilename}`,
-                'Cache-Control': 'no-cache',
+                'Content-Disposition': 'inline',
+                'Cache-Control': 'public, max-age=3600',
             },
         });
     } catch (error) {
-        console.error('Error proxying download:', error);
+        console.error('Error proxying view:', error);
         return NextResponse.json(
             { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
             { status: 500 }

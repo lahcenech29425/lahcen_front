@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
  * Middleware to redirect non-www to www for canonical URL consistency
  * This prevents duplicate content issues in Google Search Console
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const host = request.headers.get('host');
 
     // Redirect lahcenway.com → www.lahcenway.com

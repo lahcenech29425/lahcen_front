@@ -9,3 +9,15 @@ export async function fetchApi(endpoint: string) {
   const { data } = await res.json();
   return data;
 }
+
+// New function for pagination support - returns full response with meta
+export async function fetchApiWithPagination(endpoint: string) {
+  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${baseUrl}${endpoint}`;
+  const res = await fetch(url, {
+    headers: { "Content-Type": "application/json" },
+    next: { revalidate: 31536000 },
+  });
+  if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
+  return res.json(); // Returns { data, meta }
+}

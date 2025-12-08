@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import BookCard from "./BookCard";
 import { normalizeBooks } from "./normalizer";
-import { fetchApi } from "@/utils/fetchApi";
-import type { BookType } from "@/types/book";
-import { BOOK_CATEGORIES, BookCategory } from "@/types/book";
+import { fetchApiWithPagination } from "@/utils/fetchApi";
+import type { BookType, BookCategory } from "@/types/book";
+import { BOOK_CATEGORIES } from "@/types/book";
 import { Search, X } from "lucide-react";
 
 interface BookListProps {
@@ -18,81 +18,83 @@ export default function BookList({ data }: BookListProps) {
     const [query, setQuery] = useState("");
     const [selectedCategory, setSelectedCategory] = useState<BookCategory | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const pageSize = 12; // 12 books per page
 
-    // Search by title
-    const handleSearch = async (e: React.FormEvent) => {
-        e.preventDefault();
+    // Fetch books with pagination
+    const fetchBooks = async (page = 1, searchQuery = "", category: BookCategory | null = null) => {
         setIsLoading(true);
         try {
-            let endpoint = `/api/books?populate=*`;
+            let endpoint = `/api/books?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
             const filters: string[] = [];
 
-            if (query) {
-                const encodedQuery = encodeURIComponent(query);
-                filters.push(`filters[title][$containsi]=${encodedQuery}`);
+            if (searchQuery) {
+                filters.push(`filters[title][$containsi]=${encodeURIComponent(searchQuery)}`);
             }
 
-            if (selectedCategory) {
-                const encodedCategory = encodeURIComponent(selectedCategory);
-                filters.push(`filters[category][$eq]=${encodedCategory}`);
+            if (category) {
+                filters.push(`filters[category][$eq]=${encodeURIComponent(category)}`);
             }
 
             if (filters.length > 0) {
                 endpoint += `&${filters.join("&")}`;
             }
 
-            const res = await fetchApi(endpoint);
-            setBooks(normalizeBooks(res || []));
+            const response = await fetchApiWithPagination(endpoint);
+            const booksData = response?.data || [];
+            const pagination = response?.meta?.pagination;
+
+            setBooks(normalizeBooks(booksData));
+
+            if (pagination) {
+                setTotalPages(pagination.pageCount || 1);
+                setCurrentPage(pagination.page || 1);
+            }
         } catch (error) {
-            console.error("Error searching books:", error);
+            console.error("Error fetching books:", error);
+            setBooks([]);
         } finally {
             setIsLoading(false);
         }
     };
 
+    // Fetch all books on mount if no initial data
+    useEffect(() => {
+        if (books.length === 0) {
+            fetchBooks(1);
+        }
+    }, []); // Run only once on mount
+
+    // Search by title
+    const handleSearch = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setCurrentPage(1); // Reset to page 1 on new search
+        await fetchBooks(1, query, selectedCategory);
+    };
+
     // Filter by category
     const handleCategoryFilter = async (category: BookCategory | null) => {
         setSelectedCategory(category);
-        setIsLoading(true);
-        try {
-            let endpoint = `/api/books?populate=*`;
-            const filters: string[] = [];
-
-            if (query) {
-                const encodedQuery = encodeURIComponent(query);
-                filters.push(`filters[title][$containsi]=${encodedQuery}`);
-            }
-
-            if (category) {
-                const encodedCategory = encodeURIComponent(category);
-                filters.push(`filters[category][$eq]=${encodedCategory}`);
-            }
-
-            if (filters.length > 0) {
-                endpoint += `&${filters.join("&")}`;
-            }
-
-            const res = await fetchApi(endpoint);
-            setBooks(normalizeBooks(res || []));
-        } catch (error) {
-            console.error("Error filtering books:", error);
-        } finally {
-            setIsLoading(false);
-        }
+        setCurrentPage(1); // Reset to page 1 on filter change
+        await fetchBooks(1, query, category);
     };
 
     // Reset search and filters
     const handleReset = async () => {
         setQuery("");
         setSelectedCategory(null);
-        setIsLoading(true);
-        try {
-            const res = await fetchApi("/api/books?populate=*");
-            setBooks(normalizeBooks(res || []));
-        } catch (error) {
-            console.error("Error resetting:", error);
-        } finally {
-            setIsLoading(false);
+        setCurrentPage(1);
+        await fetchBooks(1);
+    };
+
+    // Handle page change
+    const handlePageChange = (newPage: number) => {
+        if (newPage >= 1 && newPage <= totalPages && newPage !== currentPage) {
+            setCurrentPage(newPage);
+            fetchBooks(newPage, query, selectedCategory);
+            // Scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
@@ -232,6 +234,68 @@ export default function BookList({ data }: BookListProps) {
                             ))}
                         </div>
                     )
+                )}
+
+                {/* Pagination Controls */}
+                {!isLoading && books.length > 0 && totalPages > 1 && (
+                    <div className="mt-12 flex items-center justify-center gap-2">
+                        {/* Previous Button */}
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                        >
+                            السابق
+                        </button>
+
+                        {/* Page Numbers */}
+                        <div className="flex gap-1">
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                                // Show first page, last page, current page, and pages around current
+                                const showPage =
+                                    page === 1 ||
+                                    page === totalPages ||
+                                    (page >= currentPage - 1 && page <= currentPage + 1);
+
+                                if (!showPage) {
+                                    // Show ellipsis
+                                    if (page === currentPage - 2 || page === currentPage + 2) {
+                                        return (
+                                            <span
+                                                key={page}
+                                                className="px-3 py-2 text-gray-500 dark:text-gray-400"
+                                            >
+                                                ...
+                                            </span>
+                                        );
+                                    }
+                                    return null;
+                                }
+
+                                return (
+                                    <button
+                                        key={page}
+                                        onClick={() => handlePageChange(page)}
+                                        className={`px-4 py-2 rounded-lg transition ${currentPage === page
+                                            ? "bg-gray-800 dark:bg-white text-white dark:text-gray-900 font-semibold"
+                                            : "bg-gray-100 dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#2a2a2a]"
+                                            }`}
+                                    >
+                                        {page}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Next Button */}
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className="px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                        >
+                            التالي
+                        </button>
+                    </div>
                 )}
             </div>
         </section>

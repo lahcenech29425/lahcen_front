@@ -46,9 +46,7 @@ export const metadata: Metadata = {
     },
 };
 
-export default async function BooksPage() {
-    // Fetch all books from Strapi
-    const books = await fetchApi("/api/books?populate=*");
-
-    return <BookList data={books || []} />;
+export default function BooksPage() {
+    // BookList will fetch its own data on mount (client-side)
+    return <BookList data={[]} />;
 }

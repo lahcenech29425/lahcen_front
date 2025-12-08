@@ -48,7 +48,8 @@ export const metadata: Metadata = {
 
 export default async function BooksPage() {
     // Fetch all books from Strapi
-    const data = await fetchApi("/api/books?populate=*");
+    const response = await fetchApi("/api/books?populate=*");
+    const books = response?.data || [];
 
-    return <BookList data={data} />;
+    return <BookList data={books} />;
 }

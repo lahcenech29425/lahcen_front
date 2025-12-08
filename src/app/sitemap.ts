@@ -219,7 +219,45 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // ========================================
-  // 3. SECTION QURAN
+  // 3. SECTION BOOKS
+  // ========================================
+  const booksIndexPage: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/books`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+  ];
+
+  // Fetch des livres depuis Strapi
+  let bookPages: MetadataRoute.Sitemap = [];
+  try {
+    const strapiUrl =
+      process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+    const response = await fetch(
+      `${strapiUrl}/api/books?populate=*&pagination[pageSize]=100`,
+      {
+        next: { revalidate: 3600 }, // Cache 1 heure
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      if (data.data && Array.isArray(data.data)) {
+        bookPages = data.data.map((book: any) => ({
+          url: `${baseUrl}/books/${book.slug}`,
+          lastModified: book.updatedAt ? new Date(book.updatedAt) : currentDate,
+          changeFrequency: "monthly" as const,
+          priority: 0.7,
+        }));
+      }
+    }
+  } catch (error) {
+    console.error("❌ Error fetching books for sitemap:", error);
+  }
+
+  // ========================================
+  // 4. SECTION QURAN
   // ========================================
   const quranIndexPage: MetadataRoute.Sitemap = [
     {
@@ -253,7 +291,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // ========================================
-  // 4. SECTION HADITH
+  // 5. SECTION HADITH
   // ========================================
   const hadithPages: MetadataRoute.Sitemap = [
     {
@@ -265,7 +303,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ========================================
-  // 5. SECTION PRAYER TIMES
+  // 6. SECTION PRAYER TIMES
   // ========================================
   const prayerPages: MetadataRoute.Sitemap = [
     {
@@ -277,7 +315,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ========================================
-  // 5. AUTRES PAGES (si vous en avez)
+  // 7. AUTRES PAGES (si vous en avez)
   // ========================================
   const additionalPages: MetadataRoute.Sitemap = [
     // Décommentez si vous avez ces pages :
@@ -308,6 +346,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticPages, // Pages principales
     ...blogIndexPage, // Index des blogs
     ...blogPages, // Articles individuels
+    ...booksIndexPage, // Index des livres
+    ...bookPages, // Livres individuels
     ...quranIndexPage, // Index du Quran
     ...surahPages, // 114 sourates
     ...ayahPages, // 6236 versets
@@ -320,6 +360,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   console.log(`✅ Sitemap généré avec succès:`);
   console.log(`   📄 Pages statiques: ${staticPages.length}`);
   console.log(`   📝 Articles de blog: ${blogPages.length}`);
+  console.log(`   📚 Livres: ${bookPages.length}`);
   console.log(`   📖 Sourates: ${surahPages.length}`);
   console.log(`   📜 Versets: ${ayahPages.length}`);
   console.log(`   📚 Pages Hadith: ${hadithPages.length}`);

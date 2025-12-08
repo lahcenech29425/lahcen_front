@@ -49,8 +49,8 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
   }, [darkMode]);
 
   return (
-    <header className="sticky top-0 z-30 w-full bg-white shadow-sm">
-      <div className="max-w-7xl mx-auto grid grid-cols-3 items-center py-3 px-4 md:px-8">
+    <header className="sticky top-0 z-30 w-full bg-white dark:bg-[#232323] shadow-sm transition-colors">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 items-center py-3 px-4 md:px-8">
         {/* Logo - Left */}
         <div className="flex items-center gap-2 justify-start">
           {logo?.image?.url && (
@@ -74,7 +74,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               key={item.id}
               href={item.url}
               isExternal={item.is_external}
-              className="text-gray-800 hover:text-gray-700 font-medium hover:text-primary transition px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap"
+              className="text-gray-800 dark:text-[#ededed] hover:text-gray-700 dark:hover:text-white font-medium hover:text-primary dark:hover:text-primary transition px-2 py-1 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary whitespace-nowrap"
             >
               {item.title}
             </Link>
@@ -86,11 +86,11 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
           {/* Search Button */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="flex items-center gap-1.5 p-2 text-gray-500 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition"
+            className="flex items-center gap-1.5 p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white bg-gray-100 dark:bg-[#1a1a1a] hover:bg-gray-200 dark:hover:bg-[#333] rounded-lg transition"
             aria-label="البحث"
           >
             <Search size={18} />
-            <kbd className="hidden lg:inline-block px-1.5 py-0.5 text-xs bg-gray-200 rounded">⌘K</kbd>
+            <kbd className="hidden lg:inline-block px-1.5 py-0.5 text-xs bg-gray-200 dark:bg-[#333] dark:text-gray-300 rounded">⌘K</kbd>
           </button>
 
           {/* Desktop CTA */}
@@ -99,7 +99,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               <Link
                 key={item.id}
                 href={item.url}
-                className="px-4 py-2 rounded bg-gray-900 text-white font-semibold hover:bg-gray-800 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                className="px-4 py-2 rounded bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                 target={item.is_external ? "_blank" : undefined}
                 rel={item.is_external ? "noopener noreferrer" : undefined}
               >
@@ -107,36 +107,47 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               </Link>
             );
           })}
+
+          {/* Dark Mode Toggle (Desktop) */}
+          <button
+            aria-label="تبديل الوضع الليلي"
+            onClick={() => setDarkMode((v) => !v)}
+            className="p-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#1a1a1a] rounded-lg transition"
+          >
+            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden flex items-center justify-center p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-          aria-label="Open menu"
-          onClick={() => setMobileOpen((v) => !v)}
-        >
-          <svg
-            className="h-7 w-7 text-gray-900 dark:text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
+        {/* Mobile menu button - Right aligned */}
+        <div className="md:hidden flex items-center justify-end">
+          <button
+            className="flex items-center justify-center p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            aria-label="Open menu"
+            onClick={() => setMobileOpen((v) => !v)}
           >
-            {mobileOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 8h16M4 16h16"
-              />
-            )}
-          </svg>
-        </button>
+            <svg
+              className="h-7 w-7 text-gray-900 dark:text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              {mobileOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 8h16M4 16h16"
+                />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav Drawer */}
@@ -155,7 +166,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
         aria-label="Mobile menu"
       >
         <div
-          className={`flex flex-col h-full p-6 gap-6${darkMode ? " dark" : ""}`}
+          className={`flex flex-col h-full p-6 gap-6 ${darkMode ? "dark bg-[#232323]" : "bg-white"} transition-colors`}
         >
           <div className="flex items-center justify-between mb-4">
             {logo?.image?.url && (
@@ -194,6 +205,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               </svg>
             </button>
           </div>
+
           {/* Dark mode toggle in mobile menu */}
           <div className="flex flex-col gap-4">
             {menu.map((item: HeaderMenuItem) => (
@@ -223,13 +235,30 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
               );
             })}
           </div>
-          <button
-            aria-label="Toggle dark mode"
-            onClick={() => setDarkMode((v) => !v)}
-            className="mb-4 p-2 rounded bg-gray-100 dark:bg-[#232323] text-gray-700 dark:text-[#ededed] hover:bg-gray-200 dark:hover:bg-[#1a1a1a] transition self-center"
-          >
-            {darkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+
+          {/* Search & Dark Mode Toggle Row */}
+          <div className="flex items-center justify-center gap-3 mt-4">
+            {/* Mobile Search Button */}
+            <button
+              onClick={() => {
+                setSearchOpen(true);
+                setMobileOpen(false);
+              }}
+              aria-label="البحث"
+              className="p-2 rounded bg-gray-100 dark:bg-[#232323] cursor-pointer text-gray-700 dark:text-[#ededed] hover:bg-gray-200 dark:hover:bg-[#1a1a1a] transition"
+            >
+              <Search size={20} />
+            </button>
+
+            {/* Dark Mode Toggle */}
+            <button
+              aria-label="Toggle dark mode"
+              onClick={() => setDarkMode((v) => !v)}
+              className="p-2 rounded bg-gray-100 dark:bg-[#232323] cursor-pointer text-gray-700 dark:text-[#ededed] hover:bg-gray-200 dark:hover:bg-[#1a1a1a] transition"
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+          </div>
         </div>
       </nav>
 

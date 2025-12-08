@@ -1,9 +1,12 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin
 
 # Host
-Host: https://lahcenway.com
+Host: https://www.lahcenway.com
 
 # Sitemaps
-Sitemap: https://lahcenway.com/sitemap.xml
+Sitemap: https://www.lahcenway.com/sitemap.xml

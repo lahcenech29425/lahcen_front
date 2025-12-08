@@ -50,9 +50,9 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
 
   return (
     <header className="sticky top-0 z-30 w-full bg-white dark:bg-[#232323] shadow-sm transition-colors">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-3 items-center py-3 px-4 md:px-8">
-        {/* Logo - Left */}
-        <div className="flex items-center gap-2 justify-start">
+      <div className="max-w-7xl mx-auto flex items-center gap-4 py-3 px-4 md:px-8">
+        {/* Logo - Left (Fixed small width) */}
+        <div className="flex items-center gap-2 justify-start shrink-0">
           {logo?.image?.url && (
             <a href={logo.link || "/"} className="flex items-center gap-2">
               <Image
@@ -67,8 +67,8 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
           )}
         </div>
 
-        {/* Desktop Nav - Center */}
-        <nav className="hidden md:flex gap-4 lg:gap-8 items-center justify-center">
+        {/* Desktop Nav - Center (Takes maximum available space) */}
+        <nav className="hidden md:flex gap-3 lg:gap-6 items-center justify-center flex-1">
           {menu.map((item: HeaderMenuItem) => (
             <Link
               key={item.id}
@@ -81,8 +81,8 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
           ))}
         </nav>
 
-        {/* Search + CTA - Right */}
-        <div className="hidden md:flex gap-2 items-center justify-end">
+        {/* Search + CTA - Right (Fixed small width) */}
+        <div className="hidden md:flex gap-2 items-center justify-end shrink-0">
           {/* Search Button */}
           <button
             onClick={() => setSearchOpen(true)}

@@ -181,7 +181,7 @@ export default function AyahDetailClient({ params }: Props) {
       </div>
 
       {/* Sélecteur de Tafsir */}
-      <div className="bg-white dark:bg-[#232323] rounded-xl p-6 mb-8 shadow-sm border border-[#ededed] dark:border-[#1a1a1a]">
+      <div className="bg-gray-50 dark:bg-[#232323] rounded-xl p-6 mb-8 shadow-sm border border-[#ededed] dark:border-[#1a1a1a]">
         <h2 className="text-xl font-semibold mb-4 text-[#232323] dark:text-[#ededed] flex items-center gap-2">
           <BookOpen size={20} />
           التفسير

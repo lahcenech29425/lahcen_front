@@ -6,7 +6,7 @@ import Badge from "@/components/elements/Badge";
 
 export default function BookCard({ book }: { book: BookType }) {
     return (
-        <div className="bg-white rounded-xl shadow hover:shadow-lg transition flex flex-col h-full group">
+        <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow dark:shadow-gray-900 hover:shadow-lg dark:hover:shadow-gray-800 transition flex flex-col h-full group">
             {/* Cover Image */}
             <div className="relative overflow-hidden rounded-t-xl">
                 {book.coverImage ? (
@@ -19,7 +19,7 @@ export default function BookCard({ book }: { book: BookType }) {
                         loading="lazy"
                     />
                 ) : (
-                    <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                    <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
                         <BookOpen size={48} className="text-gray-400" />
                     </div>
                 )}
@@ -38,16 +38,16 @@ export default function BookCard({ book }: { book: BookType }) {
 
             {/* Content */}
             <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-lg font-bold mb-1 text-gray-900 line-clamp-2">
+                <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-white line-clamp-2">
                     {book.title}
                 </h3>
-                <p className="text-gray-500 text-sm mb-3">{book.author}</p>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">{book.author}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
                     {book.description.slice(0, 100)}...
                 </p>
 
                 {/* Metadata */}
-                <div className="flex items-center gap-3 text-xs text-gray-500 mb-4">
+                <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-4">
                     <span className="flex items-center gap-1">
                         <BookOpen size={14} />
                         {book.pageCount} صفحة
@@ -60,7 +60,7 @@ export default function BookCard({ book }: { book: BookType }) {
                 <div className="mt-auto">
                     <Link
                         href={`/books/${book.slug}`}
-                        className="group/link inline-flex items-center gap-1.5 text-gray-700 font-medium hover:text-gray-900 transition-colors"
+                        className="group/link inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-300 font-medium hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
                         <span>عرض الكتاب</span>
                         <ArrowLeft

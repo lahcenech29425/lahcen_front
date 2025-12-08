@@ -62,7 +62,7 @@ export default async function BookDetailPage({ params }: Props) {
 
     if (!book) {
         return (
-            <div className="max-w-2xl mx-auto py-20 text-center text-gray-500">
+            <div className="max-w-2xl mx-auto py-20 text-center text-gray-500 dark:text-gray-400">
                 الكتاب غير موجود.
             </div>
         );
@@ -95,7 +95,7 @@ export default async function BookDetailPage({ params }: Props) {
         <div className="max-w-7xl mx-auto px-4">
             {/* Breadcrumb Navigation */}
             <nav aria-label="breadcrumb" className="mb-8 mt-6">
-                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-900">
+                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-900 dark:text-[#ededed]">
                     <Link href="/" className="hover:text-gray-600 transition">
                         الرئيسية
                     </Link>
@@ -111,7 +111,7 @@ export default async function BookDetailPage({ params }: Props) {
             </nav>
 
             {/* Book Detail */}
-            <article className="pb-16 bg-white rounded-xl max-w-7xl mx-auto">
+            <article className="pb-16 bg-white dark:bg-[#1a1a1a] rounded-xl max-w-7xl mx-auto transition-colors">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                     {/* Cover Image */}
                     <div className="md:col-span-1">
@@ -126,7 +126,7 @@ export default async function BookDetailPage({ params }: Props) {
                                     priority
                                 />
                             ) : (
-                                <div className="w-full aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
+                                <div className="w-full aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-xl flex items-center justify-center">
                                     <BookOpen size={64} className="text-gray-400" />
                                 </div>
                             )}
@@ -150,42 +150,42 @@ export default async function BookDetailPage({ params }: Props) {
                             {book.category}
                         </Badge>
 
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                             {book.title}
                         </h1>
 
                         {/* Author */}
-                        <div className="flex items-center gap-2 text-gray-600 mb-6">
+                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-6">
                             <User size={18} />
                             <span className="text-lg">{book.author}</span>
                         </div>
 
                         {/* Metadata Cards */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                            <div className="bg-gray-50 rounded-xl p-4 text-center">
-                                <BookOpen size={24} className="mx-auto text-gray-600 mb-2" />
-                                <div className="text-2xl font-bold text-gray-800">{book.pageCount}</div>
-                                <div className="text-sm text-gray-500">صفحة</div>
+                            <div className="bg-gray-50 dark:bg-[#2a2a2a] rounded-xl p-4 text-center transition-colors">
+                                <BookOpen size={24} className="mx-auto text-gray-600 dark:text-gray-400 mb-2" />
+                                <div className="text-2xl font-bold text-gray-800 dark:text-white">{book.pageCount}</div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">صفحة</div>
                             </div>
-                            <div className="bg-gray-50 rounded-xl p-4 text-center">
-                                <Calendar size={24} className="mx-auto text-gray-600 mb-2" />
-                                <div className="text-2xl font-bold text-gray-800">{book.publishedYear}</div>
-                                <div className="text-sm text-gray-500">سنة النشر</div>
+                            <div className="bg-gray-50 dark:bg-[#2a2a2a] rounded-xl p-4 text-center transition-colors">
+                                <Calendar size={24} className="mx-auto text-gray-600 dark:text-gray-400 mb-2" />
+                                <div className="text-2xl font-bold text-gray-800 dark:text-white">{book.publishedYear}</div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">سنة النشر</div>
                             </div>
-                            <div className="bg-gray-50 rounded-xl p-4 text-center">
-                                <Download size={24} className="mx-auto text-gray-600 mb-2" />
-                                <div className="text-2xl font-bold text-gray-800">{book.downloadCount || 0}</div>
-                                <div className="text-sm text-gray-500">تحميل</div>
+                            <div className="bg-gray-50 dark:bg-[#2a2a2a] rounded-xl p-4 text-center transition-colors">
+                                <Download size={24} className="mx-auto text-gray-600 dark:text-gray-400 mb-2" />
+                                <div className="text-2xl font-bold text-gray-800 dark:text-white">{book.downloadCount || 0}</div>
+                                <div className="text-sm text-gray-500 dark:text-gray-400">تحميل</div>
                             </div>
                         </div>
 
                         {/* Description */}
                         <div className="mb-8">
-                            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                <span className="inline-block w-1 h-6 bg-gray-800 rounded-sm" />
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                                <span className="inline-block w-1 h-6 bg-gray-800 dark:bg-white rounded-sm" />
                                 عن الكتاب
                             </h2>
-                            <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
                                 {book.description}
                             </p>
                         </div>
@@ -201,11 +201,11 @@ export default async function BookDetailPage({ params }: Props) {
             {/* Recommended Books */}
             {recommendations.length > 0 && (
                 <section className="mt-10 mb-20">
-                    <div className="max-w-7xl mx-auto bg-gray-50 rounded-2xl shadow-md p-6 md:p-8">
+                    <div className="max-w-7xl mx-auto bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl shadow-md dark:shadow-gray-900 p-6 md:p-8 transition-colors">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-semibold flex items-center gap-3">
+                            <h2 className="text-xl font-semibold dark:text-white flex items-center gap-3">
                                 <span
-                                    className="inline-block w-1.5 h-8 bg-black rounded-sm"
+                                    className="inline-block w-1.5 h-8 bg-black dark:bg-white rounded-sm"
                                     aria-hidden
                                 />
                                 كتب مقترحة
@@ -214,7 +214,7 @@ export default async function BookDetailPage({ params }: Props) {
                             {recommendations.length > 3 && (
                                 <Link
                                     href="/books"
-                                    className="ml-4 inline-flex items-center gap-2 text-sm bg-gray-800 text-white px-4 py-2 rounded-lg shadow hover:shadow-lg transition transform hover:-translate-y-0.5"
+                                    className="ml-4 inline-flex items-center gap-2 text-sm bg-gray-800 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg shadow hover:shadow-lg dark:hover:bg-gray-100 transition transform hover:-translate-y-0.5"
                                 >
                                     عرض المزيد
                                 </Link>

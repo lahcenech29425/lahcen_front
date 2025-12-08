@@ -97,10 +97,10 @@ export default function BookList({ data }: BookListProps) {
     };
 
     return (
-        <section className="py-16 bg-gray-50 min-h-screen">
+        <section className="py-16 bg-gray-50 dark:bg-[#232323] min-h-screen transition-colors">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Navigation */}
-                <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900">
+                <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900 dark:text-[#ededed]">
                     <Link href="/" className="hover:text-gray-600 transition">
                         الرئيسية
                     </Link>
@@ -109,12 +109,12 @@ export default function BookList({ data }: BookListProps) {
                 </nav>
 
                 {/* Title */}
-                <h1 className="text-3xl md:text-4xl font-bold text-primary mb-4 text-center">
+                <h1 className="text-3xl md:text-4xl font-bold text-primary dark:text-white mb-4 text-center">
                     المكتبة الإسلامية
                 </h1>
 
                 {/* Description */}
-                <p className="text-lg text-gray-600 mb-10 leading-relaxed text-center font-amiri max-w-2xl mx-auto">
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 leading-relaxed text-center font-amiri max-w-2xl mx-auto">
                     مكتبة شاملة تضم كتبًا قيّمة في علوم القرآن والحديث والفقه والعقيدة والسيرة وغيرها،
                     متاحة للتحميل المجاني لنشر العلم النافع.
                 </p>
@@ -125,13 +125,13 @@ export default function BookList({ data }: BookListProps) {
                     className="mb-6 flex flex-col sm:flex-row justify-center items-center gap-2 max-w-md mx-auto"
                 >
                     <div className="relative w-full">
-                        <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
                         <input
                             type="text"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="ابحث عن كتاب..."
-                            className="w-full rounded-xl border border-gray-300 pr-10 pl-4 py-2 text-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
+                            className="w-full rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-[#1a1a1a] dark:text-white pr-10 pl-4 py-2 text-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
                         />
                     </div>
 
@@ -139,7 +139,7 @@ export default function BookList({ data }: BookListProps) {
                         <button
                             type="submit"
                             disabled={isLoading}
-                            className="px-4 py-2 bg-gray-700 text-white rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
+                            className="px-4 py-2 bg-gray-700 dark:bg-white text-white dark:text-gray-900 rounded-xl hover:bg-primary/90 dark:hover:bg-gray-100 transition disabled:opacity-50"
                         >
                             بحث
                         </button>
@@ -148,7 +148,7 @@ export default function BookList({ data }: BookListProps) {
                             type="button"
                             onClick={handleReset}
                             disabled={isLoading}
-                            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-xl hover:bg-gray-400 transition disabled:opacity-50"
+                            className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-xl hover:bg-gray-400 dark:hover:bg-gray-500 transition disabled:opacity-50"
                         >
                             إعادة
                         </button>
@@ -160,8 +160,8 @@ export default function BookList({ data }: BookListProps) {
                     <button
                         onClick={() => handleCategoryFilter(null)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedCategory === null
-                                ? "bg-gray-800 text-white"
-                                : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                            ? "bg-gray-800 text-white"
+                            : "bg-white dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] border border-gray-200 dark:border-gray-700"
                             }`}
                     >
                         الكل
@@ -171,8 +171,8 @@ export default function BookList({ data }: BookListProps) {
                             key={category}
                             onClick={() => handleCategoryFilter(category)}
                             className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedCategory === category
-                                    ? "bg-gray-800 text-white"
-                                    : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                                ? "bg-gray-800 text-white"
+                                : "bg-white dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] border border-gray-200 dark:border-gray-700"
                                 }`}
                         >
                             {category}
@@ -221,7 +221,7 @@ export default function BookList({ data }: BookListProps) {
 
                 {/* Books Grid */}
                 {!isLoading && books.length === 0 ? (
-                    <div className="text-center text-gray-500 py-20">
+                    <div className="text-center text-gray-500 dark:text-gray-400 py-20">
                         لم يتم العثور على كتب.
                     </div>
                 ) : (

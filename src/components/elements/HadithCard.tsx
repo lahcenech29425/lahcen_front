@@ -73,9 +73,8 @@ export function HadithCard({
     <div className="flex flex-col items-stretch gap-3">
       <div
         ref={setRefs}
-        className={`rounded-xl shadow-md group transition hover:shadow-lg ${
-          visible ? "animate-fade-in" : ""
-        } bg-white dark:bg-[#232323] border border-gray-200 dark:border-[#1a1a1a]`}
+        className={`rounded-xl shadow-md group transition hover:shadow-lg ${visible ? "animate-fade-in" : ""
+          } bg-gray-50 dark:bg-[#232323] border border-gray-200 dark:border-[#1a1a1a]`}
         style={{
           padding: "1.25rem",
           width: "100%",

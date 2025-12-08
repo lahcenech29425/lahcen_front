@@ -237,7 +237,7 @@ export default function QuranPageClient() {
           <Link
             href={`/quran/${getSurahSlug(s)}`}
             key={s.number}
-            className="block bg-white dark:bg-[#232323] rounded-xl shadow hover:shadow-lg transition p-5 group border border-[#ededed] dark:border-[#1a1a1a] animate-fade-in"
+            className="block bg-gray-50 dark:bg-[#232323] rounded-xl shadow hover:shadow-lg transition p-5 group border border-[#ededed] dark:border-[#1a1a1a] animate-fade-in"
             style={{ animationDelay: `${idx * 40}ms` }}
           >
             <div className="flex items-center justify-between">

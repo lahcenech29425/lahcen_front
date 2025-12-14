@@ -50,7 +50,7 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
 
   return (
     <header className="sticky top-0 z-30 w-full bg-white dark:bg-[#232323] shadow-sm transition-colors">
-      <div className="max-w-7xl mx-auto flex items-center gap-4 py-3 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 py-3 px-4 md:px-8">
         {/* Logo - Left (Fixed small width) */}
         <div className="flex items-center gap-2 justify-start shrink-0">
           {logo?.image?.url && (

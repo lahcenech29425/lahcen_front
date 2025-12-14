@@ -117,17 +117,21 @@ export default async function BookDetailPage({ params }: Props) {
                     <div className="md:col-span-1">
                         <div className="sticky top-6">
                             {book.coverImage ? (
-                                <Image
-                                    src={book.coverImage.url}
-                                    alt={book.coverImage.alternativeText || book.title}
-                                    width={book.coverImage.width || 400}
-                                    height={book.coverImage.height || 600}
-                                    className="rounded-xl shadow-lg w-full object-cover"
-                                    priority
-                                />
+                                <div className="relative w-full bg-gray-100 dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden" style={{ aspectRatio: '3 / 4' }}>
+                                    <Image
+                                        src={book.coverImage.url}
+                                        alt={book.coverImage.alternativeText || book.title}
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 33vw"
+                                        className="object-contain p-4"
+                                        style={{ objectPosition: 'center' }}
+                                        priority
+                                    />
+                                </div>
                             ) : (
-                                <div className="w-full aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-xl flex items-center justify-center">
-                                    <BookOpen size={64} className="text-gray-400" />
+                                <div className="w-full aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-xl flex flex-col items-center justify-center gap-3">
+                                    <BookOpen size={64} className="text-gray-400 dark:text-gray-500" />
+                                    <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">لا توجد صورة</p>
                                 </div>
                             )}
 

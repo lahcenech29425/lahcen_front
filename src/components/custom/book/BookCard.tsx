@@ -8,23 +8,29 @@ export default function BookCard({ book }: { book: BookType }) {
     return (
         <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow dark:shadow-gray-900 hover:shadow-lg dark:hover:shadow-gray-800 transition flex flex-col h-full group">
             {/* Cover Image */}
-            <div className="relative overflow-hidden rounded-t-xl">
-                {book.coverImage ? (
-                    <Image
-                        src={book.coverImage.url}
-                        alt={book.coverImage.alternativeText || book.title}
-                        width={book.coverImage.width || 300}
-                        height={book.coverImage.height || 400}
-                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                    />
-                ) : (
-                    <div className="w-full h-64 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
-                        <BookOpen size={48} className="text-gray-400" />
-                    </div>
-                )}
+            <div className="relative overflow-hidden rounded-t-xl bg-gray-100 dark:bg-gray-800">
+                {/* Aspect Ratio Container - 3:4 for book covers */}
+                <div className="relative w-full" style={{ aspectRatio: '3 / 4' }}>
+                    {book.coverImage ? (
+                        <Image
+                            src={book.coverImage.url}
+                            alt={book.coverImage.alternativeText || book.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            className="object-contain transition-all duration-300 group-hover:scale-105 p-2"
+                            loading="lazy"
+                            style={{ objectPosition: 'center' }}
+                        />
+                    ) : (
+                        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex flex-col items-center justify-center gap-3">
+                            <BookOpen size={56} className="text-gray-400 dark:text-gray-500" />
+                            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">لا توجد صورة</p>
+                        </div>
+                    )}
+                </div>
+
                 {/* Category Badge */}
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 z-10">
                     <Badge
                         bg="bg-white/90 backdrop-blur-sm"
                         color="text-gray-800"

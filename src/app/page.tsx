@@ -20,7 +20,21 @@ export const metadata: Metadata = {
   },
 };
 export default async function HomePage() {
-  const homepage = await fetchApi('/api/homepage?populate=sections.image,sections.stats,sections.slider.image,sections.button,sections.services,sections.services.icon');
+  let homepage = null;
+  try {
+    homepage = await fetchApi('/api/homepage?populate=sections.image,sections.stats,sections.slider.image,sections.button,sections.services,sections.services.icon');
+  } catch (e) {
+    console.error("Failed to fetch homepage data:", e);
+  }
+
+  if (!homepage || !homepage.sections) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-muted-foreground">
+        <p>تعذر تحميل محتوى الصفحة الرئيسية. يرجى المحاولة لاحقاً.</p>
+      </div>
+    );
+  }
+
   return (
     <>
         <HomeWidget homepage={homepage} />

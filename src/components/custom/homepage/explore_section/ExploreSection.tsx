@@ -126,6 +126,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
         </div>
 
         {/* CTA Button - Bottom centered */}
+        {section.button?.url && (
         <div className="text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -143,6 +144,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
             </Link>
           </motion.div>
         </div>
+        )}
       </div>
     </section>
   );

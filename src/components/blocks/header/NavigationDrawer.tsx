@@ -97,16 +97,16 @@ export default function NavigationDrawer({
 
                         {/* Menu Cards Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                            {menu.map((item, index) => {
+                            {menu.filter((item) => item.url).map((item, index) => {
                                 // Assign icons based on title/url
                                 let Icon = BookOpen;
-                                if (item.url.includes('quran') || item.title.includes('قرآن')) {
+                                if (item.url?.includes('quran') || item.title?.includes('قرآن')) {
                                     Icon = BookOpen;
-                                } else if (item.url.includes('hadith') || item.title.includes('حديث')) {
+                                } else if (item.url?.includes('hadith') || item.title?.includes('حديث')) {
                                     Icon = BookMarked;
-                                } else if (item.url.includes('blog') || item.title.includes('مقالات') || item.title.includes('خواطر')) {
+                                } else if (item.url?.includes('blog') || item.title?.includes('مقالات') || item.title?.includes('خواطر')) {
                                     Icon = FileText;
-                                } else if (item.url.includes('book') || item.title.includes('كتب')) {
+                                } else if (item.url?.includes('book') || item.title?.includes('كتب')) {
                                     Icon = Library;
                                 }
 

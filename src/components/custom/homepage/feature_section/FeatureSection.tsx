@@ -104,7 +104,7 @@ export default function FeatureSection({ data, index }: FeatureSectionProps) {
                         )}
 
                         {/* CTA Button */}
-                        {data.button && (
+                        {data.button?.url && (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}

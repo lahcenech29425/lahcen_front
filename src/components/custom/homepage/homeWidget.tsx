@@ -9,6 +9,10 @@ type Homepage = {
 };
 
 export default function HomeWidget({ homepage }: { homepage: Homepage }) {
+  if (!homepage?.sections?.length) {
+    return null;
+  }
+
   return (
     <>
       <main className="">

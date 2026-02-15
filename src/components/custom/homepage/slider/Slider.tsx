@@ -8,7 +8,7 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 export default function Slider({ data }: { data: SliderType }) {
   const slider = normalizeSlider(data);
   const [activeIdx, setActiveIdx] = useState(0);
-  const slides = slider.slider;
+  const slides = slider.slider.filter((item) => item.image?.url);
 
   // Reversé pour le RTL: PREV diminue l'index, NEXT augmente l'index
   const handlePrev = () =>

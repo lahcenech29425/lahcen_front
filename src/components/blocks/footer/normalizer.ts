@@ -8,11 +8,11 @@ export function normalizeFooter(data: FooterType): FooterType {
     documentId: data.documentId,
     description: data.description,
     copyrightText: data.copyrightText,
-    logo: {
+    logo: data.logo ? {
       id: data.logo.id,
       link: data.logo.link,
       image: normalizeImage(data.logo.image) ??  data.logo.image,
-    },
+    } : { id: 0, link: "/", image: null as any },
     menu: Array.isArray(data.menu)
       ? data.menu.map((menu): FooterMenu => ({
           id: menu.id,

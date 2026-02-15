@@ -53,7 +53,7 @@ export default function Footer({ data }: { data: FooterType }) {
             {/* Social Links - Enhanced with brown hover */}
             <div className="flex gap-4 justify-start">
               {footer.socialLinks
-                .filter((s) => s.is_active)
+                .filter((s) => s.is_active && s.url && s.icon?.url)
                 .map((item) => (
                   <Link
                     key={item.id}
@@ -85,7 +85,7 @@ export default function Footer({ data }: { data: FooterType }) {
                     <span className="absolute -bottom-2 right-0 w-8 h-0.5 bg-primary" />
                   </h4>
                   <ul className="space-y-3">
-                    {menu.links.map((link) => (
+                    {menu.links.filter((link) => link.url).map((link) => (
                       <li key={link.id}>
                         <Link
                           href={link.url}

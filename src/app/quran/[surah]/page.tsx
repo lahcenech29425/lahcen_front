@@ -40,12 +40,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: `${surahName} - القرآن الكريم`,
         description,
         url: `https://www.lahcenway.com/quran/${surahSlug}`,
-        siteName: "lahcenway",
+        siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
         locale: "ar-SA",
         type: "article",
         images: [
           {
-            url: `https://www.lahcenway.com/og-quran.jpg`,
+            url: `/og-quran.jpg`,
             width: 1200,
             height: 630,
             alt: `${surahName}`,
@@ -56,10 +56,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         card: "summary_large_image",
         title: `${surahName} - القرآن الكريم`,
         description,
-        images: [`https://www.lahcenway.com/og-quran.jpg`],
+        images: [`/og-quran.jpg`],
       },
       alternates: {
-        canonical: `https://www.lahcenway.com/quran/${surahSlug}`,
+        canonical: `/quran/${surahSlug}`,
       },
       other: {
         "arabic-content": "true",
@@ -89,6 +89,7 @@ export async function generateStaticParams() {
 
 export default async function SurahDetailPage({ params }: Props) {
   let ssrSnippet = "";
+  let jsonLd = null as Record<string, unknown> | null;
   try {
     const { surah: surahSlug } = await params;
     const surahNumber = await getSurahNumberFromSlug(surahSlug);
@@ -110,10 +111,40 @@ export default async function SurahDetailPage({ params }: Props) {
       "";
     const firstAyah = surah.arabic1?.[0] || "";
     ssrSnippet = `${name} — ${firstAyah}`.slice(0, 220);
+
+    // JSON-LD structured data for Quran surah
+    const revelationType = surah.revelationPlace === "Mecca" ? "مكية" : "مدنية";
+    jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: `${name} | قراءة واستماع مع التفسير`,
+      description: `اقرأ واستمع لـ${name} كاملة مع التفسير. ${revelationType} تحتوي على ${surah.totalAyah} آية.`,
+      author: {
+        "@type": "Organization",
+        name: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+        url: "https://www.lahcenway.com",
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+        url: "https://www.lahcenway.com",
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `https://www.lahcenway.com/quran/${surahSlug}`,
+      },
+      inLanguage: "ar",
+    };
   } catch { }
 
   return (
     <>
+      {jsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <span className="sr-only">{ssrSnippet}</span>
       <SurahDetailClient params={params} />
     </>

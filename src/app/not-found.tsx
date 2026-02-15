@@ -1,7 +1,15 @@
-"use client";
-
 import Link from "next/link";
 import { ShieldAlert } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "الصفحة غير موجودة | 404",
+  description: "الصفحة المطلوبة غير موجودة أو تم نقلها.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function NotFound() {
   return (

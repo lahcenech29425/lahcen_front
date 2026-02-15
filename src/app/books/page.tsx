@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     title: "المكتبة الإسلامية | كتب إسلامية للتحميل المجاني",
     description:
       "مكتبة إسلامية شاملة تضم كتبًا في القرآن والحديث والفقه والعقيدة والسيرة. تحميل مجاني للكتب الإسلامية.",
-    url: "https://www.lahcenway.com/books",
-    siteName: "لحسن",
+    url: "/books",
+    siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
     locale: "ar-SA",
     type: "website",
     images: [
       {
-        url: "https://www.lahcenway.com/og-books.jpg",
+        url: "/og-books.jpg",
         width: 1200,
         height: 630,
         alt: "المكتبة الإسلامية",
@@ -38,10 +38,10 @@ export const metadata: Metadata = {
     title: "المكتبة الإسلامية | كتب إسلامية للتحميل المجاني",
     description:
       "مكتبة إسلامية شاملة تضم كتبًا في القرآن والحديث والفقه والعقيدة والسيرة",
-    images: ["https://www.lahcenway.com/og-books.jpg"],
+    images: ["/og-books.jpg"],
   },
   alternates: {
-    canonical: "https://www.lahcenway.com/books",
+    canonical: "/books",
   },
 };
 

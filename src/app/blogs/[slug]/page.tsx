@@ -32,24 +32,42 @@ export async function generateMetadata({ params }: Props) {
 
   const imageUrl =
     blog.seo?.metaImage?.url ?? blog.coverImage?.url ?? undefined;
+  const blogTitle = blog.seo?.metaTitle ?? blog.title;
+  const blogDescription =
+    blog.seo?.metaDescription ??
+    `${blog.content
+      .replace(/.*المقدمة.*\n?/g, "")
+      .replace(/[#*]/g, "")
+      .trim()
+      .slice(0, 120)}...`;
   return {
-    title: blog.seo?.metaTitle ?? blog.title,
-    description:
-      blog.seo?.metaDescription ??
-      `${blog.content
-        .replace(/.*المقدمة.*\n?/g, "")
-        .replace(/[#*]/g, "")
-        .trim()
-        .slice(0, 120)}...`,
+    title: blogTitle,
+    description: blogDescription,
+    authors: [{ name: blog.author || "لحسن", url: "https://www.lahcenway.com" }],
     openGraph: {
-      title: blog.seo?.openGraph?.ogTitle ?? blog.seo?.metaTitle ?? blog.title,
+      title: blog.seo?.openGraph?.ogTitle ?? blogTitle,
       description:
-        blog.seo?.openGraph?.ogDescription ??
-        blog.seo?.metaDescription ??
-        undefined,
-      url: blog.seo?.openGraph?.ogUrl ?? blog.seo?.canonicalURL ?? undefined,
-      type: blog.seo?.openGraph?.ogType ?? "article",
+        blog.seo?.openGraph?.ogDescription ?? blogDescription,
+      url: `/blogs/${slug}`,
+      type: "article",
+      siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+      locale: "ar_SA",
       images: imageUrl ? [imageUrl] : undefined,
+      publishedTime: blog.createdAt,
+      modifiedTime: blog.updatedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.seo?.openGraph?.ogTitle ?? blogTitle,
+      description: blogDescription,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+    alternates: {
+      canonical: `/blogs/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   };
 }
@@ -65,6 +83,41 @@ export default async function BlogDetailPage({ params }: Props) {
       </div>
     );
   }
+
+  // JSON-LD Article structured data
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: blog.title,
+    description:
+      blog.seo?.metaDescription ??
+      blog.content
+        .replace(/[#*]/g, "")
+        .trim()
+        .slice(0, 160),
+    image: blog.coverImage?.url ?? undefined,
+    author: {
+      "@type": "Person",
+      name: blog.author || "لحسن",
+      url: "https://www.lahcenway.com/about",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+      url: "https://www.lahcenway.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.lahcenway.com/og-image.jpg",
+      },
+    },
+    datePublished: blog.createdAt,
+    dateModified: blog.updatedAt || blog.createdAt,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.lahcenway.com/blogs/${slug}`,
+    },
+    inLanguage: "ar",
+  };
 
   const suggestionsRes = await fetchApi(
     `/api/blogs?populate[coverImage][fields][0]=url&populate[coverImage][fields][1]=alternativeText&filters[slug][$ne]=${slug}&pagination[limit]=3`,
@@ -83,8 +136,11 @@ export default async function BlogDetailPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-[#fafafa] dark:bg-[#0a0a0a] font-sans">
-
-
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* --- CINEMATIC HERO SECTION --- */}
       <div
         className="relative h-[70vh] min-h-[600px] w-full bg-[#1a1a1a] overflow-hidden"

@@ -2,12 +2,18 @@
 import { useEffect, useState } from "react";
 import { fetchSurahList } from "@/utils/quranApi";
 import { Link } from "@/components/elements/Link";
-import PdfFlipbook from "@/components/elements/PdfFlipbook";
+import dynamic from "next/dynamic";
 import Breadcrumb from "@/components/elements/Breadcrumb";
 import { Surah } from "@/types/Surah";
 import { getSurahSlug } from "@/utils/surahHelpers";
 import { motion } from "framer-motion";
 import { Search, BookOpen, Star, ChevronDown, Filter } from "lucide-react";
+
+// Dynamically import PdfFlipbook (client-only, no SSR) to avoid pdfjs-dist build issues
+const PdfFlipbook = dynamic(
+  () => import("@/components/elements/PdfFlipbook"),
+  { ssr: false, loading: () => <div className="text-center py-20 text-muted-foreground">جاري تحميل المصحف...</div> }
+);
 
 const PAGE_SIZE = 12;
 

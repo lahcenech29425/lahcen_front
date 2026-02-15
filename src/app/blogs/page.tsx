@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     title: "مقالات وخواطر | مقالات إسلامية وخواطر إيمانية",
     description:
       "اقرأ مقالات إسلامية وخواطر إيمانية تثري الروح وتُعمّق الفهم الديني. مواضيع متنوعة في العقيدة والعبادة والأخلاق.",
-    url: "https://www.lahcenway.com/blogs",
-    siteName: "لحسن",
+    url: "/blogs",
+    siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
     locale: "ar-SA",
     type: "website",
     images: [
       {
-        url: "https://www.lahcenway.com/og-blogs.jpg",
+        url: "/og-blogs.jpg",
         width: 1200,
         height: 630,
         alt: "مقالات وخواطر إسلامية",
@@ -38,10 +38,10 @@ export const metadata: Metadata = {
     title: "مقالات وخواطر | مقالات إسلامية وخواطر إيمانية",
     description:
       "اقرأ مقالات إسلامية وخواطر إيمانية تثري الروح وتُعمّق الفهم الديني",
-    images: ["https://www.lahcenway.com/og-blogs.jpg"],
+    images: ["/og-blogs.jpg"],
   },
   alternates: {
-    canonical: "https://www.lahcenway.com/blogs",
+    canonical: "/blogs",
   },
 };
 

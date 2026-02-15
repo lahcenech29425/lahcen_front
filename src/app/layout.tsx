@@ -122,52 +122,81 @@ const surahName = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.lahcenway.com"),
   title: {
-    default: "سِرَاجٌ يُضِيءُالدَّرْبَ",
-    template: "%s",
+    default: "سِرَاجٌ يُضِيءُالدَّرْبَ — منصة إسلامية شاملة",
+    template: "%s | سِرَاجٌ يُضِيءُالدَّرْبَ",
   },
   description:
-    "نُؤْمِنُ بِأَنَّ الْكَلِمَةَ الطَّيِّبَةَ صَدَقَةٌ جَارِيَةٌ — منصة قرآنية ومحتوى دعوي: تلاوات، أحاديث، ومقالات تربوية.",
+    "منصة إسلامية متكاملة لقراءة القرآن الكريم برواية حفص وورش، والاستماع للتلاوات، وتصفح الأحاديث النبوية، ومطالعة المقالات الدينية والكتب الإسلامية. نُؤْمِنُ بِأَنَّ الْكَلِمَةَ الطَّيِّبَةَ صَدَقَةٌ جَارِيَةٌ.",
   keywords: [
     "قرآن",
     "القرآن الكريم",
+    "قراءة القرآن",
+    "استماع القرآن",
+    "تلاوة القرآن",
     "الحديث الشريف",
+    "الأحاديث النبوية",
     "مقالات إسلامية",
-    "تلاوات",
-    "سراج",
+    "كتب إسلامية",
+    "أوقات الصلاة",
+    "تفسير القرآن",
+    "رواية حفص",
+    "رواية ورش",
+    "سراج يضيء الدرب",
+    "Quran",
+    "Quran online",
+    "Islamic articles",
+    "Hadith",
+    "Prayer times",
   ],
   authors: [{ name: "لحسن", url: "https://www.lahcenway.com" }],
+  creator: "لحسن",
+  publisher: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+  category: "religion",
   icons: {
     icon: "/favicon.ico",
     apple: "/apple-touch-icon.png",
     other: [{ rel: "manifest", url: "/site.webmanifest" }],
   },
   openGraph: {
-    title: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+    title: "سِرَاجٌ يُضِيءُالدَّرْبَ — منصة إسلامية شاملة",
     description:
       "منصة إسلامية متكاملة تُمكّنك من قراءة القرآن الكريم واستماعه، والتأمل في الأحاديث النبوية الشريفة، وقراءة مقالات دينية نافعة تثري الروح وتُعمّق الفهم الديني.",
     url: "https://www.lahcenway.com",
-    siteName: "لحسن",
+    siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
     images: [
       {
-        url: "https://www.lahcenway.com/og-image.jpg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+        alt: "سِرَاجٌ يُضِيءُالدَّرْبَ — منصة إسلامية شاملة",
       },
     ],
-    locale: "ar-SA",
+    locale: "ar_SA",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+    title: "سِرَاجٌ يُضِيءُالدَّرْبَ — منصة إسلامية شاملة",
+    description:
+      "منصة إسلامية متكاملة لقراءة القرآن الكريم والاستماع للتلاوات وتصفح الأحاديث والمقالات الدينية",
+    images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   alternates: {
-    canonical: "https://www.lahcenway.com/",
+    canonical: "/",
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || "",
   },
 };
 
@@ -232,6 +261,49 @@ export default async function RootLayout({
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
+        <GoogleAnalytics gaId="G-0KRYV6CWTN" />
+        {/* JSON-LD Structured Data - WebSite + Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.lahcenway.com/#website",
+                  url: "https://www.lahcenway.com",
+                  name: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+                  description:
+                    "منصة إسلامية متكاملة لقراءة القرآن الكريم والاستماع للتلاوات وتصفح الأحاديث والمقالات الدينية",
+                  inLanguage: "ar",
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: {
+                      "@type": "EntryPoint",
+                      urlTemplate:
+                        "https://www.lahcenway.com/quran?search={search_term_string}",
+                    },
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.lahcenway.com/#organization",
+                  name: "سِرَاجٌ يُضِيءُالدَّرْبَ",
+                  url: "https://www.lahcenway.com",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://www.lahcenway.com/og-image.jpg",
+                    width: 1200,
+                    height: 630,
+                  },
+                  sameAs: [],
+                },
+              ],
+            }),
+          }}
+        />
         {/* AdSense Script - Optimized loading */}
         <Script
           async
@@ -280,7 +352,6 @@ export default async function RootLayout({
           </>
         )}
       </body>
-      <GoogleAnalytics gaId="G-0KRYV6CWTN" />
     </html>
   );
 }

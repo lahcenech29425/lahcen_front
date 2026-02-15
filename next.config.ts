@@ -1,6 +1,32 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Enable Turbopack with empty config (pdfjs-dist is loaded via dynamic import with ssr:false)
+  turbopack: {},
+  
+  // Fix pdfjs-dist build: exclude node-specific modules from client/SSR bundles
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        canvas: false,
+      };
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        stream: false,
+        zlib: false,
+        http: false,
+        https: false,
+        url: false,
+        util: false,
+        canvas: false,
+      };
+    }
+    return config;
+  },
+
   images: {
     // Allow localhost images in development (Next.js 16 blocks private IPs by default)
     localPatterns: [

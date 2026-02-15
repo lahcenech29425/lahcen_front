@@ -202,7 +202,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         next: { revalidate: 3600 }, // Cache 1 heure
       }
     );
-    console.log("-----response from sitemap fetch:", response);
     if (response.ok) {
       const data: StrapiResponse = await response.json();
       if (data.data && Array.isArray(data.data)) {
@@ -309,8 +308,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/prayer-times`,
       lastModified: currentDate,
-      changeFrequency: "daily", // Change quotidiennement car les horaires de prière changent
-      priority: 0.9, // Haute priorité - page importante
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+  ];
+
+  // ========================================
+  // 7. SECTION QURAN AUDIO
+  // ========================================
+  const quranAudioPages: MetadataRoute.Sitemap = [
+    {
+      url: `${baseUrl}/quran-audio`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
   ];
 
@@ -353,19 +364,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...ayahPages, // 6236 versets
     ...hadithPages, // Section Hadith
     ...prayerPages, // Section Prayer Times
+    ...quranAudioPages, // Section Quran Audio
     ...additionalPages, // Autres pages
   ];
-
-  // Log pour le développement
-  console.log(`✅ Sitemap généré avec succès:`);
-  console.log(`   📄 Pages statiques: ${staticPages.length}`);
-  console.log(`   📝 Articles de blog: ${blogPages.length}`);
-  console.log(`   📚 Livres: ${bookPages.length}`);
-  console.log(`   📖 Sourates: ${surahPages.length}`);
-  console.log(`   📜 Versets: ${ayahPages.length}`);
-  console.log(`   📚 Pages Hadith: ${hadithPages.length}`);
-  console.log(`   🕌 Pages Prayer Times: ${prayerPages.length}`);
-  console.log(`   🌐 TOTAL: ${allPages.length} URLs`);
 
   return allPages;
 }

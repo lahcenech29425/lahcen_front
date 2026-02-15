@@ -31,17 +31,19 @@ export async function generateMetadata({
     openGraph: {
       title: `${edition.arabicName} | الاستماع للقرآن الكريم`,
       description: `استمع إلى القرآن الكريم بصوت ${edition.arabicName}`,
-      url: `https://www.lahcenway.com/quran-audio/${editionId}`,
-      siteName: "لحسن",
+      url: `/quran-audio/${editionId}`,
+      siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
       locale: "ar-SA",
       type: "website",
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${edition.arabicName} | الاستماع للقرآن الكريم`,
+      description: `استمع إلى القرآن الكريم بصوت ${edition.arabicName}`,
+      images: ["/og-quran-audio.jpg"],
     },
     alternates: {
-      canonical: `https://www.lahcenway.com/quran-audio/${editionId}`,
+      canonical: `/quran-audio/${editionId}`,
     },
   };
 }

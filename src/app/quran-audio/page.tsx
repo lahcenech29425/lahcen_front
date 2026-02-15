@@ -23,13 +23,13 @@ export const metadata: Metadata = {
         title: "الاستماع للقرآن الكريم | مكتبة القراء والتلاوات",
         description:
             "استمع إلى القرآن الكريم بصوت أشهر القراء العالميين. تلاوات مرتلة ومجودة عالية الجودة.",
-        url: "https://www.lahcenway.com/quran-audio",
-        siteName: "لحسن",
+        url: "/quran-audio",
+        siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
         locale: "ar-SA",
         type: "website",
         images: [
             {
-                url: "https://www.lahcenway.com/og-quran-audio.jpg",
+                url: "/og-quran-audio.jpg",
                 width: 1200,
                 height: 630,
                 alt: "الاستماع للقرآن الكريم",
@@ -41,10 +41,10 @@ export const metadata: Metadata = {
         title: "الاستماع للقرآن الكريم | مكتبة القراء والتلاوات",
         description:
             "استمع إلى القرآن الكريم بصوت أشهر القراء العالميين",
-        images: ["https://www.lahcenway.com/og-quran-audio.jpg"],
+        images: ["/og-quran-audio.jpg"],
     },
     alternates: {
-        canonical: "https://www.lahcenway.com/quran-audio",
+        canonical: "/quran-audio",
     },
     other: {
         "arabic-content": "true",

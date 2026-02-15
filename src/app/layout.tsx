@@ -211,7 +211,7 @@ export default async function RootLayout({
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/site-config`,
       {
-        cache: "no-store",
+        next: { revalidate: 60 },
         headers: { "Content-Type": "application/json" },
       },
     );

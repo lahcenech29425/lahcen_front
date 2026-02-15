@@ -66,7 +66,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="font-amiri text-4xl sm:text-5xl md:text-7xl text-white mb-6 leading-tight font-bold"
+            className="font-momken text-4xl sm:text-5xl md:text-7xl text-white mb-6 leading-tight font-bold"
           >
             {memorial.title}
           </motion.h1>
@@ -116,7 +116,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6">
                 <BookOpen size={32} className="text-primary" />
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground font-amiri">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4 text-foreground font-momken">
                 سيرة المرحوم
               </h2>
               <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed max-w-3xl mx-auto">
@@ -148,7 +148,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6">
               <Heart size={32} className="text-primary" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-amiri">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-momken">
               {memorial.section_title}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed max-w-4xl mx-auto">
@@ -204,7 +204,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground font-amiri">
+              <h3 className="text-2xl font-bold mb-4 text-foreground font-momken">
                 القرآن الكريم
               </h3>
               <p className="text-muted-foreground leading-relaxed text-base">
@@ -235,7 +235,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground font-amiri">
+              <h3 className="text-2xl font-bold mb-4 text-foreground font-momken">
                 الحديث الشريف
               </h3>
               <p className="text-muted-foreground leading-relaxed text-base">
@@ -266,7 +266,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                   />
                 </svg>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-foreground font-amiri">
+              <h3 className="text-2xl font-bold mb-4 text-foreground font-momken">
                 مقالات وبحوث
               </h3>
               <p className="text-muted-foreground leading-relaxed text-base">
@@ -293,7 +293,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-6">
               <HandHelping size={32} className="text-primary" />
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-amiri">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-momken">
               {memorial.dua_title}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed font-amiri max-w-3xl mx-auto">
@@ -346,7 +346,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             transition={{ duration: 0.6 }}
             className="mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-amiri">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-momken">
               تابعونا على وسائل التواصل
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 leading-relaxed">
@@ -382,7 +382,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
                       alt={social.platform}
                       width={40}
                       height={40}
-                      className="object-contain dark:invert"
+                      className="object-contain invert dark:invert-0"
                       loading="lazy"
                     />
                   </Link>

@@ -1,81 +1,104 @@
-import { Link } from "@/components/elements/Link";
-import type { BookType } from "@/types/book";
-import { ArrowLeft, BookOpen } from "lucide-react";
+"use client";
+import React from "react";
+import Link from "next/link";
 import Image from "next/image";
-import Badge from "@/components/elements/Badge";
+import { BookOpen, Calendar, ArrowUpRight, Star } from "lucide-react";
+import type { BookType } from "@/types/book";
 
-export default function BookCard({ book }: { book: BookType }) {
-    return (
-        <div className="bg-white dark:bg-[#1a1a1a] rounded-xl shadow dark:shadow-gray-900 hover:shadow-lg dark:hover:shadow-gray-800 transition flex flex-col h-full group">
-            {/* Cover Image */}
-            <div className="relative overflow-hidden rounded-t-xl bg-gray-100 dark:bg-gray-800">
-                {/* Aspect Ratio Container - 3:4 for book covers */}
-                <div className="relative w-full" style={{ aspectRatio: '3 / 4' }}>
-                    {book.coverImage ? (
-                        <Image
-                            src={book.coverImage.url}
-                            alt={book.coverImage.alternativeText || book.title}
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                            className="object-contain transition-all duration-300 group-hover:scale-105 p-2"
-                            loading="lazy"
-                            style={{ objectPosition: 'center' }}
-                        />
-                    ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex flex-col items-center justify-center gap-3">
-                            <BookOpen size={56} className="text-gray-400 dark:text-gray-500" />
-                            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">لا توجد صورة</p>
-                        </div>
-                    )}
-                </div>
+interface BookCardProps {
+  book: BookType;
+}
 
-                {/* Category Badge */}
-                <div className="absolute top-3 right-3 z-10">
-                    <Badge
-                        bg="bg-white/90 backdrop-blur-sm"
-                        color="text-gray-800"
-                        rounded="rounded-lg"
-                        className="shadow-sm"
-                    >
-                        {book.category}
-                    </Badge>
-                </div>
-            </div>
+export default function BookCard({ book }: BookCardProps) {
+  return (
+    <Link href={`/books/${book.slug}`} className="group relative block h-full">
+      {/* Card Container */}
+      <div className="relative h-full bg-card rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col">
+        {/* Image Section */}
+        <div className="relative h-[240px] w-full bg-gradient-to-br from-primary/5 via-secondary/5 to-primary/10 flex items-center justify-center p-6 overflow-hidden">
+          {/* Decorative Pattern Background */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: "url('/assets/bg.svg')",
+              backgroundPosition: "center",
+              backgroundRepeat: "repeat",
+              backgroundSize: "100px",
+            }}
+          />
 
-            {/* Content */}
-            <div className="p-5 flex flex-col flex-1">
-                <h3 className="text-lg font-bold mb-1 text-gray-900 dark:text-white line-clamp-2">
-                    {book.title}
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">{book.author}</p>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-                    {book.description.slice(0, 100)}...
-                </p>
+          {/* Category Badge - Top Right */}
+          <div className="absolute top-3 right-3 z-10">
+            <span className="px-3 py-1 text-xs font-bold text-primary bg-primary/10 backdrop-blur-sm rounded-full border border-primary/20">
+              {book.category}
+            </span>
+          </div>
 
-                {/* Metadata */}
-                <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-4">
-                    <span className="flex items-center gap-1">
-                        <BookOpen size={14} />
-                        {book.pageCount} صفحة
-                    </span>
-                    <span>•</span>
-                    <span>{book.publishedYear}</span>
-                </div>
+          {/* Shadow for depth */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-2/3 h-3 bg-black/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Link */}
-                <div className="mt-auto">
-                    <Link
-                        href={`/books/${book.slug}`}
-                        className="group/link inline-flex items-center gap-1.5 text-gray-700 dark:text-gray-300 font-medium hover:text-gray-900 dark:hover:text-white transition-colors"
-                    >
-                        <span>عرض الكتاب</span>
-                        <ArrowLeft
-                            size={14}
-                            className="relative top-[1px] transition-transform group-hover/link:translate-x-[-2px]"
-                        />
-                    </Link>
-                </div>
-            </div>
+          {/* The Actual Book Image */}
+          <div className="relative w-[130px] h-[180px] shadow-2xl shadow-black/20 transform transition-transform duration-500 group-hover:scale-110 group-hover:-translate-y-2">
+            {book.coverImage ? (
+              <Image
+                src={book.coverImage.url}
+                alt={book.title}
+                fill
+                className="object-cover rounded-r-lg rounded-l-sm"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center rounded-r-lg rounded-l-sm text-primary-foreground">
+                <BookOpen size={48} className="opacity-70" />
+              </div>
+            )}
+            {/* Book Spine Effect */}
+            <div className="absolute top-0 left-0 w-[8px] h-full bg-gradient-to-r from-white/40 via-white/20 to-transparent z-10" />
+            <div className="absolute top-0 left-0 w-[2px] h-full bg-black/30 z-10" />
+
+            {/* Shine effect on hover */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-r-lg" />
+          </div>
         </div>
-    );
+
+        {/* Content Section */}
+        <div className="flex-1 p-5 flex flex-col justify-between relative bg-card">
+          <div className="flex-1">
+            <h3
+              className="text-lg font-bold font-momken text-foreground line-clamp-2 mb-2 group-hover:text-primary transition-colors"
+              title={book.title}
+            >
+              {book.title}
+            </h3>
+            <p className="text-sm text-muted-foreground font-medium line-clamp-1 mb-1">
+              {book.author}
+            </p>
+          </div>
+
+          {/* Footer with Meta Info */}
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <BookOpen size={13} />
+                <span className="font-medium">{book.pageCount}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <Calendar size={13} />
+                <span className="font-medium">{book.publishedYear}</span>
+              </span>
+            </div>
+
+            <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all shadow-sm">
+              <ArrowUpRight
+                size={18}
+                className="group-hover:rotate-45 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Subtle border glow on hover */}
+        <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-transparent group-hover:ring-primary/20 pointer-events-none transition-all duration-300" />
+      </div>
+    </Link>
+  );
 }

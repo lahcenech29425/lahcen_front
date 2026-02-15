@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/blocks/header/Header";
 import Footer from "@/components/blocks/footer/Footer";
@@ -9,6 +11,7 @@ import GoToTop from "@/components/elements/GoToTop";
 import SocialMediaBar from "@/components/blocks/social/SocialMediaBar";
 import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import MaintenancePage from "@/components/pages/MaintenancePage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +21,102 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const thuluth = localFont({
+  src: [
+    {
+      path: "../../public/fonts/AThuluthRegular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-thuluth",
+  display: "swap",
+});
+
+const momken = localFont({
+  src: [
+    {
+      path: "../../public/fonts/KoMomken-Regular.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-momken",
+  display: "swap",
+});
+
+const amiri = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Amiri-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-amiri",
+  display: "swap",
+});
+
+const warshQuran = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Almaghribi Warsh-Quran.otf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-warsh-quran",
+  display: "swap",
+});
+
+const elgharibHafs = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Elgharib-HAFSTharwatEmara.otf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-elgharib-hafs",
+  display: "swap",
+});
+
+const kfgqpcWarsh = localFont({
+  src: [
+    {
+      path: "../../public/fonts/KFGQPC-Warsh V2-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-kfgqpc-warsh",
+  display: "swap",
+});
+
+const kfgqpcHafs = localFont({
+  src: [
+    {
+      path: "../../public/fonts/KFGQPC-HAFS Uthmanic-V22.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-kfgqpc-hafs",
+  display: "swap",
+});
+
+const surahName = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Surah Name Ejazah @Am9li9.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-surah-name",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -77,13 +176,51 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const header = await fetchApi(
-    "/api/header?populate[logo][populate]=*&populate[menu][populate]=*&populate[cta][populate]=*"
-  );
-  const footer = await fetchApi(
-    "/api/footer?populate=logo.image&populate=menu.links&populate=socialLinks.icon&populate=contact.icon"
-  );
-  const announcementBar = await fetchApi("/api/announcement-bar");
+  // Fetch site config for maintenance mode (no cache - must be always fresh)
+  let siteConfig = null;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/site-config`,
+      {
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+    if (res.ok) {
+      const json = await res.json();
+      siteConfig = json.data;
+    }
+  } catch (e) {
+    console.error("Failed to fetch site-config:", e);
+  }
+  const isMaintenanceMode = siteConfig?.maintenanceMode === true;
+  const maintenanceTitle = siteConfig?.maintenanceTitle || "الموقع تحت الصيانة";
+  const maintenanceMessage =
+    siteConfig?.maintenanceMessage ||
+    "نحن نعمل على تحسين الموقع. يرجى العودة لاحقاً.";
+
+  let header = null;
+  let footer = null;
+  let announcementBar = null;
+  
+  if (!isMaintenanceMode) {
+    try {
+      header = await fetchApi(
+        "/api/header?populate[logo][populate]=*&populate[menu][populate]=*&populate[cta][populate]=*",
+      );
+    } catch (e) { console.warn("Header API fetch failed") }
+
+    try {
+      footer = await fetchApi(
+        "/api/footer?populate=logo.image&populate=menu.links&populate=socialLinks.icon&populate=contact.icon",
+      );
+    } catch (e) { console.warn("Footer API fetch failed") }
+
+    try {
+      announcementBar = await fetchApi("/api/announcement-bar");
+    } catch (e) { console.warn("Announcement Bar API fetch failed") }
+  }
+  
   const showGoToTop = footer?.showGoToTop ?? false;
 
   const matchedPath = (await headers()).get("x-matched-path") || "";
@@ -93,13 +230,16 @@ export default async function RootLayout({
     matchedPath.toLowerCase().includes("not-found") ||
     matchedPath === "ss";
   return (
-    <html lang="ar" dir="rtl">
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
-        <script
+        {/* AdSense Script - Optimized loading */}
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4133177659377237"
           crossOrigin="anonymous"
-        ></script>
+          strategy="afterInteractive"
+        />
+
         {/* Inject dark mode script before CSS for instant theme */}
         <script
           dangerouslySetInnerHTML={{
@@ -118,38 +258,27 @@ export default async function RootLayout({
             `,
           }}
         />
-        <link rel="icon" href="/favicon.ico" />{" "}
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />{" "}
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />{" "}
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#0f172a" />{" "}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${thuluth.variable} ${momken.variable} ${amiri.variable} ${warshQuran.variable} ${elgharibHafs.variable} ${kfgqpcWarsh.variable} ${kfgqpcHafs.variable} ${surahName.variable} antialiased flex flex-col min-h-screen`}
       >
-        {!isNotFoundRoute && <AnnouncementBar data={announcementBar} />}
-        {!isNotFoundRoute && <Header data={header} />}
-        <SocialMediaBar />
-        <main className="flex-1 min-h-[calc(100vh-200px)]">
-          {children}
-        </main>
-        {!isNotFoundRoute && <Footer data={footer} />}
-        {!isNotFoundRoute && showGoToTop && <GoToTop />}
+        {isMaintenanceMode ? (
+          <MaintenancePage
+            title={maintenanceTitle}
+            message={maintenanceMessage}
+          />
+        ) : (
+          <>
+            {!isNotFoundRoute && announcementBar && (
+              <AnnouncementBar data={announcementBar} />
+            )}
+            {!isNotFoundRoute && header && <Header data={header} />}
+            <SocialMediaBar />
+            <main className="flex-1 min-h-[calc(100vh-200px)]">{children}</main>
+            {!isNotFoundRoute && footer && <Footer data={footer} />}
+            {!isNotFoundRoute && footer && <GoToTop />}
+          </>
+        )}
       </body>
       <GoogleAnalytics gaId="G-0KRYV6CWTN" />
     </html>

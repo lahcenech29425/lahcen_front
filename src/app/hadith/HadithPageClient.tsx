@@ -8,7 +8,10 @@ import {
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
 import { HadithCard } from "@/components/elements/HadithCard";
+import Breadcrumb from "@/components/elements/Breadcrumb";
 import type { MutableRefObject } from "react";
+import { Search, BookOpen, Filter, Book } from "lucide-react";
+import { motion } from "framer-motion";
 
 type Chapter = {
   number: string | number | readonly string[] | undefined;
@@ -76,7 +79,7 @@ export default function HadithPageClient() {
   const [loading, setLoading] = useState(false);
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>(
-    [] as (HTMLDivElement | null)[]
+    [] as (HTMLDivElement | null)[],
   );
 
   useEffect(() => {
@@ -138,7 +141,7 @@ export default function HadithPageClient() {
           const filtered = list.filter(
             (h) =>
               String(h.hadithNumber ?? h.number ?? h.id) ===
-              String(hadithNumber)
+              String(hadithNumber),
           );
           setHadiths(filtered);
           return;
@@ -152,7 +155,7 @@ export default function HadithPageClient() {
           const filtered = list.filter(
             (h) =>
               String(h.hadithNumber ?? h.number ?? h.id) ===
-              String(search.trim())
+              String(search.trim()),
           );
           setHadiths(filtered);
           return;
@@ -199,200 +202,293 @@ export default function HadithPageClient() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
-      <nav className="mb-8 flex items-center gap-4 text-sm text-[#232323] dark:text-[#ededed]">
-        <Link
-          href="/"
-          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Decorative Background Patterns (Brown) */}
+      <div className="fixed top-[20%] left-[-10%] w-[500px] h-[500px] opacity-[0.04] pointer-events-none z-0 rotate-12">
+        <div
+          className="w-full h-full bg-primary"
+          style={{
+            maskImage: "url('/assets/bg.svg')",
+            WebkitMaskImage: "url('/assets/bg.svg')",
+            maskSize: "contain",
+            WebkitMaskSize: "contain",
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+          }}
+        />
+      </div>
+      <div className="fixed bottom-[-10%] right-[-5%] w-[600px] h-[600px] opacity-[0.04] pointer-events-none z-0 -rotate-12">
+        <div
+          className="w-full h-full bg-primary"
+          style={{
+            maskImage: "url('/assets/bg.svg')",
+            WebkitMaskImage: "url('/assets/bg.svg')",
+            maskSize: "contain",
+            WebkitMaskSize: "contain",
+            maskRepeat: "no-repeat",
+            WebkitMaskRepeat: "no-repeat",
+          }}
+        />
+      </div>
+
+      {/* 1. HERO SECTION */}
+      <div className="relative w-full h-[350px] md:h-[400px] overflow-hidden bg-primary/20 z-10">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/hadith-header.png')" }}
         >
-          الرئيسية
-        </Link>
-        <span>/</span>
-        <span className="text-[#232323] dark:text-[#ededed] font-semibold">
-          الحديث الشريف
-        </span>
-      </nav>
-
-      <h1 className="text-3xl font-bold mb-2 text-[#232323] dark:text-[#ededed] text-center">
-        الحديث الشريف
-      </h1>
-      <p className="text-center text-[#232323] dark:text-[#ededed] mb-8 max-w-2xl mx-auto">
-        تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث أو برقم
-        الحديث.
-      </p>
-
-      <div className="flex flex-col md:flex-row gap-4 mb-8 justify-center">
-        <div className="relative w-full md:w-64">
-          <select
-            className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
-            value={selectedBook}
-            onChange={(e) => {
-              setSelectedBook(e.target.value);
-              setPage(1);
-            }}
-          >
-            {books.map((b) => (
-              <option key={b.slug} value={b.slug}>
-                {BOOK_AR_NAMES[b.slug] ?? b.name}
-              </option>
-            ))}
-          </select>
+          <div className="absolute inset-0 bg-black/60" />
         </div>
 
-        <div className="relative w-full md:w-64">
-          <select
-            className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
-            value={selectedChapter}
-            onChange={(e) => {
-              setSelectedChapter(e.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="">كل الفصول</option>
-            {chapters.map((ch) => (
-              <option key={String(ch.id)} value={String(ch.number)}>
-                {ch.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="relative w-full md:w-80">
-          <input
-            className="border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
-            placeholder="ابحث في نص الحديث..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPage(1);
-            }}
-            dir="rtl"
-            autoComplete="off"
-          />
-        </div>
-      </div>
-
-      {selectedBook && selectedChapter && (
-        <div className="mb-6 flex justify-center">
-          <div className="relative w-full md:w-64">
-            <input
-              inputMode="numeric"
-              pattern="[0-9]*"
-              className="border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
-              placeholder="ابحث برقم الحديث (مثال: 1)"
-              value={hadithNumber}
-              onChange={(e) => {
-                const v = e.target.value.replace(/\D/g, "");
-                setHadithNumber(v);
-                setPage(1);
-                if (v) setSearch("");
-              }}
-              dir="rtl"
-              autoComplete="off"
-            />
-          </div>
-        </div>
-      )}
-
-      <div className="space-y-8 mt-8">
-        {loading ? (
-          <div className="text-center text-[#232323] dark:text-[#ededed] py-10">
-            جاري التحميل...
-          </div>
-        ) : hadiths.length === 0 ? (
-          <div className="text-center text-[#232323] dark:text-[#ededed] py-10">
-            لا توجد أحاديث مطابقة.
-          </div>
-        ) : (
-          hadiths.map((h, idx) => {
-            const rawStatus = (h.status ?? "") as string;
-            const statusKey = rawStatus.trim().toLowerCase();
-            const status = STATUS_AR[statusKey] ?? rawStatus ?? "";
-
-            const bookSlug = (h.bookSlug ?? h.book?.bookSlug ?? "") as string;
-            const bookApiName = (h.book?.bookName ??
-              h.bookName ??
-              "") as string;
-            const bookName =
-              (bookApiName && /[^\x00-\x7F]/.test(bookApiName)
-                ? bookApiName
-                : "") ||
-              BOOK_AR_NAMES[bookSlug] ||
-              books.find((b) => b.slug === bookSlug)?.name ||
-              bookApiName ||
-              "";
-
-            const chapterIdOrNum = (h.chapterId ??
-              h.chapterNumber ??
-              h.chapter?.chapterNumber ??
-              "") as string | number;
-            const chapterLabel =
-              ((h.chapter?.chapterArabic as string | undefined) ||
-                (h.chapter?.chapterEnglish as string | undefined) ||
-                (h.chapter?.chapterNumber as string | undefined) ||
-                chapters.find(
-                  (ch) =>
-                    String(ch.number) === String(chapterIdOrNum) ||
-                    String(ch.id) === String(chapterIdOrNum)
-                )?.name) ??
-              "";
-
-            return (
-              <HadithCard
-                key={String(h.id) ?? idx}
-                hadith={h}
-                idx={idx}
-                cardRefs={
-                  cardRefs as MutableRefObject<(HTMLDivElement | null)[]>
-                }
-                onDownload={handleDownload}
-                bookName={bookName}
-                chapterLabel={chapterLabel}
-                status={status}
+        {/* Breadcrumb */}
+        <div className="absolute top-0 left-0 right-0 z-20 pt-32">
+          <div className="max-w-7xl mx-auto px-4 md:px-8">
+            <div className="bg-black/20 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/10">
+              <Breadcrumb
+                items={[{ label: "الحديث الشريف" }]}
+                textColor="text-white"
+                showHomeLabel={true}
+                className="!mb-0"
               />
-            );
-          })
-        )}
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-momken text-white drop-shadow-2xl">
+              الحديث الشريف
+            </h1>
+            <p className="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
+              تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث لتعميق
+              فهمك للسنة النبوية.
+            </p>
+          </motion.div>
+        </div>
       </div>
 
-      <div className="flex justify-center gap-2 mt-10">
-        {page > 1 && (
-          <button
-            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] text-[#232323] dark:text-[#ededed]"
-            onClick={() => setPage(page - 1)}
-          >
-            السابق
-          </button>
-        )}
-        <span className="px-4 py-2 rounded-lg bg-[#232323] dark:bg-[#1a1a1a] text-[#ededed] font-semibold shadow">
-          {page}
-        </span>
-        {hadiths.length === PAGE_SIZE && (
-          <button
-            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] text-[#232323] dark:text-[#ededed]"
-            onClick={() => setPage(page + 1)}
-          >
-            التالي
-          </button>
-        )}
+      {/* 2. FILTERS & SEARCH */}
+      <div className="container mx-auto px-4 -mt-10 relative z-20 mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white dark:bg-black/20 rounded-2xl shadow-xl border border-primary/10 p-6 md:p-8"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {/* Book Select */}
+            <div className="relative group">
+              <label className="block text-xs font-bold text-primary mb-2 pr-1">
+                كتاب الحديث
+              </label>
+              <div className="relative">
+                <Book
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"
+                  size={18}
+                />
+                <select
+                  className="w-full appearance-none bg-secondary/50 border border-border rounded-xl py-3 pr-10 pl-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  value={selectedBook}
+                  onChange={(e) => {
+                    setSelectedBook(e.target.value);
+                    setPage(1);
+                  }}
+                >
+                  {books.map((b) => (
+                    <option key={b.slug} value={b.slug}>
+                      {BOOK_AR_NAMES[b.slug] ?? b.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Chapter Select */}
+            <div className="relative group">
+              <label className="block text-xs font-bold text-primary mb-2 pr-1">
+                الباب / الفصل
+              </label>
+              <div className="relative">
+                <BookOpen
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"
+                  size={18}
+                />
+                <select
+                  className="w-full appearance-none bg-secondary/50 border border-border rounded-xl py-3 pr-10 pl-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  value={selectedChapter}
+                  onChange={(e) => {
+                    setSelectedChapter(e.target.value);
+                    setPage(1);
+                  }}
+                >
+                  <option value="">كل الفصول</option>
+                  {chapters.map((ch) => (
+                    <option key={String(ch.id)} value={String(ch.number)}>
+                      {ch.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative group lg:col-span-1">
+              <label className="block text-xs font-bold text-primary mb-2 pr-1">
+                بحث نصي
+              </label>
+              <div className="relative">
+                <Search
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"
+                  size={18}
+                />
+                <input
+                  className="w-full bg-secondary/50 border border-border rounded-xl py-3 pr-10 pl-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  placeholder="كلمة مفتاحية..."
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setPage(1);
+                  }}
+                  dir="rtl"
+                  autoComplete="off"
+                />
+              </div>
+            </div>
+
+            {/* Number Search */}
+            <div className="relative group">
+              <label className="block text-xs font-bold text-primary mb-2 pr-1">
+                رقم الحديث
+              </label>
+              <div className="relative">
+                <Filter
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors"
+                  size={18}
+                />
+                <input
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  className="w-full bg-secondary/50 border border-border rounded-xl py-3 pr-10 pl-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                  placeholder="مثال: 142"
+                  value={hadithNumber}
+                  onChange={(e) => {
+                    const v = e.target.value.replace(/\D/g, "");
+                    setHadithNumber(v);
+                    setPage(1);
+                    if (v) setSearch("");
+                  }}
+                  dir="rtl"
+                  autoComplete="off"
+                  disabled={!selectedBook || !selectedChapter}
+                />
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
-      <style jsx>{`
-        .animate-fade-in {
-          opacity: 0;
-          animation: fadeInUp 0.5s forwards;
-        }
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-        }
-      `}</style>
+      {/* 3. CONTENT GRID */}
+      <div className="container mx-auto px-4 pb-20 max-w-4xl" dir="rtl">
+        <div className="space-y-6">
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4" />
+              <p className="text-primary animate-pulse">
+                جاري تحميل الأحاديث...
+              </p>
+            </div>
+          ) : hadiths.length === 0 ? (
+            <div className="text-center py-20 bg-background/50 rounded-3xl border border-dashed border-border">
+              <BookOpen
+                size={48}
+                className="mx-auto text-gray-300 dark:text-gray-600 mb-4"
+              />
+              <p className="text-gray-500 dark:text-gray-400">
+                لا توجد أحاديث مطابقة للبحث.
+              </p>
+            </div>
+          ) : (
+            hadiths.map((h, idx) => {
+              const rawStatus = (h.status ?? "") as string;
+              const statusKey = rawStatus.trim().toLowerCase();
+              const status = STATUS_AR[statusKey] ?? rawStatus ?? "";
+
+              const bookSlug = (h.bookSlug ?? h.book?.bookSlug ?? "") as string;
+              const bookApiName = (h.book?.bookName ??
+                h.bookName ??
+                "") as string;
+              const bookName =
+                (bookApiName && /[^\x00-\x7F]/.test(bookApiName)
+                  ? bookApiName
+                  : "") ||
+                BOOK_AR_NAMES[bookSlug] ||
+                books.find((b) => b.slug === bookSlug)?.name ||
+                bookApiName ||
+                "";
+
+              const chapterIdOrNum = (h.chapterId ??
+                h.chapterNumber ??
+                h.chapter?.chapterNumber ??
+                "") as string | number;
+              const chapterLabel =
+                ((h.chapter?.chapterArabic as string | undefined) ||
+                  (h.chapter?.chapterEnglish as string | undefined) ||
+                  (h.chapter?.chapterNumber as string | undefined) ||
+                  chapters.find(
+                    (ch) =>
+                      String(ch.number) === String(chapterIdOrNum) ||
+                      String(ch.id) === String(chapterIdOrNum),
+                  )?.name) ??
+                "";
+
+              return (
+                <HadithCard
+                  key={String(h.id) ?? idx}
+                  hadith={h}
+                  idx={idx}
+                  cardRefs={
+                    cardRefs as MutableRefObject<(HTMLDivElement | null)[]>
+                  }
+                  onDownload={handleDownload}
+                  bookName={bookName}
+                  chapterLabel={chapterLabel}
+                  status={status}
+                />
+              );
+            })
+          )}
+        </div>
+
+        {/* Pagination */}
+        {hadiths.length > 0 && (
+          <div className="flex justify-center gap-2 mt-12">
+            {page > 1 && (
+              <button
+                className="px-5 py-2.5 rounded-xl bg-background border border-border hover:border-primary text-foreground transition-all shadow-sm"
+                onClick={() => setPage(page - 1)}
+              >
+                السابق
+              </button>
+            )}
+            <span className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20">
+              {page}
+            </span>
+            {hadiths.length === PAGE_SIZE && (
+              <button
+                className="px-5 py-2.5 rounded-xl bg-background border border-border hover:border-primary text-foreground transition-all shadow-sm"
+                onClick={() => setPage(page + 1)}
+              >
+                التالي
+              </button>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -63,3 +63,24 @@ export type NextPrayerInfo = {
   date: Date;
   inMs: number;
 };
+
+export type CalendarDayData = {
+  gregorianDate: string; // dd-mm-yyyy
+  gregorianDay: string;
+  gregorianMonth: string; // Month name
+  gregorianYear: string;
+  gregorianWeekday: string; // Arabic weekday
+  hijriDate: string; // dd-mm-yyyy
+  hijriDay: string;
+  hijriMonth: string; // Arabic month name
+  hijriYear: string;
+  hijriWeekday: string;
+  timings: {
+    Fajr: string;
+    Sunrise: string;
+    Dhuhr: string;
+    Asr: string;
+    Maghrib: string;
+    Isha: string;
+  };
+};

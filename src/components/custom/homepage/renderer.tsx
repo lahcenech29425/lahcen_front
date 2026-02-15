@@ -2,6 +2,7 @@
 import HeroSection from "./hero_section/HeroSection";
 import StatsSection from "./stats_section/StatsSection";
 import ExploreSection from "./explore_section/ExploreSection";
+import FeatureSection from "./feature_section/FeatureSection";
 import Slider from "./slider/Slider";
 import ServicesSection from "./services_section/ServicesSection";
 import type { BlockData } from "@/types/blocks";
@@ -11,6 +12,8 @@ import type { ServicesSection as ServicesSectionType } from "@/types/servicesSec
 import type { HeroSection as HeroSectionType } from "@/types/heroSection";
 import type { ExploreSection as ExploreSectionType } from "@/types/ExploreSection";
 import { StatsSectionType } from "@/types/statsSection";
+// Import normalizer
+import { normalizeHeroSection } from "./hero_section/normalizer";
 // Importez les autres types si nécessaire
 
 export default function BlockRenderer({ blocks }: { blocks: BlockData[] }) {
@@ -19,16 +22,18 @@ export default function BlockRenderer({ blocks }: { blocks: BlockData[] }) {
       {blocks.map((block, i) => {
         switch (block.__component) {
           case "blocks.hero-section":
-            // Utiliser une assertion de type pour indiquer le type spécifique
-            return <HeroSection key={block.id} data={block as unknown as HeroSectionType} />;
+            // Normalize data before passing to component
+            return <HeroSection key={`${block.id}-${i}`} data={normalizeHeroSection(block)} />;
           case "blocks.stats-section":
-            return <StatsSection key={block.id} data={block as unknown as StatsSectionType} />;
+            return <StatsSection key={`${block.id}-${i}`} data={block as unknown as StatsSectionType} />;
           case "blocks.slider":
-            return <Slider key={block.id} data={block as unknown as SliderType} />;
+            return <Slider key={`${block.id}-${i}`} data={block as unknown as SliderType} />;
           case "blocks.explore-section":
-            return <ExploreSection key={block.id} data={block as unknown as ExploreSectionType} index={i} />;
+            return <ExploreSection key={`${block.id}-${i}`} data={block as unknown as ExploreSectionType} index={i} />;
+          case "blocks.feature-section":
+            return <FeatureSection key={`${block.id}-${i}`} data={block as any} index={i} />;
           case "blocks.services-section":
-            return <ServicesSection key={block.id} data={block as unknown as ServicesSectionType} />;
+            return <ServicesSection key={`${block.id}-${i}`} data={block as unknown as ServicesSectionType} />;
           default:
             return null;
         }

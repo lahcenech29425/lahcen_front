@@ -11,6 +11,8 @@ import ImageCard from "@/components/elements/ImageCard";
 import { ScrollFadeIn } from "@/components/elements/ScrollFadeIn";
 import type { BlogType } from "@/types/blog";
 import type { ImageType } from "@/types/image";
+import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 
 interface ExploreSectionProps {
   data: ExploreSection;
@@ -21,6 +23,7 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
   const section = normalizeExploreSection(data);
   const [items, setItems] = useState<(BlogType | ImageType)[]>([]);
   const [loading, setLoading] = useState(true);
+
   const getEndpoint = () => {
     const endpoint = `/api/${section.itemType}`;
     const params = [
@@ -47,8 +50,8 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
         ) {
           normalized = Array.isArray(rawItems[0]?.images)
             ? rawItems[0].images.map(
-                (img: ImageType) => normalizeImage(img) as ImageType
-              )
+              (img: ImageType) => normalizeImage(img) as ImageType
+            )
             : [];
         }
         setItems(normalized);
@@ -58,119 +61,89 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
     // eslint-disable-next-line
   }, [section.itemType, section.fetchCount, section.fetchCondition]);
 
-  // Alternance alignement : pair = left, impair = right
-  const isLeft = index % 2 !== 0;
-  // Alternance background
-  const bgClass = isLeft
-    ? "bg-gray-50 dark:bg-[#232323]"
-    : "bg-gray-100 dark:bg-[#1a1a1a]";
-
-  // Détermine le flex selon le type d'item
-  const sectionFlex =
-    section.itemType === "blogs" || section.itemType === "blog"
-      ? "flex flex-col"
-      : `flex flex-col md:flex-row ${
-          isLeft ? "" : "md:flex-row-reverse"
-        } items-center gap-12`;
-
   return (
-    <section className={`py-16 ${bgClass}`}>
-      <div className={`max-w-7xl mx-auto ${sectionFlex} px-4 md:px-8`}>
-        {/* Texte & bouton */}
-        <div
-          className={`flex-1 flex flex-col justify-center ${
-            isLeft
-              ? "text-left items-start"
-              : "md:pl-12 text-right items-end"
-          }`}
-        >
-          <div className="w-full md:w-auto">
-            <ScrollFadeIn delay={100}>
-              <h2 className="text-3xl md:text-4xl font-extrabold mb-4 text-primary dark:text-primary-light text-right">
-                {section.title}
-              </h2>
-            </ScrollFadeIn>
-            <ScrollFadeIn delay={250}>
-              <p
-                className={`mb-8 text-lg text-gray-600 dark:text-gray-300 text-right`}
-              >
-                {section.subtitle}
-              </p>
-            </ScrollFadeIn>
-            <ScrollFadeIn delay={400}>
-              <div className="flex justify-start">
-                <Link
-                  href={section.button.url}
-                  isExternal={section.button.is_external}
-                  className={`inline-block px-8 py-3 rounded-lg font-bold shadow transition
-                    ${
-                      isLeft
-                        ? "bg-gray-700 dark:bg-[#454545] text-white hover:bg-gray-600 dark:hover:bg-[#1a1a1a]"
-                        : "bg-gray-900 dark:bg-[#454545] text-white hover:bg-gray-800 dark:hover:bg-[#2d2d2d]"
-                    }
-                  `}
-                >
-                  {section.button.title}
-                </Link>
-              </div>
-            </ScrollFadeIn>
-          </div>
+    <section className="relative py-24 overflow-hidden bg-transparent">
+      {/* Background patterns are now handled globally in globals.css */}
+
+      {/* Decorative elements */}
+      <div className="absolute top-10 left-10 w-96 h-96 bg-primary/5 rounded-full blur-[120px]" />
+      <div className="absolute bottom-10 right-10 w-80 h-80 bg-secondary/20 rounded-full blur-[100px]" />
+
+      <div className="relative max-w-7xl mx-auto flex flex-col px-4 md:px-8 z-10">
+        {/* Header - Centered */}
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-momken"
+          >
+            {section.title}
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+          >
+            {section.subtitle}
+          </motion.p>
         </div>
+
         {/* Cards */}
-        <div className="flex-1 w-full mt-8">
+        <div className="w-full mb-12">
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {Array.from({ length: section.fetchCount }).map((_, idx) => (
                 <div
                   key={idx}
-                  className="h-48 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-lg"
+                  className="h-96 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#2a2219] dark:to-[#221c16] animate-pulse rounded-2xl"
                 />
               ))}
             </div>
           ) : section.itemType === "blogs" || section.itemType === "blog" ? (
-            <div className="grid xsgrid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {items.map((item, idx) => (
-                <ScrollFadeIn key={item.id} delay={500 + idx * 120}>
+                <ScrollFadeIn key={item.id} delay={450 + idx * 120}>
                   <BlogCard blog={item as BlogType} />
                 </ScrollFadeIn>
               ))}
             </div>
-          ) : section.itemType === "quran-images" ||
-            section.itemType === "hadith-images" ? (
-            <>
-              {/* Affichage identique sur mobile et desktop : liste compacte */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {items.map((img, idx) => (
-                  <ScrollFadeIn key={idx} delay={150 + idx * 60}>
-                    <ImageCard
-                      image={img as ImageType}
-                      fetchType={
-                        section.itemType === "quran-images" ? "quran" : "hadith"
-                      }
-                    />
-                  </ScrollFadeIn>
-                ))}
-              </div>
-            </>
+          ) : section.itemType === "quran-images" || section.itemType === "hadith-images" ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {items.map((img, idx) => (
+                <ScrollFadeIn key={idx} delay={150 + idx * 60}>
+                  <ImageCard
+                    image={img as ImageType}
+                    fetchType={section.itemType === "quran-images" ? "quran" : "hadith"}
+                  />
+                </ScrollFadeIn>
+              ))}
+            </div>
           ) : null}
         </div>
+
+        {/* CTA Button - Bottom centered */}
+        <div className="text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+          >
+            <Link
+              href={section.button.url}
+              isExternal={section.button.is_external}
+              className="group inline-flex items-center gap-3 px-10 py-4 bg-primary rounded-full text-primary-foreground font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+            >
+              <span>{section.button.title}</span>
+              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+            </Link>
+          </motion.div>
+        </div>
       </div>
-      {/* Animation CSS globale */}
-      <style jsx global>{`
-        @keyframes fade-in-up {
-          0% {
-            opacity: 0;
-            transform: translateY(32px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-in-up {
-          animation: fade-in-up 0.9s cubic-bezier(0.4, 0, 0.2, 1) both;
-        }
-      `}</style>
     </section>
   );
 }

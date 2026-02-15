@@ -83,7 +83,7 @@ export default function DownloadButton({ book }: DownloadButtonProps) {
                 <button
                     onClick={handleDownload}
                     disabled={isDownloading || !book.pdfFile?.url}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-xl hover:bg-gray-700 transition disabled:opacity-50 disabled:cursor-not-allowed font-medium flex-1"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gold text-white rounded-xl hover:bg-gold-dark transition disabled:opacity-50 disabled:cursor-not-allowed font-medium flex-1"
                 >
                     {isDownloading ? (
                         <>
@@ -98,7 +98,7 @@ export default function DownloadButton({ book }: DownloadButtonProps) {
                     )}
                 </button>
             </div>
-            <span className="text-sm text-gray-500 text-center">
+            <span className="text-sm text-muted-foreground text-center">
                 تم التحميل {downloadCount} مرة
             </span>
         </div>

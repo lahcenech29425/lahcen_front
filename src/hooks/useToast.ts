@@ -7,10 +7,17 @@ export function useToast() {
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const addToast = useCallback(
-    (message: string, type: ToastType = "info", duration = 5000) => {
+    (message: string, type: ToastType = "info", duration = 2000) => {
       const id = `toast-${Date.now()}-${Math.random()}`;
       const newToast: ToastMessage = { id, message, type, duration };
+
       setToasts((prev) => [...prev, newToast]);
+
+      if (duration > 0) {
+        setTimeout(() => {
+          setToasts((prev) => prev.filter((t) => t.id !== id));
+        }, duration);
+      }
     },
     []
   );

@@ -2,11 +2,21 @@
 import { useEffect, useState } from "react";
 import { fetchSurahList } from "@/utils/quranApi";
 import { Link } from "@/components/elements/Link";
-import BookReader from "@/components/elements/BookReader";
+import PdfFlipbook from "@/components/elements/PdfFlipbook";
+import Breadcrumb from "@/components/elements/Breadcrumb";
 import { Surah } from "@/types/Surah";
 import { getSurahSlug } from "@/utils/surahHelpers";
+import { motion } from "framer-motion";
+import { Search, BookOpen, Star, ChevronDown, Filter } from "lucide-react";
 
 const PAGE_SIZE = 12;
+
+// Hardcoded Mushaf PDF URLs - Update these with your actual PDF links
+const MUSHAF_PDF_URLS: Record<"hafs" | "warsh" | "charmali", string> = {
+  hafs: "/uploads/mushaf-hafs.pdf", // Replace with your Hafs PDF URL
+  warsh: "/uploads/mushaf-warsh.pdf", // Replace with your Warsh PDF URL
+  charmali: "http://localhost:1337/uploads/mshf_alshmrly_86223bd937.pdf", // Replace with your Charmali PDF URL
+};
 
 function normalizeArabic(str: string) {
   return str
@@ -21,17 +31,12 @@ export default function QuranPageClient() {
   const [search, setSearch] = useState("");
   const [place, setPlace] = useState(""); // Meccan/Medinan
   const [page, setPage] = useState(1);
-  const [suggestions, setSuggestions] = useState<Surah[]>([]); // For autocomplete
-  const [showSuggestions, setShowSuggestions] = useState(false); // Control visibility of suggestions
-
-  const [type, setType] = useState<"hafs" | "warsh">("hafs");
-  const [show, setShow] = useState(false);
-
-  // Lien des Mushafs
-  const mushafUrls: Record<string, string> = {
-    hafs: "https://qurancomplex.gov.sa/quran-hafs/#flipbook-df_11311/7/",
-    warsh: "https://qurancomplex.gov.sa/quran-qiraat/#flipbook-df_11326/1/",
-  };
+  const [suggestions, setSuggestions] = useState<Surah[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [mushafType, setMushafType] = useState<"hafs" | "warsh" | "charmali">(
+    "hafs",
+  );
+  const [showMushaf, setShowMushaf] = useState(false);
 
   useEffect(() => {
     fetchSurahList().then(setSurahs);
@@ -46,18 +51,20 @@ export default function QuranPageClient() {
         (s) =>
           normalizeArabic(s.name).includes(searchNormArabic) ||
           s.englishName.trim().toLowerCase().includes(searchNorm) ||
-          s.englishNameTranslation.trim().toLowerCase().includes(searchNorm)
+          s.englishNameTranslation.trim().toLowerCase().includes(searchNorm),
       );
-      // Suggestions for autocomplete (max 5)
       setSuggestions(
         surahs
           .filter(
             (s) =>
               normalizeArabic(s.name).includes(searchNormArabic) ||
               s.englishName.trim().toLowerCase().includes(searchNorm) ||
-              s.englishNameTranslation.trim().toLowerCase().includes(searchNorm)
+              s.englishNameTranslation
+                .trim()
+                .toLowerCase()
+                .includes(searchNorm),
           )
-          .slice(0, 5)
+          .slice(0, 5),
       );
     } else {
       setSuggestions([]);
@@ -71,239 +78,351 @@ export default function QuranPageClient() {
   const paged = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const pageCount = Math.ceil(filtered.length / PAGE_SIZE);
 
+  // Stats
+  const meccanCount = surahs.filter(
+    (s) => s.revelationType === "Meccan",
+  ).length;
+  const medinanCount = surahs.filter(
+    (s) => s.revelationType === "Medinan",
+  ).length;
+
+  // Pagination Range Logic
+  const getPaginationRange = () => {
+    const delta = 1;
+    const range = [];
+    for (let i = 1; i <= pageCount; i++) {
+      if (
+        i === 1 ||
+        i === pageCount ||
+        (i >= page - delta && i <= page + delta)
+      ) {
+        range.push(i);
+      }
+    }
+
+    const withDots: (number | string)[] = [];
+    let l;
+    for (let i of range) {
+      if (l) {
+        if (i - l === 2) {
+          withDots.push(l + 1);
+        } else if (i - l !== 1) {
+          withDots.push("...");
+        }
+      }
+      withDots.push(i);
+      l = i;
+    }
+    return withDots;
+  };
+
+  const getMushafTitle = () => {
+    switch (mushafType) {
+      case "hafs":
+        return "المصحف الشريف - رواية حفص عن عاصم";
+      case "warsh":
+        return "المصحف الشريف - رواية ورش عن نافع";
+      case "charmali":
+        return "المصحف الشريف - الرسم الشرمالي";
+      default:
+        return "المصحف الشريف";
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4" dir="rtl">
-      {/* Navigation */}
-      <nav className="mb-8 flex items-center gap-4 text-sm text-[#232323] dark:text-[#ededed]">
-        <Link
-          href="/"
-          className="hover:text-[#1a1a1a] dark:hover:text-white transition"
+    <div className="relative">
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] bg-[url('/assets/bg.svg')] bg-repeat bg-center dark:invert"></div>
+      
+      {/* Full-Width Hero Section */}
+      <div
+        className="relative w-full h-[450px] md:h-[550px] overflow-hidden bg-primary/20"
+        dir="rtl"
+      >
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/assets/quran-header.png')" }}
         >
-          الرئيسية
-        </Link>
-        <span>/</span>
-        <span className="text-[#232323] dark:text-[#ededed] font-semibold">
-          القرآن الكريم
-        </span>
-      </nav>
-
-      <div className="max-w-4xl mx-auto py-10" dir="rtl">
-        {/* Titre principal */}
-        <h1 className="text-3xl font-bold mb-2 text-[#232323] dark:text-[#ededed] text-center">
-          القرآن الكريم
-        </h1>
-
-        {/* Introduction */}
-        <p className="text-center text-[#232323] dark:text-[#ededed] mb-8 max-w-2xl mx-auto">
-          تصفح سور القرآن الكريم، ابحث باسم السورة أو الفلترة حسب مكان النزول،
-          ثم اختر المصحف المفضل (حفص أو ورش) للقراءة المباشرة.
-        </p>
-
-        {/* Sélection du type de Mushaf et bouton */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-          <div className="relative w-full md:w-48">
-            <select
-              value={type}
-              onChange={(e) => setType(e.target.value as "hafs" | "warsh")}
-              className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] pr-10 text-[#232323] dark:text-[#ededed]"
-              dir="rtl"
-            >
-              <option value="hafs">رواية حفص</option>
-              <option value="warsh">رواية ورش</option>
-            </select>
-
-            {/* أيقونة السهم */}
-            <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#232323] dark:text-[#ededed]"
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </div>
-
-          <button
-            onClick={() => setShow(!show)}
-            className="px-6 py-2 bg-[#232323] dark:bg-[#1a1a1a] text-[#ededed] rounded-lg shadow hover:bg-[#1a1a1a] dark:hover:bg-[#232323] transition"
-          >
-            {show ? "إخفاء المصحف" : "عرض المصحف"}
-          </button>
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        {/* Composant BookReader */}
-        {show && (
-          <BookReader
-            url={mushafUrls[type]}
-            title="المصحف الشريف"
-            height="800px"
-          />
+        {/* Breadcrumbs */}
+        <div className="absolute top-0 left-0 right-0 z-20 pt-32">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-start">
+            <div className="bg-black/20 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/10">
+              <Breadcrumb
+                items={[{ label: "القرآن الكريم", href: "/quran" }]}
+                textColor="text-white"
+                showHomeLabel={false}
+                className="!mb-0"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl mt-12"
+          >
+            <div className="inline-flex justify-center items-center w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-lg mb-6 text-white">
+              <BookOpen size={36} />
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 font-momken text-white drop-shadow-lg">
+              القرآن الكريم
+            </h1>
+
+            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed mb-8 font-light">
+              تصفح سور القرآن الكريم، ابحث باسم السورة أو الفلترة حسب مكان
+              النزول، واستمتع بتلاوة مباشرة بروايات حفص، ورش، والرسم الشرمالي.
+            </p>
+
+            {/* Quick Stats */}
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span>{surahs.length} سورة</span>
+              </div>
+              <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                <span>{meccanCount} مكية</span>
+              </div>
+              <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+                <span>{medinanCount} مدنية</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      <div
+        className="max-w-7xl mx-auto py-8 px-4 mb-20 relative min-h-screen"
+        dir="rtl"
+      >
+        {/* Mushaf Selection & Controls */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-10 mt-8 relative z-20"
+        >
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 max-w-xl mx-auto bg-card p-2 rounded-2xl shadow-xl">
+            <div className="relative w-full">
+              <select
+                value={mushafType}
+                onChange={(e) =>
+                  setMushafType(e.target.value as "hafs" | "warsh" | "charmali")
+                }
+                className="appearance-none w-full px-6 py-3 rounded-xl bg-transparent text-foreground font-semibold focus:outline-none cursor-pointer"
+                dir="rtl"
+              >
+                <option value="hafs">رواية حفص عن عاصم</option>
+                <option value="warsh">رواية ورش عن نافع</option>
+                <option value="charmali">الرسم الشرمالي</option>
+              </select>
+              <ChevronDown
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-primary pointer-events-none"
+                size={20}
+              />
+            </div>
+
+            <button
+              onClick={() => setShowMushaf(!showMushaf)}
+              className="w-full md:w-auto px-8 py-3 rounded-xl bg-primary text-primary-foreground font-bold shadow-md hover:bg-primary/90 transition-all duration-300 whitespace-nowrap flex items-center justify-center gap-2"
+            >
+              <BookOpen size={20} />
+              {showMushaf ? "إخفاء المصحف" : "فتح المصحف"}
+            </button>
+          </div>
+        </motion.div>
+
+        {/* PDF Viewer */}
+        {showMushaf && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="mb-16"
+          >
+            <PdfFlipbook
+              pdfUrl={MUSHAF_PDF_URLS[mushafType]}
+              title={getMushafTitle()}
+            />
+          </motion.div>
         )}
 
-        {/* Section de recherche et filtres */}
-        <div className="mt-10">
-          <h2 className="text-2xl font-semibold mb-4 text-[#232323] dark:text-[#ededed] text-center">
-            البحث والفلترة
-          </h2>
-          <p className="text-center text-[#232323] dark:text-[#ededed] mb-6 max-w-2xl mx-auto">
-            ابحث باسم السورة أو الترجمة أو بالعربية، أو قم بفلترة السور حسب مكان
-            النزول.
-          </p>
-
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-            {/* Input de recherche */}
-            <div className="relative w-full md:w-80">
+        {/* Search & Filter Bar */}
+        <div className="sticky top-4 z-30 mb-8">
+          <div className="max-w-4xl mx-auto bg-background/90 backdrop-blur-xl shadow-2xl rounded-2xl p-2 flex flex-col md:flex-row gap-2">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <div className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                <Search size={22} />
+              </div>
               <input
-                className="border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed]"
-                placeholder="ابحث باسم السورة أو الترجمة أو بالعربية..."
+                className="w-full pl-4 pr-12 py-3 bg-transparent rounded-xl focus:outline-none placeholder:text-muted-foreground text-foreground font-medium"
+                placeholder="ابحث باسم السورة..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onFocus={() => setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 100)}
-                dir="rtl"
-                autoComplete="off"
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
               />
-              <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#232323] dark:text-[#ededed]"
-                width="20"
-                height="20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="M21 21l-4.35-4.35" />
-              </svg>
-
-              {/* Suggestions autocomplete */}
+              {/* Suggestions */}
               {showSuggestions && suggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white dark:bg-[#232323] border border-[#232323] dark:border-[#1a1a1a] rounded-lg mt-1 shadow-lg max-h-56 overflow-auto">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-background backdrop-blur-xl rounded-xl shadow-2xl overflow-hidden z-50 border-2 border-primary/20">
                   {suggestions.map((s) => (
-                    <li
+                    <button
                       key={s.number}
-                      className="px-4 py-2 cursor-pointer hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] text-right"
-                      onMouseDown={() => {
+                      className="w-full px-4 py-3 text-right hover:bg-primary/10 flex justify-between items-center group border-b border-border/50 last:border-b-0"
+                      onClick={() => {
                         setSearch(s.name);
                         setShowSuggestions(false);
                       }}
                     >
-                      <span className="font-semibold text-[#232323] dark:text-[#ededed]">
+                      <span className="font-momken text-foreground">
                         {s.name}
                       </span>
-                      <span className="text-xs text-[#232323] dark:text-[#ededed] ml-2">
+                      <span className="text-sm text-muted-foreground group-hover:text-primary">
                         {s.englishName}
                       </span>
-                    </li>
+                    </button>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
 
-            {/* Select lieu de révélation */}
-            <div className="relative w-full md:w-48">
+            {/* Filter Select */}
+            <div className="relative min-w-[150px] border-t md:border-t-0 md:border-r border-border/30">
               <select
-                className="appearance-none border border-[#232323] dark:border-[#1a1a1a] rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#232323] transition bg-white dark:bg-[#232323] text-[#232323] dark:text-[#ededed] pr-10"
+                className="appearance-none w-full px-4 py-3 bg-transparent text-foreground font-medium focus:outline-none cursor-pointer text-center md:text-right"
                 value={place}
                 onChange={(e) => setPlace(e.target.value)}
                 dir="rtl"
               >
-                <option value="">مكان النزول</option>
-                <option value="Meccan">مكة</option>
-                <option value="Medinan">المدينة</option>
+                <option value="">جميع السور</option>
+                <option value="Meccan">مكية</option>
+                <option value="Medinan">مدنية</option>
               </select>
-              <svg
-                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#232323] dark:text-[#ededed]"
-                width="20"
-                height="20"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
+              <Filter
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
+                size={16}
+              />
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {paged.map((s, idx) => (
-          <Link
-            href={`/quran/${getSurahSlug(s)}`}
-            key={s.number}
-            className="block bg-gray-50 dark:bg-[#232323] rounded-xl shadow hover:shadow-lg transition p-5 group border border-[#ededed] dark:border-[#1a1a1a] animate-fade-in"
-            style={{ animationDelay: `${idx * 40}ms` }}
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-xl font-semibold text-[#232323] dark:text-[#ededed]">
-                  {s.name}
-                </div>
-                <div className="text-[#232323] dark:text-[#ededed]">
-                  <span className="text-[#232323] dark:text-[#ededed]">
-                    ({s.englishName})
+        {/* Surah Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+          {paged.map((s, idx) => (
+            <motion.div
+              key={s.number}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.05 }}
+            >
+              <Link
+                href={`/quran/${getSurahSlug(s)}`}
+                className="group relative block p-6 h-full bg-card rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300"
+              >
+                <div className="flex justify-between items-start mb-4">
+                  {/* Number Badge */}
+                  <div className="relative w-10 h-10 flex items-center justify-center">
+                    <Star
+                      className="absolute inset-0 text-primary/10 rotate-0 group-hover:rotate-180 transition-transform duration-700"
+                      fill="currentColor"
+                      size={40}
+                    />
+                    <span className="relative z-10 text-sm font-bold text-primary font-sans pt-1">
+                      {s.number}
+                    </span>
+                  </div>
+
+                  <span
+                    className={`text-xs px-2 py-1 rounded-md ${s.revelationType === "Meccan" ? "bg-primary/10 text-primary" : "bg-secondary text-secondary-foreground"}`}
+                  >
+                    {s.revelationType === "Meccan" ? "مكية" : "مدنية"}
                   </span>
                 </div>
-                <div className="text-xs text-[#232323] dark:text-[#ededed] mt-1">
-                  {s.revelationType === "Meccan"
-                    ? "مكان النزول: مكة"
-                    : "مكان النزول: المدينة"}{" "}
-                  • {s.numberOfAyahs} آية
+
+                <div className="text-center mb-2">
+                  <h3
+                    className="text-6xl font-medium text-foreground mb-1 group-hover:text-primary transition-colors"
+                    style={{ fontFamily: "var(--font-surah-name)" }}
+                  >
+                    {s.name}
+                  </h3>
+                  <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                    {s.englishName}
+                  </p>
                 </div>
-              </div>
-              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-[#ededed] dark:bg-[#232323] text-[#232323] dark:text-[#ededed] font-bold text-xl group-hover:bg-[#232323] group-hover:text-white dark:group-hover:bg-[#1a1a1a] dark:group-hover:text-white transition">
-                {s.number}
-              </div>
+
+                <div className="mt-4 pt-4 border-t border-border/40 flex justify-between items-center text-xs text-muted-foreground">
+                  <span>{s.numberOfAyahs} آية</span>
+                  <span className="group-hover:translate-x-1 transition-transform rtl:group-hover:-translate-x-1">
+                    اقرأ السورة ←
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Smart Pagination */}
+        {pageCount > 1 && (
+          <div
+            className="flex justify-center items-center gap-2 py-8 select-none"
+            dir="ltr"
+          >
+            <button
+              disabled={page === 1}
+              className="w-12 h-12 flex items-center justify-center rounded-2xl bg-card shadow-md text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-primary-foreground hover:shadow-lg transition-all"
+              onClick={() => setPage(page - 1)}
+            >
+              <ChevronDown className="rotate-90" size={20} />
+            </button>
+
+            <div className="flex items-center gap-2">
+              {getPaginationRange().map((pageNum, idx) =>
+                pageNum === "..." ? (
+                  <span
+                    key={`dots-${idx}`}
+                    className="w-10 h-10 flex items-center justify-center text-muted-foreground font-bold"
+                  >
+                    ...
+                  </span>
+                ) : (
+                  <button
+                    key={pageNum}
+                    className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all font-bold text-lg ${
+                      page === pageNum
+                        ? "bg-primary text-white shadow-xl shadow-primary/40 scale-105"
+                        : "bg-card shadow-md text-foreground/80 hover:bg-primary/10 hover:text-primary hover:shadow-lg"
+                    }`}
+                    onClick={() =>
+                      typeof pageNum === "number" && setPage(pageNum)
+                    }
+                  >
+                    {pageNum}
+                  </button>
+                ),
+              )}
             </div>
-          </Link>
-        ))}
-      </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center gap-2 mt-10">
-        {page > 1 && (
-          <button
-            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] transition text-[#232323] dark:text-[#ededed]"
-            onClick={() => setPage(page - 1)}
-          >
-            السابق
-          </button>
-        )}
-        <span className="px-4 py-2 rounded-lg bg-[#232323] dark:bg-[#1a1a1a] text-[#ededed] font-semibold shadow">
-          {page}
-        </span>
-        {pageCount > page && (
-          <button
-            className="px-4 py-2 border border-[#232323] dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] hover:bg-[#ededed] dark:hover:bg-[#1a1a1a] transition text-[#232323] dark:text-[#ededed]"
-            onClick={() => setPage(page + 1)}
-          >
-            التالي
-          </button>
+            <button
+              disabled={page === pageCount}
+              className="w-12 h-12 flex items-center justify-center rounded-2xl bg-card shadow-md text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-primary-foreground hover:shadow-lg transition-all"
+              onClick={() => setPage(page + 1)}
+            >
+              <ChevronDown className="-rotate-90" size={20} />
+            </button>
+          </div>
         )}
       </div>
-
-      <style jsx>{`
-        .animate-fade-in {
-          opacity: 0;
-          animation: fadeInUp 0.5s forwards;
-        }
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -99,7 +99,7 @@ export default function BookList({ data }: BookListProps) {
     };
 
     return (
-        <section className="py-16 bg-gray-50 dark:bg-[#232323] min-h-screen transition-colors">
+        <section className="py-16 bg-gray-50 dark:bg-background min-h-screen transition-colors">
             <div className="max-w-7xl mx-auto px-4">
                 {/* Navigation */}
                 <nav className="mb-8 flex items-center gap-4 text-sm text-gray-900 dark:text-[#ededed]">
@@ -133,7 +133,7 @@ export default function BookList({ data }: BookListProps) {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             placeholder="ابحث عن كتاب..."
-                            className="w-full rounded-xl border border-gray-300 dark:border-gray-600 dark:bg-[#1a1a1a] dark:text-white pr-10 pl-4 py-2 text-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
+                            className="w-full rounded-xl border border-gray-300 dark:border-border dark:bg-card dark:text-foreground pr-10 pl-4 py-2 text-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
                         />
                     </div>
 
@@ -163,7 +163,7 @@ export default function BookList({ data }: BookListProps) {
                         onClick={() => handleCategoryFilter(null)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedCategory === null
                             ? "bg-gray-800 text-white"
-                            : "bg-white dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] border border-gray-200 dark:border-gray-700"
+                            : "bg-white dark:bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-muted border border-gray-200 dark:border-border"
                             }`}
                     >
                         الكل
@@ -174,7 +174,7 @@ export default function BookList({ data }: BookListProps) {
                             onClick={() => handleCategoryFilter(category)}
                             className={`px-4 py-2 rounded-full text-sm font-medium transition ${selectedCategory === category
                                 ? "bg-gray-800 text-white"
-                                : "bg-white dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2a2a2a] border border-gray-200 dark:border-gray-700"
+                                : "bg-white dark:bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-muted border border-gray-200 dark:border-border"
                                 }`}
                         >
                             {category}
@@ -185,7 +185,7 @@ export default function BookList({ data }: BookListProps) {
                 {/* Active Filters Display */}
                 {(query || selectedCategory) && (
                     <div className="mb-6 flex items-center justify-center gap-2 flex-wrap">
-                        <span className="text-sm text-gray-500">الفلاتر النشطة:</span>
+                        <span className="text-sm text-gray-500 dark:text-gray-400">الفلاتر النشطة:</span>
                         {query && (
                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">
                                 البحث: {query}
@@ -278,7 +278,7 @@ export default function BookList({ data }: BookListProps) {
                                         onClick={() => handlePageChange(page)}
                                         className={`px-4 py-2 rounded-lg transition ${currentPage === page
                                             ? "bg-gray-800 dark:bg-white text-white dark:text-gray-900 font-semibold"
-                                            : "bg-gray-100 dark:bg-[#1a1a1a] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-[#2a2a2a]"
+                                            : "bg-gray-100 dark:bg-card text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-muted"
                                             }`}
                                     >
                                         {page}

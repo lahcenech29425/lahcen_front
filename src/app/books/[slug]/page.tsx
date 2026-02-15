@@ -6,6 +6,7 @@ import { Link } from "@/components/elements/Link";
 import Badge from "@/components/elements/Badge";
 import BookCard from "@/components/custom/book/BookCard";
 import DownloadButton from "@/components/custom/book/DownloadButton";
+import PageBreadcrumb from "@/components/elements/PageBreadcrumb";
 import { BookOpen, Calendar, Download, User } from "lucide-react";
 
 type Props = {
@@ -92,152 +93,154 @@ export default async function BookDetailPage({ params }: Props) {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4">
-            {/* Breadcrumb Navigation */}
-            <nav aria-label="breadcrumb" className="mb-8 mt-6">
-                <div className="flex flex-wrap items-center gap-2 text-sm text-gray-900 dark:text-[#ededed]">
-                    <Link href="/" className="hover:text-gray-600 transition">
-                        الرئيسية
-                    </Link>
-                    <span className="text-gray-400">/</span>
-                    <Link href="/books" className="hover:text-gray-600 transition">
-                        المكتبة
-                    </Link>
-                    <span className="text-gray-400">/</span>
-                    <span className="text-gray-600 font-semibold truncate max-w-full sm:max-w-[40ch]">
-                        {book.title}
-                    </span>
-                </div>
-            </nav>
+        <div className="min-h-screen bg-background font-sans pb-24">
+            {/* Background Pattern */}
+            <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-primary"
+                style={{
+                    maskImage: "url('/assets/bg.svg')",
+                    WebkitMaskImage: "url('/assets/bg.svg')",
+                    maskRepeat: "repeat",
+                }}
+            />
 
-            {/* Book Detail */}
-            <article className="pb-16 bg-white dark:bg-[#1a1a1a] rounded-xl max-w-7xl mx-auto transition-colors">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    {/* Cover Image */}
-                    <div className="md:col-span-1">
-                        <div className="sticky top-6">
-                            {book.coverImage ? (
-                                <div className="relative w-full bg-gray-100 dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden" style={{ aspectRatio: '3 / 4' }}>
-                                    <Image
-                                        src={book.coverImage.url}
-                                        alt={book.coverImage.alternativeText || book.title}
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, 33vw"
-                                        className="object-contain p-4"
-                                        style={{ objectPosition: 'center' }}
-                                        priority
-                                    />
-                                </div>
-                            ) : (
-                                <div className="w-full aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-xl shadow-xl flex flex-col items-center justify-center gap-3">
-                                    <BookOpen size={64} className="text-gray-400 dark:text-gray-500" />
-                                    <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">لا توجد صورة</p>
-                                </div>
-                            )}
+            <PageBreadcrumb
+                items={[
+                    { label: "المكتبة", href: "/books" },
+                    { label: book.title }
+                ]}
+                onDarkBackground={false}
+            />
 
-                            {/* Download Button (Desktop) */}
-                            <div className="hidden md:block mt-6">
+            <div className="relative z-10 max-w-7xl mx-auto px-4">
+                {/* Book Detail */}
+                <article className="pb-16 bg-card rounded-xl max-w-7xl mx-auto transition-colors">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                        {/* Cover Image */}
+                        <div className="md:col-span-1">
+                            <div className="sticky top-6">
+                                {book.coverImage ? (
+                                    <div className="relative w-full bg-secondary rounded-xl shadow-xl overflow-hidden" style={{ aspectRatio: '3 / 4' }}>
+                                        <Image
+                                            src={book.coverImage.url}
+                                            alt={book.coverImage.alternativeText || book.title}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, 33vw"
+                                            className="object-contain p-4"
+                                            style={{ objectPosition: 'center' }}
+                                            priority
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="w-full aspect-[3/4] bg-gradient-to-br from-secondary/50 to-secondary rounded-xl shadow-xl flex flex-col items-center justify-center gap-3">
+                                        <BookOpen size={64} className="text-gray-400 dark:text-gray-500" />
+                                        <p className="text-gray-500 dark:text-gray-400 text-sm font-medium">لا توجد صورة</p>
+                                    </div>
+                                )}
+
+                                {/* Download Button (Desktop) */}
+                                <div className="hidden md:block mt-6">
+                                    <DownloadButton book={book} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Book Info */}
+                        <div className="md:col-span-2">
+                            {/* Category Badge */}
+                            <Badge
+                                bg="bg-primary/10"
+                                color="text-primary"
+                                rounded="rounded-lg"
+                                className="mb-4"
+                            >
+                                {book.category}
+                            </Badge>
+
+                            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                                {book.title}
+                            </h1>
+
+                            {/* Author */}
+                            <div className="flex items-center gap-2 text-muted-foreground mb-6">
+                                <User size={18} />
+                                <span className="text-lg">{book.author}</span>
+                            </div>
+
+                            {/* Metadata Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                                <div className="bg-card border border-border rounded-xl p-4 text-center transition-colors">
+                                    <BookOpen size={24} className="mx-auto text-primary mb-2" />
+                                    <div className="text-2xl font-bold text-foreground">{book.pageCount}</div>
+                                    <div className="text-sm text-muted-foreground">صفحة</div>
+                                </div>
+                                <div className="bg-card border border-border rounded-xl p-4 text-center transition-colors">
+                                    <Calendar size={24} className="mx-auto text-primary mb-2" />
+                                    <div className="text-2xl font-bold text-foreground">{book.publishedYear}</div>
+                                    <div className="text-sm text-muted-foreground">سنة النشر</div>
+                                </div>
+                                <div className="bg-card border border-border rounded-xl p-4 text-center transition-colors">
+                                    <Download size={24} className="mx-auto text-primary mb-2" />
+                                    <div className="text-2xl font-bold text-foreground">{book.downloadCount || 0}</div>
+                                    <div className="text-sm text-muted-foreground">تحميل</div>
+                                </div>
+                            </div>
+
+                            {/* Description */}
+                            <div className="mb-8">
+                                <h2 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                                    <span className="inline-block w-1 h-6 bg-primary rounded-sm" />
+                                    عن الكتاب
+                                </h2>
+                                <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                                    {book.description}
+                                </p>
+                            </div>
+
+                            {/* Download Button (Mobile) */}
+                            <div className="md:hidden">
                                 <DownloadButton book={book} />
                             </div>
                         </div>
                     </div>
+                </article>
 
-                    {/* Book Info */}
-                    <div className="md:col-span-2">
-                        {/* Category Badge */}
-                        <Badge
-                            bg="bg-gray-100"
-                            color="text-gray-800"
-                            rounded="rounded-lg"
-                            className="mb-4"
-                        >
-                            {book.category}
-                        </Badge>
+                {/* Recommended Books */}
+                {recommendations.length > 0 && (
+                    <section className="mt-10 mb-20">
+                        <div className="max-w-7xl mx-auto bg-card rounded-2xl shadow-md p-6 md:p-8 transition-colors">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-xl font-semibold text-foreground flex items-center gap-3">
+                                    <span
+                                        className="inline-block w-1.5 h-8 bg-primary rounded-sm"
+                                        aria-hidden
+                                    />
+                                    كتب مقترحة
+                                </h2>
 
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                            {book.title}
-                        </h1>
-
-                        {/* Author */}
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-6">
-                            <User size={18} />
-                            <span className="text-lg">{book.author}</span>
-                        </div>
-
-                        {/* Metadata Cards */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                            <div className="bg-gray-50 dark:bg-[#2a2a2a] rounded-xl p-4 text-center transition-colors">
-                                <BookOpen size={24} className="mx-auto text-gray-600 dark:text-gray-400 mb-2" />
-                                <div className="text-2xl font-bold text-gray-800 dark:text-white">{book.pageCount}</div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">صفحة</div>
+                                {recommendations.length > 3 && (
+                                    <Link
+                                        href="/books"
+                                        className="ml-4 inline-flex items-center gap-2 text-sm bg-primary text-primary-foreground px-4 py-2 rounded-lg shadow hover:shadow-lg hover:bg-primary/90 transition transform hover:-translate-y-0.5"
+                                    >
+                                        عرض المزيد
+                                    </Link>
+                                )}
                             </div>
-                            <div className="bg-gray-50 dark:bg-[#2a2a2a] rounded-xl p-4 text-center transition-colors">
-                                <Calendar size={24} className="mx-auto text-gray-600 dark:text-gray-400 mb-2" />
-                                <div className="text-2xl font-bold text-gray-800 dark:text-white">{book.publishedYear}</div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">سنة النشر</div>
-                            </div>
-                            <div className="bg-gray-50 dark:bg-[#2a2a2a] rounded-xl p-4 text-center transition-colors">
-                                <Download size={24} className="mx-auto text-gray-600 dark:text-gray-400 mb-2" />
-                                <div className="text-2xl font-bold text-gray-800 dark:text-white">{book.downloadCount || 0}</div>
-                                <div className="text-sm text-gray-500 dark:text-gray-400">تحميل</div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                                {recommendations.slice(0, 4).map((b) => (
+                                    <div
+                                        key={b.id}
+                                        className="transition-transform hover:scale-[1.01]"
+                                    >
+                                        <BookCard book={b} />
+                                    </div>
+                                ))}
                             </div>
                         </div>
-
-                        {/* Description */}
-                        <div className="mb-8">
-                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                                <span className="inline-block w-1 h-6 bg-gray-800 dark:bg-white rounded-sm" />
-                                عن الكتاب
-                            </h2>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                                {book.description}
-                            </p>
-                        </div>
-
-                        {/* Download Button (Mobile) */}
-                        <div className="md:hidden">
-                            <DownloadButton book={book} />
-                        </div>
-                    </div>
-                </div>
-            </article>
-
-            {/* Recommended Books */}
-            {recommendations.length > 0 && (
-                <section className="mt-10 mb-20">
-                    <div className="max-w-7xl mx-auto bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl shadow-md dark:shadow-gray-900 p-6 md:p-8 transition-colors">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-semibold dark:text-white flex items-center gap-3">
-                                <span
-                                    className="inline-block w-1.5 h-8 bg-black dark:bg-white rounded-sm"
-                                    aria-hidden
-                                />
-                                كتب مقترحة
-                            </h2>
-
-                            {recommendations.length > 3 && (
-                                <Link
-                                    href="/books"
-                                    className="ml-4 inline-flex items-center gap-2 text-sm bg-gray-800 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg shadow hover:shadow-lg dark:hover:bg-gray-100 transition transform hover:-translate-y-0.5"
-                                >
-                                    عرض المزيد
-                                </Link>
-                            )}
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                            {recommendations.slice(0, 4).map((b) => (
-                                <div
-                                    key={b.id}
-                                    className="transition-transform hover:scale-[1.01]"
-                                >
-                                    <BookCard book={b} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
+                    </section>
+                )}
+            </div>
         </div>
     );
 }

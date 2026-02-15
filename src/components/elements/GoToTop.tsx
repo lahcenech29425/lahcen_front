@@ -21,9 +21,18 @@ export default function GoToTop() {
     <button
       onClick={handleClick}
       aria-label="Go to top"
-      className="fixed bottom-6 right-6 z-50 bg-[#2b2b2b] dark:bg-[#171717] text-white rounded-lg shadow-lg p-2 hover:cursor-pointer transition focus:outline-none"
+      style={{
+        position: "fixed",
+        bottom: "32px",
+        right: "32px",
+        zIndex: 99999,
+        width: "56px",
+        height: "56px",
+      }}
+      className="bg-primary text-primary-foreground rounded-full shadow-2xl hover:bg-primary/90 hover:shadow-primary/40 transition-all duration-300 focus:outline-none flex items-center justify-center transform hover:-translate-y-2 hover:scale-110 border-4 border-background/20 backdrop-blur-md"
     >
-      <ArrowUp size={24} />
+      <ArrowUp size={24} strokeWidth={3} />
     </button>
   );
 }
+

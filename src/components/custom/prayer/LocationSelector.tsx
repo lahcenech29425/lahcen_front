@@ -1,15 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { MapPin, Search } from "lucide-react";
+import { MapPin, Search, Loader2, X } from "lucide-react";
 
 interface LocationSelectorProps {
   onLocationSelect: (lat: number, lng: number, city: string) => void;
+  onClose?: () => void;
 }
 
 type City = { name: string; country?: string; lat: number; lng: number };
 
 export default function LocationSelector({
   onLocationSelect,
+  onClose,
 }: LocationSelectorProps) {
   const [query, setQuery] = useState("");
   const [cities, setCities] = useState<City[]>([]);
@@ -17,7 +19,7 @@ export default function LocationSelector({
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Search cities when user types or chooses a country
+  // Search cities when user types
   useEffect(() => {
     const controller = new AbortController();
     const run = async () => {
@@ -53,7 +55,6 @@ export default function LocationSelector({
     const picked = cities.find((c) => c.name === selectedCity);
     if (picked) {
       setIsSubmitting(true);
-      // Simulate a brief loading state for better UX
       await new Promise((resolve) => setTimeout(resolve, 300));
       onLocationSelect(picked.lat, picked.lng, picked.name);
       setIsSubmitting(false);
@@ -61,103 +62,141 @@ export default function LocationSelector({
   };
 
   return (
-    <div className="mt-6 bg-white dark:bg-[#232323] rounded-2xl p-4 sm:p-7 border-2 border-gray-200 dark:border-[#1a1a1a] shadow-lg max-w-md mx-auto">
-      <div className="flex items-center gap-2 mb-5">
-        <MapPin className="h-5 w-5 text-[#ecad20]" />
-        <h3 className="text-lg sm:text-xl font-bold text-[#171717] dark:text-[#ededed]">
-          اختيار الموقع يدوياً
-        </h3>
+    <div className="relative overflow-hidden bg-white dark:bg-card border-2 border-[#8B4513]/10 dark:border-primary/30 rounded-[2rem] p-8 shadow-2xl max-w-md mx-auto">
+      {/* Close Button */}
+      {onClose && (
+        <button
+          onClick={onClose}
+          className="absolute top-4 left-4 z-20 p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+        >
+          <X size={20} />
+        </button>
+      )}
+
+      {/* Decorative Glow */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#8B4513]/5 rounded-bl-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#ecad20]/5 rounded-tr-full pointer-events-none" />
+
+      <div className="flex flex-col items-center gap-4 mb-8 text-center relative z-10">
+        <div className="w-14 h-14 bg-gradient-to-br from-[#8B4513] to-[#5d3119] rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 ">
+          <MapPin className="h-7 w-7 text-white" />
+        </div>
+        <div>
+          <h3 className="text-2xl font-bold font-momken text-[#2c1810] dark:text-[#ededed]">
+            تحديد الموقع
+          </h3>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1 font-medium">
+            ابحث عن مدينتك للحصول على أدق مواقيت الصلاة
+          </p>
+        </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4" dir="rtl">
+      <form onSubmit={handleSubmit} className="space-y-5" dir="rtl">
         {/* Search */}
-        <div className="relative max-w-md mx-auto">
+        <div className="relative group">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="ابحث عن مدينة..."
-            className="w-full px-4 py-3 pr-10 border border-gray-300 dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] text-right text-sm font-semibold focus:border-[#ecad20] focus:ring-2 focus:ring-[#ecad20]/20 outline-none transition-all max-w-md text-[#232323] dark:text-[#ededed]"
+            placeholder="ابحث عن مدينة (مثال: Riyadh)..."
+            className="w-full px-5 py-4 pr-12 text-right text-sm font-bold rounded-xl 
+                       bg-gray-50 dark:bg-background border-2 border-gray-200 dark:border-border 
+                       group-focus-within:border-[#8B4513] focus:outline-none 
+                       focus:ring-4 focus:ring-[#8B4513]/10 transition-all 
+                       placeholder:text-gray-400 text-[#2c1810] dark:text-white shadow-inner"
             dir="rtl"
           />
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-[#ededed]" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-[#8B4513] transition-colors" />
+
+          {loadingCities && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2">
+              <Loader2 className="h-5 w-5 text-[#8B4513] animate-spin" />
+            </div>
+          )}
         </div>
 
         {/* City Select */}
-        <div className="max-w-md mx-auto">
-          <label className="block text-sm font-semibold text-gray-700 dark:text-[#ededed] mb-2 text-right">
-            المدينة
-          </label>
-          <div className="relative">
-            <select
-              value={selectedCity}
-              onChange={(e) => setSelectedCity(e.target.value)}
-              className="w-full px-4 py-3 pr-10 border border-gray-300 dark:border-[#1a1a1a] rounded-lg bg-white dark:bg-[#232323] text-right text-sm font-semibold focus:border-[#ecad20] focus:ring-2 focus:ring-[#ecad20]/20 outline-none transition-all appearance-none max-w-md text-[#232323] dark:text-[#ededed]"
-              dir="rtl"
-              required
-            >
-              <option value="">
-                {loadingCities ? "جاري تحميل المدن..." : "اختر مدينة"}
+        <div className="relative">
+          <select
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            disabled={!cities.length}
+            className="w-full px-5 py-4 text-right text-sm font-bold rounded-xl appearance-none
+                       bg-gray-50 dark:bg-background border-2 border-gray-200 dark:border-border
+                       focus:border-[#8B4513] focus:outline-none 
+                       focus:ring-4 focus:ring-[#8B4513]/10 transition-all 
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       text-[#2c1810] dark:text-foreground cursor-pointer hover:bg-gray-100 dark:hover:bg-card shadow-inner"
+            dir="rtl"
+          >
+            <option value="">
+              {cities.length > 0
+                ? "اختر المدينة من القائمة"
+                : "ادخل اسم المدينة أعلاه..."}
+            </option>
+            {cities.map((city) => (
+              <option
+                key={`${city.name}-${city.lat}-${city.lng}`}
+                value={city.name}
+              >
+                {city.name} {city.country ? `- ${city.country}` : ""}
               </option>
-              {cities.map((city) => (
-                <option
-                  key={`${city.name}-${city.lat}-${city.lng}`}
-                  value={city.name}
-                >
-                  {city.name} {city.country ? `- ${city.country}` : ""}
-                </option>
-              ))}
-            </select>
+            ))}
+          </select>
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+            <ArrowDown className="h-4 w-4" />
           </div>
-          {!loadingCities && cities.length === 0 && (
-            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-              لا توجد نتائج، جرّب كتابة اسم المدينة.
-            </p>
-          )}
         </div>
 
         {/* Submit Button */}
         <button
           type="submit"
           disabled={!selectedCity || isSubmitting}
-          className="w-full bg-gradient-to-br from-[#171717] to-[#2a2a2a] text-white font-bold py-3 px-6 rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border border-[#ecad20]/30 relative overflow-hidden group"
+          className="w-full py-4 px-6 rounded-xl font-bold text-white shadow-xl
+                     bg-gradient-to-r from-[#8B4513] to-[#A0522D]
+                     hover:from-[#723a0f] hover:to-[#8B4513]
+                     transform active:scale-[0.98] transition-all duration-200
+                     disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+                     flex items-center justify-center gap-2"
         >
           {isSubmitting ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg
-                className="animate-spin h-5 w-5"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              جاري التحميل...
-            </span>
+            <>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              <span>جاري الحفظ...</span>
+            </>
           ) : (
-            <span className="flex items-center justify-center gap-2">
+            <>
               <MapPin className="h-5 w-5" />
-              تأكيد الموقع
-            </span>
+              <span>تأكيد الموقع</span>
+            </>
           )}
         </button>
       </form>
 
-      <p className="mt-4 text-xs text-gray-500 dark:text-gray-400 text-center">
-        {loadingCities ? "جاري التحميل..." : `${cities.length} نتيجة`}
-      </p>
+      {cities.length > 0 && query && (
+        <div className="mt-4 text-center">
+          <span className="px-3 py-1 rounded-full bg-[#8B4513]/10 dark:bg-primary/15 text-[#8B4513] dark:text-primary text-xs font-bold">
+            تم العثور على {cities.length} نتيجة
+          </span>
+        </div>
+      )}
     </div>
+  );
+}
+
+function ArrowDown({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
   );
 }

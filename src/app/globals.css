@@ -6,41 +6,227 @@
 @import url("https://fonts.googleapis.com/css2?family=Lateef:wght@200;300;400;500;600;700;800&family=Noto+Naskh+Arabic:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
-/* Define a custom variant for dark mode */
-@custom-variant dark (&:is(.dark *));
+@theme {
+  /* Surface Colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-@font-face {
-  font-family: "Amiri";
-  src: url("/fonts/Amiri-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+  /* Primary Brand Colors */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  /* Secondary/Accent */
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* Specific Islamic Gold (Legacy/Premium) */
+  --color-gold: var(--gold);
 }
 
+/* --- THEME DEFINITIONS --- */
+
+/* 1. LIGHT THEME (Default) - Professional with Brown Primary */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-body: "Lateef", sans-serif;
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+
+  /* Font Definitions (CRITICAL - DO NOT REMOVE) */
+  --font-body: "Lateef", "Noto Naskh Arabic", sans-serif;
+  --font-heading: var(--font-momken), "Amiri", serif;
+  --font-quran: "Amiri", "Lateef", serif;
+  --font-surah-name: "Surah Name Ejazah", "Amiri", serif;
+
+  /* Professional Brown as Primary */
+  --primary: #8b5e3c;
+  /* Warm Brown */
+  --primary-foreground: #ffffff;
+
+  /* Neutral Secondary Colors */
+  --secondary: #f5f5f5;
+  --secondary-foreground: #1a1a1a;
+
+  /* Card and Border Colors */
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --border: #e5e5e5;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+
+  /* Accent Colors */
+  --accent: #d4a373;
+  /* Light Brown */
+  --accent-foreground: #1a1a1a;
+
+  /* Legacy Gold Vars (Keep for compatibility) */
+  --gold: #8b5e3c;
+  --gold-light: #a67c52;
+  --gold-dark: #6b4423;
+  --gold-shimmer: #d4a373;
+  --gold-border-subtle: rgba(139, 94, 60, 0.2);
+  --gold-bg-subtle: rgba(139, 94, 60, 0.05);
+
+  /* Shadows */
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-gold: 0 4px 16px rgba(139, 94, 60, 0.2);
+  --shadow-gold-strong: 0 8px 32px rgba(139, 94, 60, 0.3);
 }
 
-html.dark {
-  --background: #171717;
-  --foreground: #ededed;
+/* 2. DARK THEME - Warm Dark with Brown Accents */
+[data-theme="dark"],
+.dark {
+  /* Rich Warm Brown Background - lighter than black, clearly brown */
+  --background: #2D1B14;
+  --foreground: #F5E6D3;
+
+  /* Warm Brown for Dark Mode - matches light mode feel */
+  --primary: #D4A373;
+  --primary-foreground: #2D1B14;
+
+  /* Dark Secondary Colors - warm tinted */
+  --secondary: #3E2723;
+  --secondary-foreground: #F5E6D3;
+
+  /* Card and Border Colors - warm dark */
+  --card: #3E2723;
+  --card-foreground: #F5E6D3;
+  --border: #5D4037;
+  --muted: #4E342E;
+  --muted-foreground: #BCAAA4;
+
+  /* Accent Colors for Dark Mode */
+  --accent: #8D6E63;
+  --accent-foreground: #FFFFFF;
+
+  /* Legacy Overrides */
+  --gold: #D4A373;
+  --gold-light: #E6C6A6;
+  --gold-dark: #A1887F;
+  --gold-border-subtle: rgba(212, 163, 115, 0.35);
+  --gold-bg-subtle: rgba(212, 163, 115, 0.1);
+
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-gold: 0 4px 16px rgba(212, 163, 115, 0.25);
+  --shadow-gold-strong: 0 8px 32px rgba(212, 163, 115, 0.35);
 }
 
 .font-arabic {
   font-family: "Amiri", "Scheherazade New", "Noto Naskh Arabic", serif;
 }
 
+.font-amiri {
+  font-family: "Amiri", serif;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+.font-thuluth {
+  font-family: var(--font-thuluth), "Amiri", serif;
+}
+
+.font-momken {
+  font-family: var(--font-momken), "Amiri", serif;
+}
+
 body {
+  position: relative;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
+  overflow-x: hidden;
+  /* Prevent horizontal scroll from fixed bg elements */
+}
+
+/* 
+   GOLD SVG BACKGROUND IMPLEMENTATION
+   Applied to all pages via body - Positioned on SIDES
+*/
+
+/* Left Pattern - Top, Half Visible */
+body::before {
+  content: "";
+  position: fixed;
+  top: 100px;
+  left: -300px;
+  /* Hide half of 600px image */
+  width: 600px;
+  height: 600px;
+  background-image: url("/assets/bg.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+  /* Behind content */
+  mix-blend-mode: multiply;
+}
+
+/* Dark Mode Overrides for Background Pattern */
+
+/* Right Pattern - Bottom, Half Visible, Staggered */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 100px;
+  right: -300px;
+  /* Hide half of 600px image */
+  width: 600px;
+  height: 600px;
+  background-image: url("/assets/bg.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+  /* Behind content */
+  mix-blend-mode: multiply;
+}
+
+/* Dark Mode Overrides for Background Pattern - Place at the end to ensure override */
+body.dark::before,
+body.dark::after,
+.dark body::before,
+.dark body::after {
+  mix-blend-mode: screen !important;
+  filter: invert(1) brightness(0.8) !important;
+  opacity: 0.05 !important;
+}
+
+/* Content needs to be above the background - using main instead of body > * to avoid z-index conflicts */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Adjust background patterns for dark theme */
+html.dark body::before,
+html.dark body::after,
+[data-theme="dark"] body::before,
+[data-theme="dark"] body::after {
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  filter: contrast(1.2);
 }
 
 /* Custom container utility for consistent layout */
-
 .container {
-  width: 100vw;
+  width: 100%;
+  max-width: 1280px;
+  /* As specified in plan */
+  margin-left: auto;
+  margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
   box-sizing: border-box;
@@ -53,29 +239,323 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .container {
     padding-left: 2rem;
     padding-right: 2rem;
   }
 }
 
-/* Custom section utility for consistent section spacing */
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+/* ============================================
+   STANDARDIZED SECTION SPACING SYSTEM
+   ============================================ */
 
 .section {
   width: 100%;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
   padding-left: 0;
   padding-right: 0;
   box-sizing: border-box;
 }
 
+/* Section spacing utility - Minimum 80px gaps as specified */
+.section-spacing {
+  padding-top: 5rem;
+  /* 80px */
+  padding-bottom: 5rem;
+  /* 80px */
+}
+
 @media (min-width: 768px) {
-  .section {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+  .section-spacing {
+    padding-top: 6rem;
+    /* 96px */
+    padding-bottom: 6rem;
+    /* 96px */
   }
+}
+
+@media (min-width: 1024px) {
+  .section-spacing {
+    padding-top: 8rem;
+    /* 128px */
+    padding-bottom: 8rem;
+    /* 128px */
+  }
+}
+
+/* Section margin utility for gaps between sections */
+.section-gap {
+  margin-bottom: 5rem;
+  /* 80px minimum */
+}
+
+@media (min-width: 768px) {
+  .section-gap {
+    margin-bottom: 6rem;
+    /* 96px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-gap {
+    margin-bottom: 8rem;
+    /* 128px */
+  }
+}
+
+/* Section background variants */
+.section-alt {
+  background: var(--bg-section-alt);
+}
+
+.section-gold {
+  background: var(--bg-section-gold);
+}
+
+.section-dark {
+  background-color: #1a1512;
+  color: #ede6df;
+}
+
+/* ============================================
+   TYPOGRAPHY HIERARCHY
+   ============================================ */
+
+.heading-hero {
+  font-size: 3rem;
+  line-height: 1.1;
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+
+@media (min-width: 768px) {
+  .heading-hero {
+    font-size: 3.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading-hero {
+    font-size: 4.5rem;
+  }
+}
+
+.heading-section {
+  font-size: 1.875rem;
+  line-height: 1.2;
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+
+@media (min-width: 768px) {
+  .heading-section {
+    font-size: 2.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heading-section {
+    font-size: 3rem;
+  }
+}
+
+.heading-card {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .heading-card {
+    font-size: 1.5rem;
+  }
+}
+
+.body-text {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #4b5563;
+}
+
+@media (min-width: 768px) {
+  .body-text {
+    font-size: 1.125rem;
+  }
+}
+
+html.dark .body-text {
+  color: #d1d5db;
+}
+
+/* ============================================
+   CARD COMPONENT SYSTEM
+   ============================================ */
+
+/* Base Card - Standard white/dark card */
+.card-base {
+  background-color: white;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease;
+}
+
+.card-base:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+}
+
+html.dark .card-base {
+  background-color: #221c16;
+  border-color: #3a3028;
+}
+
+html.dark .card-base:hover {
+  border-color: var(--gold);
+}
+
+/* Glass Card - Frosted glass effect */
+.card-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  border: 1px solid var(--gold-border-subtle);
+  box-shadow: var(--shadow-card);
+  transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+}
+
+html.dark .card-glass {
+  background: rgba(34, 28, 22, 0.85);
+}
+
+/* Featured Card - Premium highlighted card */
+.card-featured {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    var(--gold-bg-subtle) 0%,
+    transparent 100%
+  );
+  border: 1px solid var(--gold-border-subtle);
+  transition: all 0.3s ease;
+}
+
+.card-featured::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    var(--gold-light) 50%,
+    var(--gold) 100%
+  );
+}
+
+.card-featured:hover {
+  border-color: var(--gold);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   BUTTON SYSTEM
+   ============================================ */
+
+/* Primary Button - Gold gradient CTA */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  background: var(--gold-cta);
+  color: white;
+  box-shadow: var(--shadow-gold);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-gold-strong);
+  transform: scale(1.05);
+}
+
+/* Secondary Button - Outline style */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--gold);
+  color: white;
+}
+
+/* Ghost Button - Text only with hover */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--gold);
+}
+
+/* ============================================
+   STANDARD ANIMATION CLASSES
+   ============================================ */
+
+/* Standard animation timing */
+.animate-standard {
+  transition-duration: 0.6s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
 }
 
 /* Masonry fade-in animation */
@@ -84,11 +564,13 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 .animate-fade-in-up {
   animation: fade-in-up 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
 }
@@ -96,9 +578,11 @@ body {
 .animate-scroll-fade {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+  transition:
+    opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .animate-scroll-fade.visible {
   opacity: 1;
   transform: translateY(0);
@@ -109,6 +593,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -117,4 +602,275 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.3s ease-out;
+}
+
+/* ============================================
+   Gold Accent Utilities
+   ============================================ */
+
+/* Text colors */
+.text-gold {
+  color: var(--gold);
+}
+
+.text-gold-light {
+  color: var(--gold-light);
+}
+
+.text-gold-dark {
+  color: var(--gold-dark);
+}
+
+/* Background colors */
+.bg-gold {
+  background-color: var(--gold);
+}
+
+.bg-gold-light {
+  background-color: var(--gold-light);
+}
+
+/* Borders */
+.border-gold {
+  border-color: var(--gold);
+}
+
+/* Hover effects */
+.hover\:text-gold:hover {
+  color: var(--gold);
+  transition: color 0.3s ease;
+}
+
+.hover\:border-gold:hover {
+  border-color: var(--gold);
+  transition: border-color 0.3s ease;
+}
+
+/* Decorative gold accent line */
+.gold-accent-line {
+  position: relative;
+  padding-top: 1rem;
+}
+
+.gold-accent-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background-color: var(--gold);
+  border-radius: 1px;
+}
+
+/* ============================================
+   MODERN ISLAMIC DESIGN ENHANCEMENTS
+   ============================================ */
+
+/* Glowing gold text effect for headings */
+.text-gold-glow {
+  color: var(--gold);
+  text-shadow:
+    0 0 20px rgba(212, 175, 55, 0.4),
+    0 0 40px rgba(212, 175, 55, 0.2);
+}
+
+/* Modern glassmorphism card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2);
+  transform: translateY(-2px);
+}
+
+html.dark .glass-card {
+  background: rgba(34, 28, 22, 0.7);
+  border-color: rgba(184, 134, 90, 0.25);
+}
+
+html.dark .glass-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 8px 32px rgba(184, 134, 90, 0.2);
+}
+
+/* Decorative Islamic border pattern */
+.islamic-border {
+  position: relative;
+  padding: 2rem;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+}
+
+.islamic-border::before,
+.islamic-border::after {
+  content: "✦";
+  position: absolute;
+  color: var(--gold);
+  font-size: 1.5rem;
+}
+
+.islamic-border::before {
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--background);
+  padding: 0 10px;
+}
+
+.islamic-border::after {
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--background);
+  padding: 0 10px;
+}
+
+/* Enhanced CTA button with glow */
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-gold:hover {
+  box-shadow: 0 6px 30px rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Pulse animation for important elements */
+@keyframes pulse-gold {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+}
+
+.pulse-gold {
+  animation: pulse-gold 2s infinite;
+}
+
+/* Shimmer effect on hover */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-on-hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.2),
+    transparent
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.shimmer-on-hover:hover::after {
+  opacity: 1;
+}
+
+/* Decorative corner ornaments */
+.corner-ornament {
+  position: relative;
+}
+
+.corner-ornament::before,
+.corner-ornament::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--gold);
+  opacity: 0.3;
+}
+
+.corner-ornament::before {
+  top: 0;
+  right: 0;
+  border-left: none;
+  border-bottom: none;
+  border-top-right-radius: 4px;
+}
+
+.corner-ornament::after {
+  bottom: 0;
+  left: 0;
+  border-right: none;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+}
+
+/* Custom Scrollbar Styles */
+.scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 94, 60, 0.2) transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: rgba(139, 94, 60, 0.2);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(139, 94, 60, 0.4);
+}
+
+.dark .scrollbar-custom {
+  scrollbar-color: rgba(212, 163, 115, 0.3) transparent;
+}
+
+.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: rgba(212, 163, 115, 0.3);
+}
+
+.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(212, 163, 115, 0.5);
 }

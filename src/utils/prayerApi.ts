@@ -1,7 +1,7 @@
 // Get country code from lat/lng using Nominatim API
 export async function getCountryCodeFromLatLng(
   lat: number,
-  lng: number
+  lng: number,
 ): Promise<string | undefined> {
   try {
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=3&addressdetails=1`;
@@ -29,7 +29,7 @@ export type FetchPrayerParams = {
 };
 
 export async function fetchAladhanTimings(
-  params: FetchPrayerParams
+  params: FetchPrayerParams,
 ): Promise<RawAladhanTimingsResponse> {
   const {
     date,
@@ -54,13 +54,13 @@ export async function fetchAladhanTimings(
   if (latitudeAdjustmentMethod)
     url.searchParams.set(
       "latitudeAdjustmentMethod",
-      String(latitudeAdjustmentMethod)
+      String(latitudeAdjustmentMethod),
     );
 
   const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch prayer timings: ${res.status} ${res.statusText}`
+      `Failed to fetch prayer timings: ${res.status} ${res.statusText}`,
     );
   }
   const json = (await res.json()) as RawAladhanTimingsResponse;
@@ -129,7 +129,7 @@ export function pickMethodByCountryCode(cc?: string): number | undefined {
 export async function deriveMethodForTimezone(
   tz?: string,
   lat?: number,
-  lng?: number
+  lng?: number,
 ): Promise<{
   method?: number;
   latitudeAdjustmentMethod?: 1 | 2 | 3;
@@ -172,4 +172,120 @@ export async function fetchHijriFromGregorian(date: string) {
       ? `${h.day} ${h.month.ar} ${h.year}`
       : h.date;
   return { hijriDate: h.date, hijriReadable: readable };
+}
+
+// Fetch prayer times calendar for a Gregorian month
+export async function fetchMonthlyPrayerCalendar(params: {
+  month: number; // 1-12
+  year: number;
+  latitude: number;
+  longitude: number;
+  method?: number;
+  latitudeAdjustmentMethod?: 1 | 2 | 3;
+}) {
+  const { month, year, latitude, longitude, method, latitudeAdjustmentMethod } =
+    params;
+
+  const url = new URL(`${ALADHAN_BASE}/calendar/${year}/${month}`);
+  url.searchParams.set("latitude", String(latitude));
+  url.searchParams.set("longitude", String(longitude));
+  if (typeof method !== "undefined") {
+    url.searchParams.set("method", String(method));
+  }
+  if (latitudeAdjustmentMethod) {
+    url.searchParams.set(
+      "latitudeAdjustmentMethod",
+      String(latitudeAdjustmentMethod),
+    );
+  }
+
+  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch monthly calendar: ${res.status} ${res.statusText}`,
+    );
+  }
+
+  const json = (await res.json()) as {
+    code: number;
+    status: string;
+    data: Array<{
+      timings: Record<string, string>;
+      date: {
+        readable: string;
+        timestamp: string;
+        gregorian: {
+          date: string;
+          day: string;
+          weekday: { en: string; ar?: string };
+          month: { number: number; en: string };
+          year: string;
+        };
+        hijri: {
+          date: string;
+          day: string;
+          weekday: { en: string; ar: string };
+          month: { number: number; en: string; ar: string };
+          year: string;
+          holidays?: string[];
+        };
+      };
+      meta: {
+        latitude: number;
+        longitude: number;
+        timezone: string;
+        method: { id: number; name: string };
+      };
+    }>;
+  };
+
+  return json;
+}
+
+// ── Date Conversion APIs ──
+
+export interface DateConversionResult {
+  hijri: {
+    date: string;
+    day: string;
+    weekday: { en: string; ar: string };
+    month: { number: number; en: string; ar: string; days: number };
+    year: string;
+    holidays: string[];
+  };
+  gregorian: {
+    date: string;
+    day: string;
+    weekday: { en: string };
+    month: { number: number; en: string };
+    year: string;
+  };
+}
+
+/** Convert a Gregorian date (DD-MM-YYYY) to Hijri */
+export async function convertGregorianToHijri(
+  date: string,
+  calendarMethod: string = "HJCoSA",
+): Promise<DateConversionResult> {
+  const url = new URL(`${ALADHAN_BASE}/gToH/${encodeURIComponent(date)}`);
+  url.searchParams.set("calendarMethod", calendarMethod);
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`Conversion failed: ${res.status}`);
+  const json = await res.json();
+  return json.data as DateConversionResult;
+}
+
+/** Convert a Hijri date (DD-MM-YYYY) to Gregorian */
+export async function convertHijriToGregorian(
+  date: string,
+  calendarMethod: string = "HJCoSA",
+): Promise<DateConversionResult> {
+  const url = new URL(`${ALADHAN_BASE}/hToG/${encodeURIComponent(date)}`);
+  url.searchParams.set("calendarMethod", calendarMethod);
+
+  const res = await fetch(url.toString());
+  if (!res.ok) throw new Error(`Conversion failed: ${res.status}`);
+  const json = await res.json();
+  return json.data as DateConversionResult;
 }

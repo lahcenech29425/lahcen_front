@@ -3,7 +3,7 @@ export async function fetchApi(endpoint: string) {
   const url = `${baseUrl}${endpoint}`;
   const res = await fetch(url, {
     headers: { "Content-Type": "application/json" },
-    next: { revalidate: 31536000 },
+    next: { revalidate: 60 },
   });
   if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
   const { data } = await res.json();
@@ -16,7 +16,7 @@ export async function fetchApiWithPagination(endpoint: string) {
   const url = `${baseUrl}${endpoint}`;
   const res = await fetch(url, {
     headers: { "Content-Type": "application/json" },
-    next: { revalidate: 31536000 },
+    next: { revalidate: 60 },
   });
   if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
   return res.json(); // Returns { data, meta }

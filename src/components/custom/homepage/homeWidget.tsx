@@ -10,8 +10,10 @@ type Homepage = {
 
 export default function HomeWidget({ homepage }: { homepage: Homepage }) {
   return (
-    <main className="">
-      <BlockRenderer blocks={homepage.sections} />
-    </main>
+    <>
+      <main className="">
+        <BlockRenderer blocks={homepage.sections} />
+      </main>
+    </>
   );
 }

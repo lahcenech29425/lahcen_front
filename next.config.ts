@@ -2,19 +2,27 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    // Utiliser remotePatterns au lieu de domains (méthode moderne et plus sécurisée)
+    // Allow localhost images in development (Next.js 16 blocks private IPs by default)
+    localPatterns: [
+      {
+        pathname: "/uploads/**",
+        search: "",
+      },
+    ],
+
+    // Remote patterns for external images
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
         port: "1337",
-        pathname: "/uploads/**",
+        pathname: "/**",
       },
       {
         protocol: "http",
         hostname: "127.0.0.1",
         port: "1337",
-        pathname: "/uploads/**",
+        pathname: "/**",
       },
       {
         protocol: "https",
@@ -26,7 +34,15 @@ const nextConfig: NextConfig = {
         hostname: "timely-wealth-923d9aeb3d.media.strapiapp.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
+
+    // Disable image optimization for localhost in development
+    unoptimized: process.env.NODE_ENV === "development",
 
     // Formats d'image optimisés (AVIF puis WebP en fallback)
     formats: ["image/avif", "image/webp"],
@@ -50,3 +66,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

@@ -148,26 +148,26 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4"
-            style={{ background: "rgba(0, 0, 0, 0.5)" }}
+            className="fixed inset-0 z-[99998] flex items-start justify-center pt-20 px-4 transition-all"
+            style={{ background: "rgba(0, 0, 0, 0.6)", backdropFilter: "blur(4px)" }}
             onClick={handleBackdropClick}
         >
             <div
                 ref={modalRef}
-                className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up"
+                className="w-full max-w-2xl bg-card rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up border border-border"
                 dir="rtl"
             >
                 {/* Search Input */}
-                <div className="p-4 border-b border-gray-200">
+                <div className="p-4 border-b border-border">
                     <div className="relative">
-                        <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                        <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500" size={20} />
                         <input
                             ref={inputRef}
                             type="text"
                             value={query}
                             onChange={handleInputChange}
                             placeholder="ابحث في القرآن، الأحاديث، الكتب، المقالات..."
-                            className="w-full pr-12 pl-12 py-3 text-lg border-0 focus:outline-none focus:ring-0"
+                            className="w-full pr-12 pl-12 py-3 text-lg border-0 bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-0 placeholder-gray-400 dark:placeholder-gray-600"
                             autoComplete="off"
                         />
                         {query && (
@@ -179,7 +179,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                                     setBookResults([]);
                                     setArticleResults([]);
                                 }}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                             >
                                 <X size={20} />
                             </button>
@@ -191,10 +191,10 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                 <div className="max-h-[60vh] overflow-y-auto">
                     {/* Empty State */}
                     {!query && (
-                        <div className="p-8 text-center text-gray-500">
-                            <Search size={48} className="mx-auto mb-4 text-gray-300" />
+                        <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                            <Search size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                             <p>ابدأ بالكتابة للبحث في محتوى الموقع</p>
-                            <p className="text-sm mt-2">القرآن الكريم • الأحاديث • الكتب • المقالات</p>
+                            <p className="text-sm mt-2 text-gray-400 dark:text-gray-500">القرآن الكريم • الأحاديث • الكتب • المقالات</p>
                         </div>
                     )}
 
@@ -202,35 +202,35 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                     {query && query.length >= 2 && isAnyLoading && !hasResults && (
                         <div className="p-8 text-center">
                             <Loader2 size={32} className="mx-auto mb-4 text-gray-400 animate-spin" />
-                            <p className="text-gray-500">جاري البحث...</p>
+                            <p className="text-gray-500 dark:text-gray-400">جاري البحث...</p>
                         </div>
                     )}
 
                     {/* No Results */}
                     {query && query.length >= 2 && !isAnyLoading && !hasResults && (
-                        <div className="p-8 text-center text-gray-500">
+                        <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                             <p>لم يتم العثور على نتائج لـ &quot;{query}&quot;</p>
                         </div>
                     )}
 
                     {/* Quran Results */}
                     {(quranResults.length > 0 || loading.quran) && (
-                        <div className="border-b border-gray-100">
-                            <div className="px-4 py-2 bg-gray-50 flex items-center gap-2">
-                                <BookOpen size={18} className="text-emerald-600" />
-                                <span className="font-semibold text-gray-700">القرآن الكريم</span>
+                        <div className="border-b border-border">
+                            <div className="px-4 py-2 bg-secondary/50 flex items-center gap-2">
+                                <BookOpen size={18} className="text-emerald-600 dark:text-emerald-500" />
+                                <span className="font-semibold text-gray-700 dark:text-gray-300">القرآن الكريم</span>
                                 {loading.quran && <Loader2 size={14} className="animate-spin text-gray-400" />}
                             </div>
-                            <div className="divide-y divide-gray-50">
+                            <div className="divide-y divide-gray-50 dark:divide-[#2a2a2a]">
                                 {quranResults.map((result) => (
                                     <Link
                                         key={result.number}
                                         href={`/quran/${getSurahSlug({ englishName: result.surah.englishName, number: result.surah.number } as { englishName: string; number: number })}/${result.numberInSurah}`}
-                                        className="block px-4 py-3 hover:bg-gray-50 transition"
+                                        className="block px-4 py-3 hover:bg-secondary transition"
                                         onClick={handleClose}
                                     >
-                                        <p className="text-gray-800 font-arabic line-clamp-2">{result.text}</p>
-                                        <p className="text-sm text-gray-500 mt-1">
+                                        <p className="text-gray-800 dark:text-gray-200 font-arabic line-clamp-2">{result.text}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                             {result.surah.name} - الآية {result.numberInSurah}
                                         </p>
                                     </Link>
@@ -241,22 +241,22 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
 
                     {/* Hadith Results */}
                     {(hadithResults.length > 0 || loading.hadith) && (
-                        <div className="border-b border-gray-100">
-                            <div className="px-4 py-2 bg-gray-50 flex items-center gap-2">
-                                <BookMarked size={18} className="text-amber-600" />
-                                <span className="font-semibold text-gray-700">الأحاديث</span>
+                        <div className="border-b border-border">
+                            <div className="px-4 py-2 bg-secondary/50 flex items-center gap-2">
+                                <BookMarked size={18} className="text-amber-600 dark:text-amber-500" />
+                                <span className="font-semibold text-gray-700 dark:text-gray-300">الأحاديث</span>
                                 {loading.hadith && <Loader2 size={14} className="animate-spin text-gray-400" />}
                             </div>
-                            <div className="divide-y divide-gray-50">
+                            <div className="divide-y divide-gray-50 dark:divide-[#2a2a2a]">
                                 {hadithResults.map((result) => (
                                     <Link
                                         key={result.id}
                                         href="/hadith"
-                                        className="block px-4 py-3 hover:bg-gray-50 transition"
+                                        className="block px-4 py-3 hover:bg-secondary transition"
                                         onClick={handleClose}
                                     >
-                                        <p className="text-gray-800 line-clamp-2">{result.text}</p>
-                                        <p className="text-sm text-gray-500 mt-1">
+                                        <p className="text-gray-800 dark:text-gray-200 line-clamp-2">{result.text}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                             {result.bookSlug === "sahih-bukhari" ? "صحيح البخاري" : result.bookSlug} - حديث {result.number}
                                         </p>
                                     </Link>
@@ -267,22 +267,22 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
 
                     {/* Books Results */}
                     {(bookResults.length > 0 || loading.books) && (
-                        <div className="border-b border-gray-100">
-                            <div className="px-4 py-2 bg-gray-50 flex items-center gap-2">
-                                <BookOpen size={18} className="text-blue-600" />
-                                <span className="font-semibold text-gray-700">المكتبة</span>
+                        <div className="border-b border-border">
+                            <div className="px-4 py-2 bg-secondary/50 flex items-center gap-2">
+                                <BookOpen size={18} className="text-blue-600 dark:text-blue-500" />
+                                <span className="font-semibold text-gray-700 dark:text-gray-300">المكتبة</span>
                                 {loading.books && <Loader2 size={14} className="animate-spin text-gray-400" />}
                             </div>
-                            <div className="divide-y divide-gray-50">
+                            <div className="divide-y divide-gray-50 dark:divide-[#2a2a2a]">
                                 {bookResults.map((book) => (
                                     <Link
                                         key={book.id}
                                         href={`/books/${book.slug}`}
-                                        className="block px-4 py-3 hover:bg-gray-50 transition"
+                                        className="block px-4 py-3 hover:bg-secondary transition"
                                         onClick={handleClose}
                                     >
-                                        <p className="text-gray-800 font-semibold">{book.title}</p>
-                                        <p className="text-sm text-gray-500">{book.author}</p>
+                                        <p className="text-gray-800 dark:text-gray-200 font-semibold">{book.title}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">{book.author}</p>
                                     </Link>
                                 ))}
                             </div>
@@ -292,21 +292,21 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                     {/* Articles Results */}
                     {(articleResults.length > 0 || loading.articles) && (
                         <div>
-                            <div className="px-4 py-2 bg-gray-50 flex items-center gap-2">
-                                <FileText size={18} className="text-purple-600" />
-                                <span className="font-semibold text-gray-700">المقالات</span>
+                            <div className="px-4 py-2 bg-secondary/50 flex items-center gap-2">
+                                <FileText size={18} className="text-purple-600 dark:text-purple-500" />
+                                <span className="font-semibold text-gray-700 dark:text-gray-300">المقالات</span>
                                 {loading.articles && <Loader2 size={14} className="animate-spin text-gray-400" />}
                             </div>
-                            <div className="divide-y divide-gray-50">
+                            <div className="divide-y divide-gray-50 dark:divide-[#2a2a2a]">
                                 {articleResults.map((article) => (
                                     <Link
                                         key={article.id}
                                         href={`/blogs/${article.slug}`}
-                                        className="block px-4 py-3 hover:bg-gray-50 transition"
+                                        className="block px-4 py-3 hover:bg-secondary transition"
                                         onClick={handleClose}
                                     >
-                                        <p className="text-gray-800 font-semibold">{article.title}</p>
-                                        <p className="text-sm text-gray-500 line-clamp-1">
+                                        <p className="text-gray-800 dark:text-gray-200 font-semibold">{article.title}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
                                             {article.content.replace(/[#*]/g, "").slice(0, 80)}...
                                         </p>
                                     </Link>
@@ -317,7 +317,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                 </div>
 
                 {/* Footer */}
-                <div className="p-3 border-t border-gray-200 bg-gray-50 flex items-center justify-between text-xs text-gray-500">
+                <div className="p-3 border-t border-border bg-secondary/30 flex items-center justify-between text-xs text-muted-foreground">
                     <span>اضغط ESC للإغلاق</span>
                     <span>⌘K للبحث السريع</span>
                 </div>

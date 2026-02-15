@@ -67,7 +67,7 @@ const MarkdownRenderer = ({ content }: { content: string }) => {
         li: (props) => <li className="mb-2" {...props} />,
         blockquote: (props) => (
           <blockquote
-            className="border-l-4 border-primary dark:border-primary-light pl-4 italic text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-[#232323] py-2 mb-4"
+            className="border-l-4 border-primary dark:border-primary-light pl-4 italic text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-card py-2 mb-4"
             {...props}
           />
         ),

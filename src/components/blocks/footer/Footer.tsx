@@ -85,20 +85,24 @@ export default function Footer({ data }: { data: FooterType }) {
                     <span className="absolute -bottom-2 right-0 w-8 h-0.5 bg-primary" />
                   </h4>
                   <ul className="space-y-3">
-                    {menu.links.filter((link) => link.url).map((link) => (
-                      <li key={link.id}>
-                        <Link
-                          href={link.url}
-                          target={link.is_external ? "_blank" : undefined}
-                          rel={
-                            link.is_external ? "noopener noreferrer" : undefined
-                          }
-                          className="text-white/60 hover:text-primary transition-colors duration-300 text-sm block hover:translate-x-[-4px]"
-                        >
-                          {link.title}
-                        </Link>
-                      </li>
-                    ))}
+                    {menu.links
+                      .filter((link) => link.url)
+                      .map((link) => (
+                        <li key={link.id}>
+                          <Link
+                            href={link.url}
+                            target={link.is_external ? "_blank" : undefined}
+                            rel={
+                              link.is_external
+                                ? "noopener noreferrer"
+                                : undefined
+                            }
+                            className="text-white/60 hover:text-primary transition-colors duration-300 text-sm block hover:translate-x-[-4px]"
+                          >
+                            {link.title}
+                          </Link>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               ))}
@@ -108,9 +112,7 @@ export default function Footer({ data }: { data: FooterType }) {
 
         {/* Bottom section */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-right">
-          <p className="text-white/50 text-sm">
-            {footer.copyrightText}
-          </p>
+          <p className="text-white/50 text-sm">{footer.copyrightText}</p>
           <p className="text-white/50 text-xs flex items-center gap-1">
             <span>صُنع بـ</span>
             <span className="text-red-500">❤️</span>

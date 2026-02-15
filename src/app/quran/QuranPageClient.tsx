@@ -10,10 +10,14 @@ import { motion } from "framer-motion";
 import { Search, BookOpen, Star, ChevronDown, Filter } from "lucide-react";
 
 // Dynamically import PdfFlipbook (client-only, no SSR) to avoid pdfjs-dist build issues
-const PdfFlipbook = dynamic(
-  () => import("@/components/elements/PdfFlipbook"),
-  { ssr: false, loading: () => <div className="text-center py-20 text-muted-foreground">جاري تحميل المصحف...</div> }
-);
+const PdfFlipbook = dynamic(() => import("@/components/elements/PdfFlipbook"), {
+  ssr: false,
+  loading: () => (
+    <div className="text-center py-20 text-muted-foreground">
+      جاري تحميل المصحف...
+    </div>
+  ),
+});
 
 const PAGE_SIZE = 12;
 
@@ -138,7 +142,7 @@ export default function QuranPageClient() {
   return (
     <div className="relative">
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] bg-[url('/assets/bg.svg')] bg-repeat bg-center dark:invert"></div>
-      
+
       {/* Full-Width Hero Section */}
       <div
         className="relative w-full h-[450px] md:h-[550px] overflow-hidden bg-primary/20"

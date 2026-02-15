@@ -231,25 +231,31 @@ export default async function RootLayout({
   let header = null;
   let footer = null;
   let announcementBar = null;
-  
+
   if (!isMaintenanceMode) {
     try {
       header = await fetchApi(
         "/api/header?populate[logo][populate]=*&populate[menu][populate]=*&populate[cta][populate]=*",
       );
-    } catch (e) { console.warn("Header API fetch failed") }
+    } catch (e) {
+      console.warn("Header API fetch failed");
+    }
 
     try {
       footer = await fetchApi(
         "/api/footer?populate=logo.image&populate=menu.links&populate=socialLinks.icon&populate=contact.icon",
       );
-    } catch (e) { console.warn("Footer API fetch failed") }
+    } catch (e) {
+      console.warn("Footer API fetch failed");
+    }
 
     try {
       announcementBar = await fetchApi("/api/announcement-bar");
-    } catch (e) { console.warn("Announcement Bar API fetch failed") }
+    } catch (e) {
+      console.warn("Announcement Bar API fetch failed");
+    }
   }
-  
+
   const showGoToTop = footer?.showGoToTop ?? false;
 
   const matchedPath = (await headers()).get("x-matched-path") || "";

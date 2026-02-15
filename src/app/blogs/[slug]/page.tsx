@@ -43,11 +43,12 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: blogTitle,
     description: blogDescription,
-    authors: [{ name: blog.author || "لحسن", url: "https://www.lahcenway.com" }],
+    authors: [
+      { name: blog.author || "لحسن", url: "https://www.lahcenway.com" },
+    ],
     openGraph: {
       title: blog.seo?.openGraph?.ogTitle ?? blogTitle,
-      description:
-        blog.seo?.openGraph?.ogDescription ?? blogDescription,
+      description: blog.seo?.openGraph?.ogDescription ?? blogDescription,
       url: `/blogs/${slug}`,
       type: "article",
       siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
@@ -91,10 +92,7 @@ export default async function BlogDetailPage({ params }: Props) {
     headline: blog.title,
     description:
       blog.seo?.metaDescription ??
-      blog.content
-        .replace(/[#*]/g, "")
-        .trim()
-        .slice(0, 160),
+      blog.content.replace(/[#*]/g, "").trim().slice(0, 160),
     image: blog.coverImage?.url ?? undefined,
     author: {
       "@type": "Person",

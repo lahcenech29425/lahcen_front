@@ -76,32 +76,32 @@
 [data-theme="dark"],
 .dark {
   /* Rich Warm Brown Background - lighter than black, clearly brown */
-  --background: #2D1B14;
-  --foreground: #F5E6D3;
+  --background: #2d1b14;
+  --foreground: #f5e6d3;
 
   /* Warm Brown for Dark Mode - matches light mode feel */
-  --primary: #D4A373;
-  --primary-foreground: #2D1B14;
+  --primary: #d4a373;
+  --primary-foreground: #2d1b14;
 
   /* Dark Secondary Colors - warm tinted */
-  --secondary: #3E2723;
-  --secondary-foreground: #F5E6D3;
+  --secondary: #3e2723;
+  --secondary-foreground: #f5e6d3;
 
   /* Card and Border Colors - warm dark */
-  --card: #3E2723;
-  --card-foreground: #F5E6D3;
-  --border: #5D4037;
-  --muted: #4E342E;
-  --muted-foreground: #BCAAA4;
+  --card: #3e2723;
+  --card-foreground: #f5e6d3;
+  --border: #5d4037;
+  --muted: #4e342e;
+  --muted-foreground: #bcaaa4;
 
   /* Accent Colors for Dark Mode */
-  --accent: #8D6E63;
-  --accent-foreground: #FFFFFF;
+  --accent: #8d6e63;
+  --accent-foreground: #ffffff;
 
   /* Legacy Overrides */
-  --gold: #D4A373;
-  --gold-light: #E6C6A6;
-  --gold-dark: #A1887F;
+  --gold: #d4a373;
+  --gold-light: #e6c6a6;
+  --gold-dark: #a1887f;
   --gold-border-subtle: rgba(212, 163, 115, 0.35);
   --gold-bg-subtle: rgba(212, 163, 115, 0.1);
 

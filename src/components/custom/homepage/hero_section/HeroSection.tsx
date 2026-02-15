@@ -65,7 +65,10 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-background" dir="rtl">
+    <section
+      className="relative min-h-screen flex flex-col overflow-hidden bg-background"
+      dir="rtl"
+    >
       {/* Background */}
       <div className="absolute inset-0">
         {data.image ? (
@@ -86,7 +89,7 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
         ) : (
           <>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,1)_0%,rgba(250,250,250,1)_100%)] dark:bg-transparent" />
-            
+
             {/* Dark Mode Background Pattern (White) */}
             <div
               className="hidden dark:block absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -94,7 +97,7 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
                 backgroundImage: "url('/assets/bg1.svg')",
                 backgroundRepeat: "repeat",
                 backgroundSize: "400px",
-                filter: "invert(1)" // Invert to make it white if the SVG is black
+                filter: "invert(1)", // Invert to make it white if the SVG is black
               }}
             />
 
@@ -110,7 +113,7 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
                 WebkitMaskSize: "cover",
               }}
             />
-            
+
             <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
             <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
           </>
@@ -140,10 +143,11 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
             }}
           >
             <span
-              className={`inline-block ${data.image
-                ? "text-white drop-shadow-2xl"
-                : "text-transparent bg-clip-text bg-gradient-to-b from-primary via-primary/80 to-primary"
-                }`}
+              className={`inline-block ${
+                data.image
+                  ? "text-white drop-shadow-2xl"
+                  : "text-transparent bg-clip-text bg-gradient-to-b from-primary via-primary/80 to-primary"
+              }`}
             >
               {data.title}
             </span>
@@ -155,8 +159,9 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className={`text-lg md:text-xl max-w-3xl mx-auto mb-12 font-medium leading-relaxed ${data.image ? "text-white/95 drop-shadow-lg" : "text-foreground"
-                }`}
+              className={`text-lg md:text-xl max-w-3xl mx-auto mb-12 font-medium leading-relaxed ${
+                data.image ? "text-white/95 drop-shadow-lg" : "text-foreground"
+              }`}
             >
               {description}
             </motion.p>
@@ -183,7 +188,6 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
         </motion.div>
       </div>
 
-
       {/* Animated Scroll Indicator - Very Bottom */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -196,11 +200,17 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           className="flex flex-col items-center gap-2 cursor-pointer"
         >
-          <div className="text-xs text-white/60 font-medium tracking-wider">اكتشف المزيد</div>
+          <div className="text-xs text-white/60 font-medium tracking-wider">
+            اكتشف المزيد
+          </div>
           <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-1.5">
             <motion.div
               animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
               className="w-1.5 h-1.5 rounded-full bg-primary"
             />
           </div>

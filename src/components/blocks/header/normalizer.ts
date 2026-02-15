@@ -5,11 +5,13 @@ export function normalizeHeader(data: HeaderType): HeaderType {
   return {
     id: data.id,
     documentId: data.documentId,
-    logo: data.logo ? {
-      id: data.logo.id,
-      link: data.logo.link,
-      image: normalizeImage(data.logo.image) ?? data.logo.image,
-    } : { id: 0, link: "/", image: null as any },
+    logo: data.logo
+      ? {
+          id: data.logo.id,
+          link: data.logo.link,
+          image: normalizeImage(data.logo.image) ?? data.logo.image,
+        }
+      : { id: 0, link: "/", image: null as any },
     menu: Array.isArray(data.menu)
       ? data.menu.map((item: HeaderMenuItem) => ({
           id: item.id,

@@ -50,8 +50,8 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
         ) {
           normalized = Array.isArray(rawItems[0]?.images)
             ? rawItems[0].images.map(
-              (img: ImageType) => normalizeImage(img) as ImageType
-            )
+                (img: ImageType) => normalizeImage(img) as ImageType,
+              )
             : [];
         }
         setItems(normalized);
@@ -111,13 +111,16 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
                 </ScrollFadeIn>
               ))}
             </div>
-          ) : section.itemType === "quran-images" || section.itemType === "hadith-images" ? (
+          ) : section.itemType === "quran-images" ||
+            section.itemType === "hadith-images" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {items.map((img, idx) => (
                 <ScrollFadeIn key={idx} delay={150 + idx * 60}>
                   <ImageCard
                     image={img as ImageType}
-                    fetchType={section.itemType === "quran-images" ? "quran" : "hadith"}
+                    fetchType={
+                      section.itemType === "quran-images" ? "quran" : "hadith"
+                    }
                   />
                 </ScrollFadeIn>
               ))}
@@ -127,23 +130,23 @@ export default function ExploreSection({ data, index }: ExploreSectionProps) {
 
         {/* CTA Button - Bottom centered */}
         {section.button?.url && (
-        <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-          >
-            <Link
-              href={section.button.url}
-              isExternal={section.button.is_external}
-              className="group inline-flex items-center gap-3 px-10 py-4 bg-primary rounded-full text-primary-foreground font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+          <div className="text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
             >
-              <span>{section.button.title}</span>
-              <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-        </div>
+              <Link
+                href={section.button.url}
+                isExternal={section.button.is_external}
+                className="group inline-flex items-center gap-3 px-10 py-4 bg-primary rounded-full text-primary-foreground font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 hover:bg-primary/90 hover:scale-105 transition-all duration-300"
+              >
+                <span>{section.button.title}</span>
+                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+              </Link>
+            </motion.div>
+          </div>
         )}
       </div>
     </section>

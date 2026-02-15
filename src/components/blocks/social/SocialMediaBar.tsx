@@ -5,14 +5,27 @@ import { fetchApi } from "@/utils/fetchApi";
 import type { FooterSocialLink } from "@/types/footer";
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Twitter, Instagram, Youtube, Send, Share2, X } from "lucide-react";
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  Send,
+  Share2,
+  X,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Fallback social links when Strapi is unavailable
 const FALLBACK_LINKS = [
   { id: 1, platform: "facebook", url: "https://facebook.com", icon: Facebook },
   { id: 2, platform: "twitter", url: "https://twitter.com", icon: Twitter },
-  { id: 3, platform: "instagram", url: "https://instagram.com", icon: Instagram },
+  {
+    id: 3,
+    platform: "instagram",
+    url: "https://instagram.com",
+    icon: Instagram,
+  },
   { id: 4, platform: "youtube", url: "https://youtube.com", icon: Youtube },
   { id: 5, platform: "telegram", url: "https://telegram.org", icon: Send },
 ];
@@ -34,10 +47,10 @@ export default function SocialMediaBar() {
       .then((data) => {
         if (!mounted) return;
         const items = (data?.socialLinks ?? []) as FooterSocialLink[];
-        
+
         // Filter valid links
         const filtered = items.filter(
-          (s) => s?.is_active && s?.url && s?.icon?.url
+          (s) => s?.is_active && s?.url && s?.icon?.url,
         );
 
         if (filtered.length > 0) {
@@ -52,7 +65,9 @@ export default function SocialMediaBar() {
         setUseFallback(true);
       });
 
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const base = process.env.NEXT_PUBLIC_STRAPI_URL || "";
@@ -82,12 +97,19 @@ export default function SocialMediaBar() {
             className="flex flex-col gap-2"
           >
             {displayLinks.map((item, index) => {
-              const rawIcon = 'icon' in item ? (item as any).icon : null;
-              const IconComponent = typeof rawIcon === 'function' ? rawIcon : null;
+              const rawIcon = "icon" in item ? (item as any).icon : null;
+              const IconComponent =
+                typeof rawIcon === "function" ? rawIcon : null;
 
-              const iconUrl = !IconComponent && rawIcon && typeof rawIcon === 'object' && rawIcon.url
-                ? (rawIcon.url.startsWith("http") ? rawIcon.url : `${base}${rawIcon.url}`)
-                : null;
+              const iconUrl =
+                !IconComponent &&
+                rawIcon &&
+                typeof rawIcon === "object" &&
+                rawIcon.url
+                  ? rawIcon.url.startsWith("http")
+                    ? rawIcon.url
+                    : `${base}${rawIcon.url}`
+                  : null;
 
               return (
                 <motion.div
@@ -99,7 +121,7 @@ export default function SocialMediaBar() {
                     delay: index * 0.05,
                     type: "spring",
                     stiffness: 400,
-                    damping: 25
+                    damping: 25,
                   }}
                 >
                   <Link
@@ -126,7 +148,9 @@ export default function SocialMediaBar() {
                       </div>
                     ) : (
                       <span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-white">
-                        {typeof item.platform === 'string' ? item.platform[0].toUpperCase() : 'S'}
+                        {typeof item.platform === "string"
+                          ? item.platform[0].toUpperCase()
+                          : "S"}
                       </span>
                     )}
                   </Link>
@@ -153,7 +177,7 @@ export default function SocialMediaBar() {
           transition={{
             duration: 2,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
 
@@ -181,7 +205,7 @@ export default function SocialMediaBar() {
             transition={{
               duration: 2,
               repeat: Infinity,
-              ease: "easeOut"
+              ease: "easeOut",
             }}
           />
         )}

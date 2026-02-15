@@ -200,7 +200,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       `${strapiUrl}/api/blogs?populate=*&pagination[pageSize]=100`,
       {
         next: { revalidate: 3600 }, // Cache 1 heure
-      }
+      },
     );
     if (response.ok) {
       const data: StrapiResponse = await response.json();
@@ -238,7 +238,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       `${strapiUrl}/api/books?populate=*&pagination[pageSize]=100`,
       {
         next: { revalidate: 3600 }, // Cache 1 heure
-      }
+      },
     );
     if (response.ok) {
       const data = await response.json();

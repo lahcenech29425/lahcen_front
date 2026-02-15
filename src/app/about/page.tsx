@@ -7,13 +7,7 @@ export const metadata: Metadata = {
   title: "من نحن | تعرّف على سِرَاجٌ يُضِيءُالدَّرْبَ",
   description:
     "تعرّف على منصة سِرَاجٌ يُضِيءُالدَّرْبَ — مشروع دعوي إسلامي يهدف إلى نشر القرآن الكريم والأحاديث النبوية والمقالات الإسلامية النافعة.",
-  keywords: [
-    "من نحن",
-    "سراج يضيء الدرب",
-    "لحسن",
-    "مشروع دعوي",
-    "منصة إسلامية",
-  ],
+  keywords: ["من نحن", "سراج يضيء الدرب", "لحسن", "مشروع دعوي", "منصة إسلامية"],
   openGraph: {
     title: "من نحن | سِرَاجٌ يُضِيءُالدَّرْبَ",
     description:
@@ -34,8 +28,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "من نحن | سِرَاجٌ يُضِيءُالدَّرْبَ",
-    description:
-      "تعرّف على منصة سِرَاجٌ يُضِيءُالدَّرْبَ — مشروع دعوي إسلامي",
+    description: "تعرّف على منصة سِرَاجٌ يُضِيءُالدَّرْبَ — مشروع دعوي إسلامي",
     images: ["/og-image.jpg"],
   },
   alternates: {
@@ -45,7 +38,9 @@ export const metadata: Metadata = {
 
 async function getAboutPageData() {
   try {
-    const response = await fetchApi("/api/about-page?populate=social_media.icon&populate=image");
+    const response = await fetchApi(
+      "/api/about-page?populate=social_media.icon&populate=image",
+    );
     return normalizeMemorialPage(response);
   } catch (error) {
     console.error("Error fetching about page data:", error);
@@ -55,10 +50,10 @@ async function getAboutPageData() {
 
 export default async function AboutPage() {
   const memorial = await getAboutPageData();
-  
+
   if (!memorial || !memorial.id) {
     return <div className="text-center py-20">Failed to load content</div>;
   }
-  
+
   return <AboutPageClient memorial={memorial} />;
 }

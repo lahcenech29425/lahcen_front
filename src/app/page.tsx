@@ -4,7 +4,8 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "سِرَاجٌ يُضِيءُالدَّرْبَ — القرآن الكريم، الأحاديث، المقالات الإسلامية",
+    absolute:
+      "سِرَاجٌ يُضِيءُالدَّرْبَ — القرآن الكريم، الأحاديث، المقالات الإسلامية",
   },
   description:
     "منصة إسلامية متكاملة لقراءة القرآن الكريم برواية حفص وورش، والاستماع لأشهر القراء، وتصفح الأحاديث النبوية الشريفة، ومطالعة المقالات الدينية والكتب الإسلامية ومعرفة أوقات الصلاة.",
@@ -22,7 +23,9 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   let homepage = null;
   try {
-    homepage = await fetchApi('/api/homepage?populate=sections.image,sections.stats,sections.slider.image,sections.button,sections.services,sections.services.icon');
+    homepage = await fetchApi(
+      "/api/homepage?populate=sections.image,sections.stats,sections.slider.image,sections.button,sections.services,sections.services.icon",
+    );
   } catch (e) {
     console.error("Failed to fetch homepage data:", e);
   }
@@ -37,7 +40,7 @@ export default async function HomePage() {
 
   return (
     <>
-        <HomeWidget homepage={homepage} />
+      <HomeWidget homepage={homepage} />
     </>
   );
 }

@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Enable Turbopack with empty config (pdfjs-dist is loaded via dynamic import with ssr:false)
   turbopack: {},
-  
+
   // Fix pdfjs-dist build: exclude node-specific modules from client/SSR bundles
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -92,4 +92,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

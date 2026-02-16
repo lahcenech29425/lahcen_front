@@ -1,14 +1,46 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { normalizeSlider } from "./normalizer";
 import { Slider as SliderType } from "@/types/slider";
 import Image from "next/image";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
-export default function Slider({ data }: { data: SliderType }) {
-  const slider = normalizeSlider(data);
+export default function Slider({ data: _data }: { data: SliderType }) {
+  // Static data override
+  const slider = {
+    title: "نُورٌ وَهُدًى بَيْنَ يَدَيْكَ",
+    description: "رحلتك مع القرآن الكريم والسنة النبوية تبدأ هنا، حيث تجد الطمأنينة والسكينة، وتستلهم الحكمة التي تنير دربك في كل يوم من حياتك.",
+    allow_thumbnail: true,
+    timer: 5,
+    slides: [
+      {
+        id: 1,
+        title: "نور القرآن بين يديك",
+        description: "تصفح آيات الله، استمع لتلاواتها، وتدبر معانيها حيثما كنت",
+        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249646/audio_quran_hd6c0l.png"
+      },
+      {
+        id: 2,
+        title: "الحديث الشريف يضيء الطريق",
+        description: "كل حديث نبوي شريف هو مصدر هداية وسكينة لقلب المؤمن",
+        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249645/quran_ykrns1.png"
+      },
+      {
+        id: 3,
+        title: "المجتمع الإسلامي حول العالم",
+        description: "نشارك الآلاف حول العالم في نور القرآن والسنة، لنرتقي بروحنا معًا",
+        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249651/society_kissl8.png"
+      },
+      {
+        id: 4,
+        title: "سراج يضيء دربك",
+        description: "منصة تُهديك الطمأنينة، وترشدك في كل خطوة على طريق الإيمان",
+        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249644/siraj_fjzxdi.png"
+      }
+    ]
+  };
+
   const [activeIdx, setActiveIdx] = useState(0);
-  const slides = slider.slider.filter((item) => item.image?.url);
+  const slides = slider.slides;
 
   // Reversé pour le RTL: PREV diminue l'index, NEXT augmente l'index
   const handlePrev = () =>
@@ -50,15 +82,14 @@ export default function Slider({ data }: { data: SliderType }) {
             {slides.map((item, idx) => (
               <div
                 key={item.id}
-                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                  activeIdx === idx
+                className={`absolute inset-0 transition-all duration-700 ease-in-out ${activeIdx === idx
                     ? "opacity-100 scale-100 z-10"
                     : "opacity-0 scale-110 z-0"
-                }`}
+                  }`}
               >
                 <Image
-                  src={item.image.url}
-                  alt={item.image.alt || item.title}
+                  src={item.image}
+                  alt={item.title}
                   fill
                   className="object-cover"
                   loading={idx === 0 ? "eager" : "lazy"}
@@ -72,9 +103,9 @@ export default function Slider({ data }: { data: SliderType }) {
                   <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 drop-shadow-lg font-momken leading-tight">
                     {item.title}
                   </h3>
-                  {item.subtitle && (
+                  {item.description && (
                     <p className="text-lg md:text-xl text-white/90 max-w-3xl md:ml-auto leading-relaxed font-medium">
-                      {item.subtitle}
+                      {item.description}
                     </p>
                   )}
                 </div>
@@ -106,11 +137,10 @@ export default function Slider({ data }: { data: SliderType }) {
             {slides.map((_, idx) => (
               <button
                 key={idx}
-                className={`transition-all duration-500 rounded-full h-2.5 ${
-                  activeIdx === idx
+                className={`transition-all duration-500 rounded-full h-2.5 ${activeIdx === idx
                     ? "w-12 bg-primary shadow-lg shadow-primary/30"
                     : "w-2.5 bg-gray-300 dark:bg-border hover:bg-primary/50"
-                }`}
+                  }`}
                 onClick={() => setActiveIdx(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
               />
@@ -123,16 +153,15 @@ export default function Slider({ data }: { data: SliderType }) {
               {slides.map((item, idx) => (
                 <button
                   key={item.id}
-                  className={`relative h-24 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1 ${
-                    activeIdx === idx
+                  className={`relative h-24 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1 ${activeIdx === idx
                       ? "ring-4 ring-primary shadow-xl"
                       : "ring-1 ring-gray-200 dark:ring-border opacity-70 hover:opacity-100"
-                  }`}
+                    }`}
                   onClick={() => setActiveIdx(idx)}
                 >
                   <Image
-                    src={item.image.url}
-                    alt={item.image.alt || item.title}
+                    src={item.image}
+                    alt={item.title}
                     fill
                     className="object-cover"
                     loading="lazy"

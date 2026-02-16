@@ -25,7 +25,7 @@ export default function GoToTop() {
         position: "fixed",
         bottom: "32px",
         right: "32px",
-        zIndex: 99999,
+        zIndex: 50,
         width: "56px",
         height: "56px",
       }}

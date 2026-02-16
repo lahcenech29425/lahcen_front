@@ -1,14 +1,12 @@
 "use client";
-import Image from "next/image";
-import { normalizeHeader } from "./normalizer";
 import { useState, useEffect } from "react";
-import { Menu, Search } from "lucide-react";
-import type { HeaderType } from "@/types/header";
+import { Search } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 import GlobalSearchModal from "@/components/custom/search/GlobalSearchModal";
 import NavigationDrawer from "./NavigationDrawer";
 
-export default function HeaderBlock({ data }: { data: HeaderType }) {
-  const { logo, menu, cta } = normalizeHeader(data);
+export default function HeaderBlock() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -34,22 +32,17 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Theme is now handled by ThemeSwitcher component
-
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[9999] w-full transition-all duration-500 ${isScrolled
-          ? "bg-background/95 border-b border-border/50 backdrop-blur-xl shadow-lg"
-          : "bg-transparent border-transparent py-2"
+        className={`fixed left-0 right-0 z-[9998] w-full transition-all duration-500 ${isScrolled
+          ? "top-0 bg-background/80 shadow-lg backdrop-blur-md"
+          : "top-[40px] bg-transparent"
           }`}
       >
-        {/* Gold accent bar - Enhanced with glow on scroll */}
-        <div className={`absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#B8860B] via-[#D4AF37] to-[#B8860B] transition-all duration-300 ${isScrolled ? 'shadow-[0_0_20px_rgba(212,175,55,0.4)]' : 'opacity-80'}`} />
-
-        <div className="max-w-7xl mx-auto pt-6">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
           {/* Main Header Row - Centered Logo Layout */}
-          <div className={`relative flex items-center justify-between px-4 md:px-8 transition-all duration-300 ${isScrolled ? 'h-16' : 'h-24'}`}>
+          <div className={`relative flex items-center justify-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
 
             {/* RIGHT SIDE (RTL Start) - Menu Trigger */}
             <div className="flex items-center justify-start flex-1">
@@ -71,22 +64,16 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
 
             {/* CENTER - Logo (Absolute Centered) */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-              {logo?.image?.url ? (
-                <a href={logo.link || "/"} className="flex items-center group">
-                  <Image
-                    src={logo.image.url}
-                    alt={logo.image.alternativeText || "Logo"}
-                    width={logo.image.width || 70}
-                    height={logo.image.height || 70}
-                    className={`object-contain transition-all duration-500 group-hover:scale-110 drop-shadow-2xl ${isScrolled ? 'h-8 w-auto dark:invert' : 'h-12 w-auto invert'}`}
-                    priority
-                  />
-                </a>
-              ) : (
-                <a href="/" className={`font-bold font-heading text-primary transition-all drop-shadow-md ${isScrolled ? 'text-xl' : 'text-3xl'}`}>
-                  الموقع الإسلامي
-                </a>
-              )}
+              <Link href="/">
+                <Image
+                  src="/assets/logo.svg"
+                  alt="سِرَاجٌ"
+                  width={140}
+                  height={60}
+                  className={`object-contain transition-all duration-300 ${isScrolled ? 'h-8 md:h-10 w-auto' : 'h-10 md:h-14 w-auto brightness-0 invert'}`}
+                  priority
+                />
+              </Link>
             </div>
 
             {/* LEFT SIDE (RTL End) - Search */}
@@ -111,9 +98,6 @@ export default function HeaderBlock({ data }: { data: HeaderType }) {
         <NavigationDrawer
           isOpen={drawerOpen}
           onClose={() => setDrawerOpen(false)}
-          menu={menu}
-          cta={cta}
-          logoUrl={logo?.image?.url}
         />
 
         {/* Global Search Modal */}

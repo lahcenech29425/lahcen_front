@@ -2,34 +2,40 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, BookOpen, Heart, HandHelping, Quote } from "lucide-react";
-import { MemorialPageType } from "@/types/memorial";
+import { Calendar, BookOpen, Heart, HandHelping, Quote, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import { useState, useEffect } from "react";
 import Breadcrumb from "@/components/elements/Breadcrumb";
 import { motion } from "framer-motion";
 
-interface AboutPageClientProps {
-  memorial: MemorialPageType;
-}
-
-export default function AboutPageClient({ memorial }: AboutPageClientProps) {
+export default function AboutPageClient() {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Récupération de l'URL de l'image
-  const imageUrl = memorial.image[0].url;
-
-  // Configuration des dates en format arabe
-  const birthDate = new Date(memorial.birth_date);
-  const deathDate = new Date(memorial.death_date);
-  const formatter = new Intl.DateTimeFormat("ar-SA", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  // Static content data
+  const staticContent = {
+    title: "مَشْرُوعٌ إِيمَانِيٌّ وَرَحْمَةٌ جَارِيَة",
+    subtitle: "مُبَادَرَةٌ خَيْرِيَّةٌ مُبَارَكَةٌ، نُطْلِقُهَا صَدَقَةً دَائِمَةً لِرُوحِ الْوَالِدِ الْفَاضِلِ الشَّكُوكِيِّ الحَسَن رَحِمَهُ اللَّهُ، لِتَكُونَ مَنْبَعًا لِلْخَيْرِ، وَسَبَبًا لِلنُّورِ، وَجِسْرًا يَرْبِطُ الْمُسْلِمِينَ بِكِتَابِ اللَّهِ وَسُنَّةِ نَبِيِّهِ ﷺ.",
+    birthDate: "27 أكتوبر 1966",
+    deathDate: "29 مارس 2025",
+    biography: "وُلِدَ رَحِمَهُ اللَّهُ فِي أُسْرَةٍ بَسِيطَةٍ وَمُتَوَاضِعَةٍ، نَشَأَ فِيهَا عَلَى الْقِيَمِ الْأَصِيلَةِ وَالْأَخْلَاقِ الْكَرِيمَةِ. تَرَبَّى عَلَى الْجِدِّ وَالِاجْتِهَادِ، وَتَعَلَّمَ مُنْذُ صِغَرِهِ مَعْنَى الْقَنَاعَةِ وَالتَّسْلِيمِ لِقَضَاءِ اللَّهِ وَقَدَرِهِ. قَضَى رَحِمَهُ اللَّهُ عُمُرَهُ فِي مِهْنَةِ الْفِلَاحَةِ التَّقْلِيدِيَّةِ، يُحِبُّ الْأَرْضَ، وَيُدْرِكُ قِيمَةَ الْجُهْدِ وَالتَّعَبِ، فَكَانَ مِثَالًا لِلرَّجُلِ الْمُكافِحِ الَّذِي يَسْعَى بِإِخْلَاصٍ لِرِزْقِهِ وَرِزْقِ أَهْلِهِ. وَمَعَ ذٰلِكَ، لَمْ تَشْغَلْهُ أَعْمَالُ الدُّنْيَا عَنْ طَاعَةِ رَبِّهِ، فَكَانَ قَلْبُهُ مُعَلَّقًا بِالْقُرْآنِ الْكَرِيمِ، يَتْلُوهُ فِي خَلَوَاتِهِ، وَيَجِدُ فِيهِ السَّكِينَةَ وَالطُّمَأْنِينَةَ. عُرِفَ رَحِمَهُ اللَّهُ بِنُصْحِهِ وَبِذْلِهِ لِلْخَيْرِ، فَلَا يَمُرُّ يَوْمٌ إِلَّا وَقَدْ ذَكَرَ رَبَّهُ، وَسَعَى فِي صِلَةِ رَحِمٍ، أَوْ إِعَانَةِ مُحْتَاجٍ، أَوْ كَلِمَةِ حَقٍّ يُرِيدُ بِهَا وَجْهَ اللَّهِ. وَقَدْ تَرَكَ أَثَرًا بَاقِيًا فِي كُلِّ مَنْ عَاشَرَهُ، فَكُلُّ مَنْ عَرَفَهُ يَشْهَدُ بِحُسْنِ خُلُقِهِ وَطِيبِ سِيرَتِهِ. وَإِنْ كَانَ رَحِيلُهُ مُؤْلِمًا لِلْقُلُوبِ، فَإِنَّنَا نَرْجُو مِنَ اللَّهِ أَنْ يَجْعَلَ كُلَّ مَا نَنْشُرُهُ مِنْ خَيْرٍ وَعِلْمٍ وَقُرْبَةٍ صَدَقَةً جَارِيَةً فِي مِيزَانِ حَسَنَاتِهِ، وَحَسَنَاتِ جَمِيعِ الْمُسْلِمِينَ، وَأَنْ يَجْمَعَنَا بِهِ فِي دَارِ الْكَرَامَةِ عِنْدَ رَبٍّ رَحِيمٍ غَفُورٍ.",
+    missionTitle: "رِسَالَتُنَا",
+    missionIntro: "نطمح أن يكون هذا المشروع منبرًا لنشر الخير والوعي، ووسيلة تربط المسلمين بكتاب الله وسنة نبيه صلى الله عليه وسلم. إنه مشروع يبدأ بخطوات متواضعة، لكنه بإذن الله سيمتد أثره، ليكون صدقة جارية متجددة للوالد الراحل ولكل من ساهم فيه. نسأل الله أن يكتب الأجر لكل من شارك بدعوة، أو نشر، أو تلاوة، أو حتى بكلمة طيبة، وأن يجعل هذا العمل نورًا في الدنيا والآخرة.",
+    missionContent: "إِنَّ هٰذَا الْمَشْرُوعَ الْخَيْرِيَّ هُوَ صَدَقَةٌ جَارِيَةٌ نُقَدِّمُهُ بِإِخْلَاصٍ، وَنَرْجُو مِنَ اللَّهِ أَنْ يَكُونَ سَبَبًا فِي نَشْرِ النُّورِ وَالْخَيْرِ بَيْنَ الْمُسْلِمِينَ. نَهْدِفُ مِنْ خِلَالِهِ إِلَى إِحْيَاءِ الْقُلُوبِ وَتَثْبِيتِ الْإِيمَانِ عَنْ طَرِيقِ نَشْرِ كُلِّ مَا هُوَ نَافِعٌ وَهَادٍ • تِلَاوَاتٌ عَذْبَةٌ مِنَ الْقُرْآنِ الْكَرِيمِ، تَبُثُّ فِي النُّفُوسِ السَّكِينَةَ وَالطُّمَأْنِينَةَ. • أَحَادِيثُ نَبَوِيَّةٌ صَحِيحَةٌ، تَرْسُمُ لَنَا طَرِيقَ الْهِدَايَةِ وَتُجَسِّدُ أَخْلَاقَ النَّبِيِّ ﷺ. • مَقَالاتٌ وَبُحُوثٌ دِينِيَّةٌ وَتَرْبَوِيَّةٌ تُسَاهِمُ فِي بِنَاءِ الْإِنْسَانِ وَتَرْبِيَتِهِ عَلَى الْقِيَمِ وَالْفَضَائِلِ. وَغَايَتُنَا أَنْ نَجْعَلَ الْعِلْمَ وَالدَّعْوَةَ وَالذِّكْرَ مِصْبَاحًا يُضِيءُ الطَّرِيقَ، وَنَهْرًا يَسْقِي الْقُلُوبَ، لِيَنْتَفِعَ بِهِ النَّاسُ فِي حَيَاتِهِمْ وَبَعْدَ مَمَاتِهِمْ. وَنَرْجُو مِنَ الْكَرِيمِ الْمَنَّانِ أَنْ يَكُونَ أَجْرُ هٰذَا الْعَمَلِ مُتَّصِلًا دَائِمًا إِلَى رُوحِ الْوَالِدِ الْفَاضِل الْحَسَن الشكوكي رَحِمَهُ اللَّهُ، وَأَنْ يَجْعَلَهُ فِي مِيزَانِ حَسَنَاتِهِ، وَيَنْتَفِعَ بِهِ جَمِيعُ الْمُسْلِمِينَ.",
+    duaTitle: "اُدْعُوا لِوَالِدِي",
+    duaIntro: "يعد الدعاء من أعظم العبادات التي يتقرب بها المسلم إلى الله تعالى، وهو سلاح المؤمن في السراء والضراء. فادعوا لأخيكم المتوفى بالرحمة والمغفرة، فإن الدعاء ينفع الميت بإذن الله، ويكون له صدقة جارية. وقد قال رسول الله ﷺ:",
+    duaContent: "اللَّهُمَّ اغْفِرْ لِوَالِدِي، وَارْحَمْهُ رَحْمَةً وَاسِعَةً تَمْلَأُ قَلْبَهُ وَبَدَنَهُ وَرُوحَهُ، وَعَافِهِ فِي بَدَنِهِ وَدِينِهِ وَدُنْيَاهُ وَآخِرَتِهِ، وَاعْفُ عَنْهُ وَعَنْ سَيِّئَاتِهِ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهِ مِنَ الذُّنُوبِ وَالْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الأَبْيَضُ مِنَ الدَّنَسِ. اللَّهُمَّ اجْعَلْ قَبْرَهُ رَوْضَةً مِنْ رِيَاضِ الجَنَّةِ، وَامْلَأْهُ نُورًا وَطُمَأْنِينَةً، وَلَا تَجْعَلْهُ حُفْرَةً مِنْ حُفَرِ النَّارِ، وَوَسِّعْ مَدْخَلَهُ، وَأَكْرِمْ نُزُلَهُ، وَاجْعَلْ كُلَّ لَحْظَةٍ يَمْضِيها فِي قَبْرِهِ رَاحَةً وَرَاحَةً أَبَدِيَّةً. اللَّهُمَّ اجْعَلْ هٰذَا الْمَشْرُوعَ وَكُلَّ خَيْرٍ نَنْشُرُهُ بَعْدَهُ فِي مِيزَانِ حَسَنَاتِهِ، وَوَازِنْ بِهِ حَسَنَاتِنَا وَحَسَنَاتِ جَمِيعِ أُمُوَاتِ الْمُسْلِمِينَ، وَاغْفِرْ لِجَمِيعِ مُوتَى الْمُسْلِمِينَ وَوَسِّعْ قُبُورَهُمْ، وَامْلَأْهُمْ رَحْمَةً وَرِضْوَانًا، وَاغْسِلْهُمْ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَجِّنْهُمْ مِنْ عَذَابِ الْقَبْرِ، وَاغْفِرْ لَهُمْ مَا تَقَدَّمَ مِنْ ذُنُوبِهِمْ وَمَا تَأَخَّرَ. اللَّهُمَّ اجْعَلْنَا وَإِيَّاهُ مِنَ الَّذِينَ يَسْتَمِعُونَ الْقَوْلَ فَيَتَّبِعُونَ أَحْسَنَهُ، وَوَفِّقْنَا لِنَشْرِ الْعِلْمِ وَالدَّعْوَةِ وَالذِّكْرِ، وَامْلَأْ قُلُوبَنَا رَحْمَةً وَهُدًى، وَارْزُقْنَا وَلِأُمُوَاتِ الْمُسْلِمِينَ الْفِرْدَوْسَ الْأَعْلَى بِلَا عَذَابٍ وَلَا خَوْفٍ، وَامْنَحْنَا الصَّبْرَ وَالرِّضَا وَالتَّقْوَى فِي حَيَاتِنَا، وَاغْفِرْ لَنَا وَلَهُمْ ذُنُوبَنَا جَمِيعًا. اللَّهُمَّ اجْعَلْ أَعْمَالَنَا خَالِصَةً لِوَجْهِكَ الْكَرِيمِ، وَاجْعَلْ هٰذَا الْمَشْرُوعَ صَدَقَةً جَارِيَةً، يَظَلُّ لَهُ أَثَرٌ طَيِّبٌ عِنْدَكَ، وَيَكُونُ سَبَبًا فِي نَفْعِ الْمُسْلِمِينَ فِي الدُّنْيَا وَالآخِرَةِ. آمِينَ يَا أَرْحَمَ الرَّاحِمِينَ.",
+    socialMedia: [
+      { platform: "facebook", url: "#", type: "lucide" as const, Icon: Facebook },
+      { platform: "instagram", url: "#", type: "lucide" as const, Icon: Instagram },
+      { platform: "twitter", url: "#", type: "lucide" as const, Icon: Twitter },
+      { platform: "twitter", url: "#", type: "lucide" as const, Icon: Youtube },
+      { platform: "tiktok", url: "#", type: "svg" as const, icon: "/assets/icons/tiktok.svg" },
+      { platform: "whatsapp", url: "#", type: "svg" as const, icon: "/assets/icons/whatsapp.svg" },
+    ]
+  };
 
   return (
     <main dir="rtl" className="bg-background min-h-screen">
@@ -39,7 +45,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(${imageUrl})`,
+            backgroundImage: `url(https://res.cloudinary.com/dpuhywxsf/image/upload/v1771257221/hero_bajvdi.png)`,
             backgroundAttachment: isClient ? "fixed" : "scroll",
           }}
         ></div>
@@ -68,7 +74,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             transition={{ duration: 0.6 }}
             className="font-momken text-4xl sm:text-5xl md:text-7xl text-white mb-6 leading-tight font-bold"
           >
-            {memorial.title}
+            {staticContent.title}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -76,7 +82,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl sm:text-2xl md:text-3xl text-white/95 font-light mb-8 leading-relaxed"
           >
-            {memorial.subtitle}
+            {staticContent.subtitle}
           </motion.p>
 
           {/* Dates with modern card design */}
@@ -89,13 +95,13 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all">
               <Calendar size={20} className="text-white" />
               <span className="font-medium">
-                ولد: {formatter.format(birthDate)}
+                ولد: {staticContent.birthDate}
               </span>
             </div>
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all">
               <Calendar size={20} className="text-white" />
               <span className="font-medium">
-                توفي: {formatter.format(deathDate)}
+                توفي: {staticContent.deathDate}
               </span>
             </div>
           </motion.div>
@@ -128,7 +134,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
 
             <div className="prose prose-lg max-w-none leading-relaxed text-foreground">
               <p className="text-justify text-lg md:text-xl leading-loose first-letter:text-6xl first-letter:font-bold first-letter:mr-4 first-letter:float-right first-letter:text-primary">
-                {memorial.biography_content}
+                {staticContent.biography}
               </p>
             </div>
           </motion.div>
@@ -149,15 +155,10 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
               <Heart size={32} className="text-primary" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-momken">
-              {memorial.section_title}
+              {staticContent.missionTitle}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed max-w-4xl mx-auto">
-              نطمح أن يكون هذا المشروع منبرًا لنشر الخير والوعي، ووسيلة تربط
-              المسلمين بكتاب الله وسنة نبيه صلى الله عليه وسلم. إنه مشروع يبدأ
-              بخطوات متواضعة، لكنه بإذن الله سيمتد أثره، ليكون صدقة جارية متجددة
-              للوالد الراحل ولكل من ساهم فيه. نسأل الله أن يكتب الأجر لكل من
-              شارك بدعوة، أو نشر، أو تلاوة، أو حتى بكلمة طيبة، وأن يجعل هذا
-              العمل نورًا في الدنيا والآخرة.
+              {staticContent.missionIntro}
             </p>
             <div className="h-1 w-32 bg-primary/20 mx-auto rounded-full"></div>
           </motion.div>
@@ -169,14 +170,11 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-card p-8 md:p-12 rounded-3xl border border-primary/10 mb-12"
           >
-            <div
-              className="text-right prose prose-lg max-w-none text-foreground leading-relaxed"
-              dangerouslySetInnerHTML={{
-                __html: memorial.sadaqah_introduction
-                  .replace(/^- /m, "<br/>- ")
-                  .replace(/- $/m, "-<br/>"),
-              }}
-            ></div>
+            <div className="text-right prose prose-lg max-w-none text-foreground leading-relaxed">
+              <p className="text-justify text-lg md:text-xl leading-loose">
+                {staticContent.missionContent}
+              </p>
+            </div>
           </motion.div>
 
           {/* Featured Benefits */}
@@ -294,13 +292,10 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
               <HandHelping size={32} className="text-primary" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground font-momken">
-              {memorial.dua_title}
+              {staticContent.duaTitle}
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground mb-6 leading-relaxed font-amiri max-w-3xl mx-auto">
-              يعد الدعاء من أعظم العبادات التي يتقرب بها المسلم إلى الله تعالى،
-              وهو سلاح المؤمن في السراء والضراء. فادعوا لأخيكم المتوفى بالرحمة
-              والمغفرة، فإن الدعاء ينفع الميت بإذن الله، ويكون له صدقة جارية.
-              وقد قال رسول الله ﷺ:
+              {staticContent.duaIntro}
               <span className="font-semibold text-primary">
                 &quot;إذا مات الإنسان انقطع عمله إلا من ثلاث: صدقة جارية، أو علم
                 ينتفع به، أو ولد صالح يدعو له&quot;
@@ -330,7 +325,7 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             </div>
 
             <div className="text-justify prose prose-lg max-w-none leading-relaxed text-foreground font-amiri text-xl md:text-2xl">
-              <p>{memorial.dua_content}</p>
+              <p>{staticContent.duaContent}</p>
             </div>
           </motion.div>
         </div>
@@ -365,29 +360,29 @@ export default function AboutPageClient({ memorial }: AboutPageClientProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap justify-center gap-6 mt-8"
           >
-            {memorial.social_media
-              .filter((s) => s.is_active)
-              .map((social, index) => {
-                return (
-                  <Link
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.platform}
-                    className="inline-flex items-center justify-center p-4 bg-card hover:bg-primary/10 rounded-2xl border border-primary/10 hover:border-primary/20 transition-all hover:scale-110"
-                  >
-                    <Image
-                      src={social.icon?.url || ""}
-                      alt={social.platform}
-                      width={40}
-                      height={40}
-                      className="object-contain invert dark:invert-0"
-                      loading="lazy"
-                    />
-                  </Link>
-                );
-              })}
+            {staticContent.socialMedia.map((social, index) => (
+              <Link
+                key={index}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.platform}
+                className="inline-flex items-center justify-center p-4 bg-card hover:bg-primary/10 rounded-2xl border border-primary/10 hover:border-primary/20 transition-all hover:scale-110"
+              >
+                {social.type === "lucide" ? (
+                  <social.Icon size={40} className="text-foreground" />
+                ) : (
+                  <Image
+                    src={social.icon}
+                    alt={social.platform}
+                    width={40}
+                    height={40}
+                    className="object-contain invert dark:invert-0"
+                    loading="lazy"
+                  />
+                )}
+              </Link>
+            ))}
           </motion.div>
         </div>
       </section>

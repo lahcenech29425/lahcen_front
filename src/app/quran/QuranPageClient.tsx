@@ -337,7 +337,7 @@ export default function QuranPageClient() {
             >
               <Link
                 href={`/quran/${getSurahSlug(s)}`}
-                className="group relative block p-6 h-full bg-card rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300"
+                className="group relative block p-6 h-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
                   {/* Number Badge */}
@@ -361,12 +361,12 @@ export default function QuranPageClient() {
 
                 <div className="text-center mb-2">
                   <h3
-                    className="text-6xl font-medium text-foreground mb-1 group-hover:text-primary transition-colors"
+                    className="text-6xl font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors"
                     style={{ fontFamily: "var(--font-surah-name)" }}
                   >
                     {s.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                     {s.englishName}
                   </p>
                 </div>
@@ -408,11 +408,10 @@ export default function QuranPageClient() {
                 ) : (
                   <button
                     key={pageNum}
-                    className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all font-bold text-lg ${
-                      page === pageNum
-                        ? "bg-primary text-white shadow-xl shadow-primary/40 scale-105"
-                        : "bg-card shadow-md text-foreground/80 hover:bg-primary/10 hover:text-primary hover:shadow-lg"
-                    }`}
+                    className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all font-bold text-lg ${page === pageNum
+                      ? "bg-primary text-white shadow-xl shadow-primary/40 scale-105"
+                      : "bg-card shadow-md text-foreground/80 hover:bg-primary/10 hover:text-primary hover:shadow-lg"
+                      }`}
                     onClick={() =>
                       typeof pageNum === "number" && setPage(pageNum)
                     }

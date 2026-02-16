@@ -229,8 +229,6 @@ export default async function RootLayout({
     "نحن نعمل على تحسين الموقع. يرجى العودة لاحقاً.";
 
   let header = null;
-  let footer = null;
-  let announcementBar = null;
 
   if (!isMaintenanceMode) {
     try {
@@ -241,22 +239,12 @@ export default async function RootLayout({
       console.warn("Header API fetch failed");
     }
 
-    try {
-      footer = await fetchApi(
-        "/api/footer?populate=logo.image&populate=menu.links&populate=socialLinks.icon&populate=contact.icon",
-      );
-    } catch (e) {
-      console.warn("Footer API fetch failed");
-    }
 
-    try {
-      announcementBar = await fetchApi("/api/announcement-bar");
-    } catch (e) {
-      console.warn("Announcement Bar API fetch failed");
-    }
+
+
   }
 
-  const showGoToTop = footer?.showGoToTop ?? false;
+
 
   const matchedPath = (await headers()).get("x-matched-path") || "";
   const isNotFoundRoute =
@@ -347,14 +335,12 @@ export default async function RootLayout({
           />
         ) : (
           <>
-            {!isNotFoundRoute && announcementBar && (
-              <AnnouncementBar data={announcementBar} />
-            )}
+            {!isNotFoundRoute && <AnnouncementBar />}
             {!isNotFoundRoute && header && <Header data={header} />}
             <SocialMediaBar />
             <main className="flex-1 min-h-[calc(100vh-200px)]">{children}</main>
-            {!isNotFoundRoute && footer && <Footer data={footer} />}
-            {!isNotFoundRoute && footer && <GoToTop />}
+            {!isNotFoundRoute && <Footer />}
+            {!isNotFoundRoute && <GoToTop />}
           </>
         )}
       </body>

@@ -1,73 +1,38 @@
 "use client";
-import React, { useRef } from "react";
-import { StatsSectionType } from "@/types/statsSection";
-import { normalizeStatsSection } from "./normalizer";
-import { motion, useInView, useSpring, useTransform } from "framer-motion";
-import { useEffect } from "react";
-import { Users, BookOpen, Globe, Heart } from "lucide-react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { BookOpen, Globe, Heart } from "lucide-react";
 
-// Helper: convert Arabic-Indic digits to Western
-function toWesternDigits(str: string) {
-  const easternToWestern: { [key: string]: string } = {
-    '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
-    '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9'
-  };
-  return str.replace(/[٠-٩]/g, (d) => easternToWestern[d] || d);
-}
-
-function Counter({ value, suffix = "" }: { value: string; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-50px" });
-
-  const normalizedValueStr = toWesternDigits(value);
-
-  // Extract number part (including decimals) and surrounding non-numeric parts
-  const match = normalizedValueStr.match(/^([^0-9.]*)([0-9.]+)([^0-9.]*)$/);
-
-  const prefixPart = match ? match[1] : "";
-  const numberPart = match ? parseFloat(match[2]) : 0;
-  const suffixPart = match ? match[3] : "";
-
-  const isNumeric = !isNaN(numberPart) && numberPart > 0;
-
-  const springValue = useSpring(0, { stiffness: 50, damping: 20, duration: 2000 });
-
-  useEffect(() => {
-    if (inView && isNumeric) {
-      springValue.set(numberPart);
-    }
-  }, [inView, numberPart, isNumeric, springValue]);
-
-  if (!isNumeric) return <span>{normalizedValueStr}</span>;
-
-  return (
-    <span ref={ref} className="tabular-nums flex items-baseline justify-center direction-ltr">
-      {prefixPart && <span>{prefixPart}</span>}
-      <motion.span>
-        {useTransform(springValue, (latest) =>
-          // Format with commas, keep decimals if original had them
-          latest.toLocaleString('en-US', {
-            maximumFractionDigits: normalizedValueStr.includes('.') ? 1 : 0
-          })
-        )}
-      </motion.span>
-      {(suffixPart || suffix) && <span>{suffixPart || suffix}</span>}
-    </span>
-  );
-}
-
-// Contextual icons for stats
-const statIcons = {
-  0: Users,
-  1: BookOpen,
-  2: Globe,
-  3: Heart,
-};
-
-export default function StatsSection({ data }: { data: StatsSectionType }) {
-  const normalized = normalizeStatsSection(data);
+export default function StatsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  const title = "مِنْصَةٌ يَتَّسِعُ نُورُهَا وَتَزْدَادُ بِهَا القُلُوبُ إِيمَانًا";
+  const description = "منصتنا تجمع بين جمال القرآن الكريم ونقاء السنة النبوية، لتكون معك حيثما كنت، تهديك الكلمة الصادقة، والذكر المبارك، والطمأنينة التي يبحث عنها قلبك.";
+
+  const stats = [
+    {
+      id: 1,
+      value: "25,000",
+      label: "قلب نابض بالذكر",
+      description: "يجدون السكينة في آيات الله يوميًا",
+      icon: Heart,
+    },
+    {
+      id: 2,
+      value: "80+",
+      label: "بلدًا حول العالم",
+      description: "تصلها رسالتنا بنور القرآن والسنة",
+      icon: Globe,
+    },
+    {
+      id: 3,
+      value: "99.9%",
+      label: "استمرارية",
+      description: "منصة ثابتة بخدمتكم لتبقى قلوبكم على صلة بالهدى",
+      icon: BookOpen,
+    },
+  ];
 
   return (
     <section className="relative py-24 overflow-hidden bg-[#3d2a1a] dark:bg-[#2a1e13] text-white">
@@ -107,7 +72,7 @@ export default function StatsSection({ data }: { data: StatsSectionType }) {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold mb-6 text-white font-momken"
           >
-            {normalized.title}
+            {title}
           </motion.h3>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -115,14 +80,14 @@ export default function StatsSection({ data }: { data: StatsSectionType }) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed"
           >
-            {normalized.subtitle}
+            {description}
           </motion.p>
         </div>
 
         {/* Stats Grid - Flexbox for perfect centering */}
         <div className="flex flex-wrap justify-center gap-6">
-          {normalized.stats.map((stat, i) => {
-            const Icon = statIcons[i as keyof typeof statIcons] || Heart;
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
 
             return (
               <motion.div
@@ -149,7 +114,7 @@ export default function StatsSection({ data }: { data: StatsSectionType }) {
                     style={{ fontSize: "clamp(48px, 4vw, 64px)" }}
                     dir="ltr"
                   >
-                    <Counter value={stat.value} />
+                    {stat.value}
                   </div>
 
                   {/* Label */}

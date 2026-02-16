@@ -7,11 +7,11 @@ import Slider from "./slider/Slider";
 import ServicesSection from "./services_section/ServicesSection";
 import type { BlockData } from "@/types/blocks";
 import { Slider as SliderType } from "@/types/slider";
-import type { ServicesSection as ServicesSectionType } from "@/types/servicesSection";
+// removed ServicesSectionType import
 // Importer les types spécifiques des blocs
 import type { HeroSection as HeroSectionType } from "@/types/heroSection";
 import type { ExploreSection as ExploreSectionType } from "@/types/ExploreSection";
-import { StatsSectionType } from "@/types/statsSection";
+// removed StatsSectionType import
 // Import normalizer
 import { normalizeHeroSection } from "./hero_section/normalizer";
 // Importez les autres types si nécessaire
@@ -25,7 +25,7 @@ export default function BlockRenderer({ blocks }: { blocks: BlockData[] }) {
             // Normalize data before passing to component
             return <HeroSection key={`${block.id}-${i}`} data={normalizeHeroSection(block)} />;
           case "blocks.stats-section":
-            return <StatsSection key={`${block.id}-${i}`} data={block as unknown as StatsSectionType} />;
+            return <StatsSection key={`${block.id}-${i}`} />;
           case "blocks.slider":
             return <Slider key={`${block.id}-${i}`} data={block as unknown as SliderType} />;
           case "blocks.explore-section":
@@ -33,7 +33,7 @@ export default function BlockRenderer({ blocks }: { blocks: BlockData[] }) {
           case "blocks.feature-section":
             return <FeatureSection key={`${block.id}-${i}`} data={block as any} index={i} />;
           case "blocks.services-section":
-            return <ServicesSection key={`${block.id}-${i}`} data={block as unknown as ServicesSectionType} />;
+            return <ServicesSection key={`${block.id}-${i}`} />;
           default:
             return null;
         }

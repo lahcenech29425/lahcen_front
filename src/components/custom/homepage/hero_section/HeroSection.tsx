@@ -8,11 +8,14 @@ import type { HeroSection as HeroSectionType } from "@/types/heroSection";
 import { motion } from "framer-motion";
 import { fetchHijriFromGregorian } from "@/utils/prayerApi";
 
-export default function HeroSection({ data }: { data: HeroSectionType }) {
-  const description = data.description || data.subtitle;
-  const buttonTitle = data.button?.title || data.buttonText;
-  const buttonUrl = data.button?.url || data.buttonLink;
-  const isExternal = data.button?.is_external || false;
+export default function HeroSection({ data: _data }: { data: HeroSectionType }) {
+  // Static content overrides
+  const title = "سِرَاجٌ يُضِيءُ الدَّرْبَ";
+  const description = "نُورٌ لِلرُّوحِ... وَسَكِينَةٌ لِلْقَلْبِ";
+  const buttonTitle = "انطلق";
+  const buttonUrl = "/";
+  const isExternal = false;
+  const imageUrl = "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249644/siraj_fjzxdi.png";
 
   // Live clock state
   const [currentTime, setCurrentTime] = useState<string>("");
@@ -66,16 +69,16 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col overflow-hidden bg-background"
+      className="relative min-h-[110vh] flex flex-col overflow-hidden bg-background"
       dir="rtl"
     >
       {/* Background */}
       <div className="absolute inset-0">
-        {data.image ? (
+        {imageUrl ? (
           <>
             <Image
-              src={data.image.url}
-              alt={data.image.alternativeText || "Hero Background"}
+              src={imageUrl}
+              alt={"Hero Background"}
               fill
               priority
               className="object-cover"
@@ -137,19 +140,18 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
             style={{
               fontSize: "clamp(64px, 10vw, 120px)",
               lineHeight: "1.4",
-              textShadow: data.image
+              textShadow: imageUrl
                 ? "0 6px 50px rgba(0, 0, 0, 0.9), 0 3px 20px hsl(var(--primary) / 0.5)"
                 : "0 4px 20px hsl(var(--primary) / 0.15)",
             }}
           >
             <span
-              className={`inline-block ${
-                data.image
-                  ? "text-white drop-shadow-2xl"
-                  : "text-transparent bg-clip-text bg-gradient-to-b from-primary via-primary/80 to-primary"
-              }`}
+              className={`inline-block ${imageUrl
+                ? "text-white drop-shadow-2xl"
+                : "text-transparent bg-clip-text bg-gradient-to-b from-primary via-primary/80 to-primary"
+                }`}
             >
-              {data.title}
+              {title}
             </span>
           </motion.h1>
 
@@ -159,9 +161,8 @@ export default function HeroSection({ data }: { data: HeroSectionType }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className={`text-lg md:text-xl max-w-3xl mx-auto mb-12 font-medium leading-relaxed ${
-                data.image ? "text-white/95 drop-shadow-lg" : "text-foreground"
-              }`}
+              className={`text-lg md:text-xl max-w-3xl mx-auto mb-12 font-medium leading-relaxed ${imageUrl ? "text-white/95 drop-shadow-lg" : "text-foreground"
+                }`}
             >
               {description}
             </motion.p>

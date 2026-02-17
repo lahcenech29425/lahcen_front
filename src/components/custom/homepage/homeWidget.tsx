@@ -3,6 +3,9 @@ import StatsSection from "./stats_section/StatsSection";
 import ServicesSection from "./services_section/ServicesSection";
 import SplitSection from "./SplitSection";
 import Slider from "./slider/Slider";
+import UnifiedPrayerSection from "./UnifiedPrayerSection";
+import NamesOfAllahSection from "./NamesOfAllahSection";
+import DuaaSection from "./DuaaSection";
 
 
 export default function HomeWidget() {
@@ -30,76 +33,37 @@ export default function HomeWidget() {
 
         {/* Hadith */}
         <SplitSection
-          badge="السُّنَّةِ النَّبَوِيَّةِ"
-          title="كُنُوزُ السُّنَّةِ النَّبَوِيَّةِ"
+          badge="السُّنَّةِ النَّبَوِيَّةِ"
+          title="كُنُوزُ السُّنَّةِ النَّبَوِيَّةِ"
           description="استكشف أحاديث النبي ﷺ، واستلهم منها الهداية والسلوك القويم لتُضيء درب حياتك بالإيمان والقيم."
           buttonText="اقرأ الآن"
           buttonUrl="/hadith"
           imageUrl="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771250022/hadith-explore_hfcxcj.png"
-          imageAlt="كُنُوزُ السُّنَّةِ النَّبَوِيَّةِ"
+          imageAlt="كُنُوزُ السُّنَّةِ النَّبَوِيَّةِ"
           imagePosition="right"
         />
 
-        {/* Names of Allah */}
-        <SplitSection
-          badge="أسماء الله الحسنى"
-          title="أسماء الله الحسنى"
-          description="تأمل في أسماء الله الحسنى، واكتشف معانيها العميقة التي تجلي عظمته وكماله، لتزداد معرفة وإيمانًا بخالقك."
-          buttonText="تصفح الأسماء"
-          buttonUrl="/names-of-allah"
-          imageUrl="/names-of-allah-home.png"
-          imageAlt="أسماء الله الحسنى"
-          imagePosition="left"
-        />
 
-        {/* Prayer Times - High Utility */}
-        <SplitSection
-          badge="مواقيت الصلاة"
-          title="دقة في الموعد، سكينة في القلب"
-          description="تابع مواقيت الصلاة بدقة عالية حسب موقعك الجغرافي، مع تنبيهات الأذان والعد التنازلي للصلاة القادمة، لتبقى دائمًا على صلة بخالقك."
-          buttonText="عرض المواقيت"
-          buttonUrl="/prayer-times"
-          imageUrl="/prayer-times-home.png"
-          imageAlt="مواقيت الصلاة"
-          imagePosition="bottom"
-        />
+        {/* Unified Prayer & Calendar Dashboard Section */}
+        <UnifiedPrayerSection />
+      </div>
 
-        {/* Quran Audio (Listen) - NEW */}
+        {/* Quran Audio (Listen) */}
         <SplitSection
           badge="القرآن الصوتي"
           title="خشوع التلاوة وجمال الصوت"
           description="استمع إلى عذب التلاوات من أشهر القراء في العالم الإسلامي، بجودة عالية تأخذك في رحلة روحانية تملأ قلبك بالخشوع."
           buttonText="استمع الآن"
           buttonUrl="/quran-audio"
-          imageUrl="/quran-audio-home.png"
+          imageUrl="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249646/audio_quran_hd6c0l.png"
           imageAlt="القرآن الصوتي"
-          imagePosition="left"
-        />
-
-        {/* Calendar Converter */}
-        <SplitSection
-          badge="التقويم والتحويل"
-          title="تتبع الأيام المباركة"
-          description="حول بين التواريخ الهجرية والميلادية بكل سهولة، واطلع على التقويم الإسلامي للمناسبات الدينية والأيام البيض، بتصميم عصري وأنيق."
-          buttonText="التقويم والمحول"
-          buttonUrl="/prayer-times"
-          imageUrl="/calendar-home.png"
-          imageAlt="التقويم الهجري والمحوال"
-          imagePosition="right"
-        />
-
-        {/* Download Calendar - Vertical */}
-        <SplitSection
-          badge="تحميل التقويم"
-          title="تقويمك في جيبك"
-          description="حمل تقويم مواقيت الصلاة الشهري بتصميم أنيق وجاهز للطباعة، لتنظيم وقتك وعبادتك أينما كنت."
-          buttonText="تحميل التقويم"
-          buttonUrl="/prayer-times"
-          imageUrl="/download-calendar-home.png"
-          imageAlt="تحميل التقويم"
           imagePosition="bottom"
         />
-      </div>
+      {/* Names of Allah Section - Brown themed */}
+      <NamesOfAllahSection />
+
+      {/* Duaa / Azkar Section */}
+      <DuaaSection />
 
       {/* Slider Section - Visual Break */}
       <Slider />

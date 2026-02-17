@@ -289,3 +289,145 @@ export async function convertHijriToGregorian(
   const json = await res.json();
   return json.data as DateConversionResult;
 }
+
+// ── Qibla API ──
+
+export interface QiblaResult {
+  latitude: number;
+  longitude: number;
+  direction: number;
+}
+
+/** Get Qibla direction for a set of coordinates */
+export async function fetchQiblaDirection(
+  lat: number,
+  lng: number,
+): Promise<QiblaResult> {
+  const url = `${ALADHAN_BASE}/qibla/${lat}/${lng}`;
+  const res = await fetch(url, { next: { revalidate: 86400 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch Qibla direction: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: QiblaResult };
+  return json.data;
+}
+
+// ── Hijri Calendar APIs ──
+
+export interface HijriCalendarDay {
+  hijri: {
+    date: string;
+    format: string;
+    day: string;
+    weekday: { en: string; ar: string };
+    month: { number: number; en: string; ar: string; days: number };
+    year: string;
+    designation: { abbreviated: string; expanded: string };
+    holidays: string[];
+    adjustedHolidays: string[];
+    method: string;
+  };
+  gregorian: {
+    date: string;
+    format: string;
+    day: string;
+    weekday: { en: string };
+    month: { number: number; en: string };
+    year: string;
+    designation: { abbreviated: string; expanded: string };
+    lunarSighting: boolean;
+  };
+}
+
+/** Get Hijri calendar for a Gregorian month */
+export async function fetchHijriCalendarForGregorianMonth(
+  month: number,
+  year: number,
+  calendarMethod: string = "HJCoSA",
+): Promise<HijriCalendarDay[]> {
+  const url = new URL(`${ALADHAN_BASE}/gToHCalendar/${month}/${year}`);
+  url.searchParams.set("calendarMethod", calendarMethod);
+  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch Hijri calendar: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: HijriCalendarDay[] };
+  return json.data;
+}
+
+/** Get next upcoming Hijri holiday */
+export async function fetchNextHijriHoliday(
+  calendarMethod: string = "HJCoSA",
+): Promise<HijriCalendarDay> {
+  const url = new URL(`${ALADHAN_BASE}/nextHijriHoliday`);
+  url.searchParams.set("calendarMethod", calendarMethod);
+  const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch next Hijri holiday: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: HijriCalendarDay };
+  return json.data;
+}
+
+/** Get the current Islamic year */
+export async function fetchCurrentIslamicYear(): Promise<number> {
+  const url = `${ALADHAN_BASE}/currentIslamicYear`;
+  const res = await fetch(url, { next: { revalidate: 86400 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch current Islamic year: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: number };
+  return json.data;
+}
+
+/** Get the current Islamic month number */
+export async function fetchCurrentIslamicMonth(): Promise<number> {
+  const url = `${ALADHAN_BASE}/currentIslamicMonth`;
+  const res = await fetch(url, { next: { revalidate: 86400 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch current Islamic month: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: number };
+  return json.data;
+}
+
+export interface SpecialDay {
+  month: number;
+  day: number;
+  name: string;
+}
+
+/** Get list of special Islamic days */
+export async function fetchSpecialDays(): Promise<SpecialDay[]> {
+  const url = `${ALADHAN_BASE}/specialDays`;
+  const res = await fetch(url, { next: { revalidate: 86400 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch special days: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: SpecialDay[] };
+  return json.data;
+}
+
+export interface IslamicMonth {
+  number: number;
+  en: string;
+  ar: string;
+}
+
+/** Get list of all Islamic months */
+export async function fetchIslamicMonths(): Promise<Record<string, IslamicMonth>> {
+  const url = `${ALADHAN_BASE}/islamicMonths`;
+  const res = await fetch(url, { next: { revalidate: 86400 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch Islamic months: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: Record<string, IslamicMonth> };
+  return json.data;
+}
+
+/** Get Hijri holidays for a specific year */
+export async function fetchHijriHolidaysByYear(
+  year: number,
+  calendarMethod: string = "HJCoSA",
+): Promise<HijriCalendarDay[]> {
+  const url = new URL(`${ALADHAN_BASE}/islamicHolidaysByHijriYear/${year}`);
+  url.searchParams.set("calendarMethod", calendarMethod);
+  const res = await fetch(url.toString(), { next: { revalidate: 86400 } });
+  if (!res.ok)
+    throw new Error(`Failed to fetch Hijri holidays: ${res.status}`);
+  const json = (await res.json()) as { code: number; status: string; data: HijriCalendarDay[] };
+  return json.data;
+}

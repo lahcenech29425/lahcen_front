@@ -157,11 +157,6 @@ export default function NamesOfAllahClient({ names }: NamesOfAllahClientProps) {
                                     >
                                         {name.id}
                                     </div>
-
-                                    <h3 className="text-xl font-bold mb-2 font-momken text-foreground">
-                                        {name.name}
-                                    </h3>
-
                                     <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
                                         {name.text}
                                     </p>

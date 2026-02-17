@@ -642,7 +642,7 @@ export default function PrayerPageClient() {
       </section>
 
       {/* SECTION 4: DATE CONVERTER */}
-      <section className="container mx-auto px-4 max-w-3xl pb-24">
+      <section id="date-converter" className="container mx-auto px-4 max-w-3xl pb-24 scroll-mt-24">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -665,7 +665,7 @@ export default function PrayerPageClient() {
       </section>
 
       {/* SECTION 5: PRAYER CALENDAR */}
-      <section className="container mx-auto px-4 max-w-7xl pb-24">
+      <section id="prayer-calendar" className="container mx-auto px-4 max-w-7xl pb-24 scroll-mt-24">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}

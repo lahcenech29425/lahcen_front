@@ -14,6 +14,7 @@ import {
   Mic2,
   Heart,
   ShieldCheck,
+  Calendar,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/elements/ThemeSwitcher";
 
@@ -105,6 +106,13 @@ export default function NavigationDrawer({
       url: '/duaa',
       icon: ShieldCheck,
       description: 'أذكار وأدعية يومية مأثورة.'
+    },
+    {
+      id: 7,
+      title: 'التقويم الهجري',
+      url: '/hijri-calendar',
+      icon: Calendar,
+      description: 'التقويم الهجري مع المناسبات والأعياد الإسلامية'
     },
   ];
 

@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
         canvas: false,
       };
     }
+
     return config;
   },
 
@@ -53,11 +54,6 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "timely-wealth-923d9aeb3d.media.strapiapp.com",
         pathname: "/**",
       },
       {

@@ -1,23 +1,12 @@
+// Stub file - fetchApi removed, using direct fetch instead
 export async function fetchApi(endpoint: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${baseUrl}${endpoint}`;
-  const res = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
-  const { data } = await res.json();
-  return data;
+    // This function is deprecated - use direct fetch or Sanity queries instead
+    console.warn('fetchApi is deprecated');
+    return null;
 }
 
-// New function for pagination support - returns full response with meta
 export async function fetchApiWithPagination(endpoint: string) {
-  const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${baseUrl}${endpoint}`;
-  const res = await fetch(url, {
-    headers: { "Content-Type": "application/json" },
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) throw new Error(`Failed to fetch: ${url}`);
-  return res.json(); // Returns { data, meta }
+    // This function is deprecated
+    console.warn('fetchApiWithPagination is deprecated');
+    return { data: [], meta: { pagination: { total: 0 } } };
 }

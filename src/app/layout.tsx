@@ -5,13 +5,11 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/blocks/header/Header";
 import Footer from "@/components/blocks/footer/Footer";
-import { fetchApi } from "@/utils/fetchApi";
 import AnnouncementBar from "@/components/blocks/announcement_bar/AnnouncementBar";
 import GoToTop from "@/components/elements/GoToTop";
 import SocialMediaBar from "@/components/blocks/social/SocialMediaBar";
 import { headers } from "next/headers";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import MaintenancePage from "@/components/pages/MaintenancePage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -205,53 +203,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Fetch site config for maintenance mode (no cache - must be always fresh)
-  let siteConfig = null;
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/site-config`,
-      {
-        next: { revalidate: 60 },
-        headers: { "Content-Type": "application/json" },
-      },
-    );
-    if (res.ok) {
-      const json = await res.json();
-      siteConfig = json.data;
-    }
-  } catch (e) {
-    console.error("Failed to fetch site-config:", e);
-  }
-  const isMaintenanceMode = siteConfig?.maintenanceMode === true;
-  const maintenanceTitle = siteConfig?.maintenanceTitle || "الموقع تحت الصيانة";
-  const maintenanceMessage =
-    siteConfig?.maintenanceMessage ||
-    "نحن نعمل على تحسين الموقع. يرجى العودة لاحقاً.";
-
-  let header = null;
-
-  if (!isMaintenanceMode) {
-    try {
-      header = await fetchApi(
-        "/api/header?populate[logo][populate]=*&populate[menu][populate]=*&populate[cta][populate]=*",
-      );
-    } catch (e) {
-      console.warn("Header API fetch failed");
-    }
-
-
-
-
-  }
-
-
-
   const matchedPath = (await headers()).get("x-matched-path") || "";
   const isNotFoundRoute =
     matchedPath === "/not-found" ||
     matchedPath === "/404" ||
     matchedPath.toLowerCase().includes("not-found") ||
     matchedPath === "ss";
+
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
@@ -328,21 +286,12 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${thuluth.variable} ${momken.variable} ${amiri.variable} ${warshQuran.variable} ${elgharibHafs.variable} ${kfgqpcWarsh.variable} ${kfgqpcHafs.variable} ${surahName.variable} antialiased flex flex-col min-h-screen`}
       >
-        {isMaintenanceMode ? (
-          <MaintenancePage
-            title={maintenanceTitle}
-            message={maintenanceMessage}
-          />
-        ) : (
-          <>
-            {!isNotFoundRoute && <AnnouncementBar />}
-            {!isNotFoundRoute && header && <Header data={header} />}
-            <SocialMediaBar />
-            <main className="flex-1 min-h-[calc(100vh-200px)]">{children}</main>
-            {!isNotFoundRoute && <Footer />}
-            {!isNotFoundRoute && <GoToTop />}
-          </>
-        )}
+        {!isNotFoundRoute && <AnnouncementBar />}
+        {!isNotFoundRoute && <Header />}
+        <SocialMediaBar />
+        <main className="flex-1 min-h-[calc(100vh-200px)]">{children}</main>
+        {!isNotFoundRoute && <Footer />}
+        {!isNotFoundRoute && <GoToTop />}
       </body>
     </html>
   );

@@ -45,15 +45,20 @@ export type NormalizedPrayerTime = {
 };
 
 export type NormalizedPrayerDay = {
-  timezone: string;
+  timezone?: string;
   methodName?: string;
-  gregorian: {
+  meta?: any;
+  gregorian?: {
     date: string; // dd-mm-yyyy
     readable: string; // e.g., 22 Oct 2024
+    timestamp?: string;
   };
   hijri: {
     date: string; // dd-mm-yyyy
     readable?: string; // optional composed label like "8 ربيع الآخر 1446"
+    weekday?: { ar?: string; en?: string };
+    month?: { number?: number; ar?: string; en?: string };
+    year?: string;
   };
   timings: Record<PrayerName, NormalizedPrayerTime>;
 };

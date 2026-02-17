@@ -12,6 +12,8 @@ import {
   Library,
   Clock,
   Mic2,
+  Heart,
+  ShieldCheck,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/elements/ThemeSwitcher";
 
@@ -85,24 +87,24 @@ export default function NavigationDrawer({
     },
     {
       id: 4,
-      title: 'مقالات وخواطر',
-      url: '/articles',
-      icon: FileText,
-      description: 'قراءات ملهمة ومقالات دينية متنوعة'
-    },
-    {
-      id: 5,
-      title: 'كتب',
-      url: '/books',
-      icon: Library,
-      description: 'مكتبة إسلامية شاملة للمعرفة'
-    },
-    {
-      id: 6,
       title: 'التلاوات',
       url: '/quran-audio',
       icon: Mic2,
       description: 'استمع إلى أعذب التلاوات القرآنية'
+    },
+    {
+      id: 5,
+      title: 'أسماء الله الحسنى',
+      url: '/names-of-allah',
+      icon: Heart,
+      description: 'تعرف على أسماء الله الحسنى وصفاته العلى'
+    },
+    {
+      id: 6,
+      title: 'أذكار وأدعية',
+      url: '/duaa',
+      icon: ShieldCheck,
+      description: 'أذكار وأدعية يومية مأثورة.'
     },
   ];
 
@@ -188,7 +190,7 @@ export default function NavigationDrawer({
           <div className="w-full max-w-7xl mx-auto h-full flex flex-col">
 
             {/* Menu Cards Grid - Scrollable if needed but compact */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 overflow-y-auto pr-2 custom-scrollbar flex-1 mb-2 content-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 overflow-y-auto pr-2 custom-scrollbar flex-1 mb-2 content-center">
               {menu.map((item, index) => {
                 const Icon = item.icon;
                 return (

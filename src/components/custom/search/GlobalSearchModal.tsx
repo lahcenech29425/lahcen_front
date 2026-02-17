@@ -1,18 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Search, X, BookOpen, FileText, BookMarked, Loader2 } from "lucide-react";
+import { Search, X, BookOpen, BookMarked, Loader2 } from "lucide-react";
 import { Link } from "@/components/elements/Link";
 import {
     searchQuranVerses,
     searchHadith,
-    searchBooks,
-    searchArticles,
     HadithSearchResult,
 } from "@/utils/globalSearch";
 import { QuranSearchResult } from "@/utils/quranApi";
-import type { BookType } from "@/types/book";
-import type { BlogType } from "@/types/blog";
 import { getSurahSlug } from "@/utils/surahHelpers";
 
 interface GlobalSearchModalProps {
@@ -24,14 +20,10 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
     const [query, setQuery] = useState("");
     const [quranResults, setQuranResults] = useState<QuranSearchResult[]>([]);
     const [hadithResults, setHadithResults] = useState<HadithSearchResult[]>([]);
-    const [bookResults, setBookResults] = useState<BookType[]>([]);
-    const [articleResults, setArticleResults] = useState<BlogType[]>([]);
 
     const [loading, setLoading] = useState({
         quran: false,
         hadith: false,
-        books: false,
-        articles: false,
     });
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -70,8 +62,6 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
         if (!searchQuery || searchQuery.length < 2) {
             setQuranResults([]);
             setHadithResults([]);
-            setBookResults([]);
-            setArticleResults([]);
             return;
         }
 
@@ -87,20 +77,6 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
         searchHadith(searchQuery).then((results) => {
             setHadithResults(results);
             setLoading((prev) => ({ ...prev, hadith: false }));
-        });
-
-        // Search Books
-        setLoading((prev) => ({ ...prev, books: true }));
-        searchBooks(searchQuery).then((results) => {
-            setBookResults(results);
-            setLoading((prev) => ({ ...prev, books: false }));
-        });
-
-        // Search Articles
-        setLoading((prev) => ({ ...prev, articles: true }));
-        searchArticles(searchQuery).then((results) => {
-            setArticleResults(results);
-            setLoading((prev) => ({ ...prev, articles: false }));
         });
     }, []);
 
@@ -122,8 +98,6 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
         setQuery("");
         setQuranResults([]);
         setHadithResults([]);
-        setBookResults([]);
-        setArticleResults([]);
         onClose();
     };
 
@@ -137,12 +111,10 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
     // Check if any results exist
     const hasResults =
         quranResults.length > 0 ||
-        hadithResults.length > 0 ||
-        bookResults.length > 0 ||
-        articleResults.length > 0;
+        hadithResults.length > 0;
 
     const isAnyLoading =
-        loading.quran || loading.hadith || loading.books || loading.articles;
+        loading.quran || loading.hadith;
 
     if (!isOpen) return null;
 
@@ -166,7 +138,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                             type="text"
                             value={query}
                             onChange={handleInputChange}
-                            placeholder="ابحث في القرآن، الأحاديث، الكتب، المقالات..."
+                            placeholder="ابحث في القرآن والأحاديث..."
                             className="w-full pr-12 pl-12 py-3 text-lg border-0 bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-0 placeholder-gray-400 dark:placeholder-gray-600"
                             autoComplete="off"
                         />
@@ -176,8 +148,6 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                                     setQuery("");
                                     setQuranResults([]);
                                     setHadithResults([]);
-                                    setBookResults([]);
-                                    setArticleResults([]);
                                 }}
                                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                             >
@@ -194,7 +164,7 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                         <div className="p-8 text-center text-gray-500 dark:text-gray-400">
                             <Search size={48} className="mx-auto mb-4 text-gray-300 dark:text-gray-600" />
                             <p>ابدأ بالكتابة للبحث في محتوى الموقع</p>
-                            <p className="text-sm mt-2 text-gray-400 dark:text-gray-500">القرآن الكريم • الأحاديث • الكتب • المقالات</p>
+                            <p className="text-sm mt-2 text-gray-400 dark:text-gray-500">القرآن الكريم • الأحاديث</p>
                         </div>
                     )}
 
@@ -258,56 +228,6 @@ export default function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModal
                                         <p className="text-gray-800 dark:text-gray-200 line-clamp-2">{result.text}</p>
                                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                             {result.bookSlug === "sahih-bukhari" ? "صحيح البخاري" : result.bookSlug} - حديث {result.number}
-                                        </p>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Books Results */}
-                    {(bookResults.length > 0 || loading.books) && (
-                        <div className="border-b border-border">
-                            <div className="px-4 py-2 bg-secondary/50 flex items-center gap-2">
-                                <BookOpen size={18} className="text-blue-600 dark:text-blue-500" />
-                                <span className="font-semibold text-gray-700 dark:text-gray-300">المكتبة</span>
-                                {loading.books && <Loader2 size={14} className="animate-spin text-gray-400" />}
-                            </div>
-                            <div className="divide-y divide-gray-50 dark:divide-[#2a2a2a]">
-                                {bookResults.map((book) => (
-                                    <Link
-                                        key={book.id}
-                                        href={`/books/${book.slug}`}
-                                        className="block px-4 py-3 hover:bg-secondary transition"
-                                        onClick={handleClose}
-                                    >
-                                        <p className="text-gray-800 dark:text-gray-200 font-semibold">{book.title}</p>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400">{book.author}</p>
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Articles Results */}
-                    {(articleResults.length > 0 || loading.articles) && (
-                        <div>
-                            <div className="px-4 py-2 bg-secondary/50 flex items-center gap-2">
-                                <FileText size={18} className="text-purple-600 dark:text-purple-500" />
-                                <span className="font-semibold text-gray-700 dark:text-gray-300">المقالات</span>
-                                {loading.articles && <Loader2 size={14} className="animate-spin text-gray-400" />}
-                            </div>
-                            <div className="divide-y divide-gray-50 dark:divide-[#2a2a2a]">
-                                {articleResults.map((article) => (
-                                    <Link
-                                        key={article.id}
-                                        href={`/blogs/${article.slug}`}
-                                        className="block px-4 py-3 hover:bg-secondary transition"
-                                        onClick={handleClose}
-                                    >
-                                        <p className="text-gray-800 dark:text-gray-200 font-semibold">{article.title}</p>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
-                                            {article.content.replace(/[#*]/g, "").slice(0, 80)}...
                                         </p>
                                     </Link>
                                 ))}

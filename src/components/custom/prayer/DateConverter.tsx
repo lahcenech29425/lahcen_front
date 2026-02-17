@@ -128,20 +128,18 @@ export default function DateConverter() {
       <div className="flex justify-center">
         <button
           onClick={toggleMode}
-          className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white dark:bg-white/5 border border-primary/20 hover:border-primary/40 hover:shadow-lg transition-all duration-300"
+          className="group flex items-center gap-3 px-6 py-3 rounded-2xl bg-white dark:bg-card border border-border hover:border-primary/40 hover:shadow-lg transition-all duration-300"
         >
           <span
-            className={`text-sm font-bold transition-colors ${
-              isGregorianInput ? "text-primary" : "text-muted-foreground"
-            }`}
+            className={`text-sm font-bold transition-colors ${isGregorianInput ? "text-primary" : "text-muted-foreground"
+              }`}
           >
             ميلادي
           </span>
           <ArrowLeftRight className="w-5 h-5 text-primary group-hover:rotate-180 transition-transform duration-500" />
           <span
-            className={`text-sm font-bold transition-colors ${
-              !isGregorianInput ? "text-primary" : "text-muted-foreground"
-            }`}
+            className={`text-sm font-bold transition-colors ${!isGregorianInput ? "text-primary" : "text-muted-foreground"
+              }`}
           >
             هجري
           </span>
@@ -151,7 +149,7 @@ export default function DateConverter() {
       {/* Input Card */}
       <motion.div
         layout
-        className="bg-white dark:bg-white/5 border border-primary/10 rounded-4xl p-6 md:p-8 hover:border-primary/20 transition-all duration-300"
+        className="bg-white dark:bg-card border border-border rounded-4xl p-6 md:p-8 hover:border-primary/20 transition-all duration-300"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="bg-primary/5 w-10 h-10 rounded-xl flex items-center justify-center">
@@ -181,7 +179,7 @@ export default function DateConverter() {
           <div className="grid grid-cols-3 gap-3 mb-6">
             {/* Day */}
             <div>
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 اليوم
               </label>
               <select
@@ -200,7 +198,7 @@ export default function DateConverter() {
 
             {/* Month */}
             <div>
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 الشهر
               </label>
               <select
@@ -219,7 +217,7 @@ export default function DateConverter() {
 
             {/* Year */}
             <div>
-              <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+              <label className="block text-xs font-medium text-slate-600 mb-1.5">
                 السنة
               </label>
               <select
@@ -309,7 +307,7 @@ export default function DateConverter() {
             </div>
 
             {/* Gregorian Result */}
-            <div className="bg-white dark:bg-white/5 border border-primary/10 rounded-4xl p-6 md:p-8 shadow-lg">
+            <div className="bg-white dark:bg-card border border-border rounded-4xl p-6 md:p-8 shadow-lg">
               <div className="flex items-center gap-2 mb-4">
                 <Sun className="w-5 h-5 text-primary" />
                 <span className="text-sm font-bold text-primary">

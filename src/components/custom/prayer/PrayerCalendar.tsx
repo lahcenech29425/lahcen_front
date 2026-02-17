@@ -208,7 +208,7 @@ export default function PrayerCalendar({
           <button
             onClick={handlePrevMonth}
             disabled={loading}
-            className="p-3 rounded-2xl bg-white dark:bg-white/5 border border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-3 rounded-2xl bg-card border border-border hover:bg-primary/5 hover:border-primary/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronRight className="w-5 h-5 text-primary" />
           </button>
@@ -220,7 +220,7 @@ export default function PrayerCalendar({
           <button
             onClick={handleNextMonth}
             disabled={loading}
-            className="p-3 rounded-2xl bg-white dark:bg-white/5 border border-primary/20 hover:bg-primary/5 hover:border-primary/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="p-3 rounded-2xl bg-card border border-border hover:bg-primary/5 hover:border-primary/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="w-5 h-5 text-primary" />
           </button>
@@ -264,7 +264,7 @@ export default function PrayerCalendar({
           className="overflow-x-auto scroll-smooth scrollbar-custom -mx-4 px-4 md:mx-0 md:px-0"
         >
           {/* Prayer Times Table */}
-          <div className="overflow-hidden rounded-3xl border border-primary/10 shadow-xl bg-white dark:bg-white/5 min-w-200">
+          <div className="overflow-hidden rounded-3xl border border-border shadow-xl bg-card min-w-200">
             <table className="w-full">
               <thead>
                 <tr className="bg-linear-to-l from-[#8B4513] to-[#5d3119]">
@@ -280,13 +280,12 @@ export default function PrayerCalendar({
                   ].map((head, i) => (
                     <th
                       key={head}
-                      className={`px-3 py-3.5 text-center text-xs md:text-sm font-bold text-white/90 tracking-wide whitespace-nowrap ${
-                        i === 0
+                      className={`px-3 py-3.5 text-center text-xs md:text-sm font-bold text-white/90 tracking-wide whitespace-nowrap ${i === 0
                           ? "border-l border-white/10"
                           : i === 7
                             ? "border-r border-white/10"
                             : ""
-                      }`}
+                        }`}
                     >
                       {head}
                     </th>
@@ -308,15 +307,14 @@ export default function PrayerCalendar({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: idx * 0.015 }}
-                      className={`transition-colors duration-200 ${
-                        isToday
+                      className={`transition-colors duration-200 ${isToday
                           ? "bg-primary/10 dark:bg-primary/20"
                           : isFriday
                             ? "bg-primary/4"
                             : idx % 2 === 0
                               ? "bg-white dark:bg-white/2"
                               : "bg-card dark:bg-white/4"
-                      } hover:bg-primary/8 dark:hover:bg-primary/12`}
+                        } hover:bg-primary/8 dark:hover:bg-primary/12`}
                     >
                       {/* Hijri Date Column */}
                       <td className="px-3 py-2.5 text-center whitespace-nowrap">

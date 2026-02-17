@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "AsmaaAllah";
+  src: url("/fonts/AsmaaAllah.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Import Poppins font from Google Fonts */
 /* English and french */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
@@ -10,6 +18,9 @@
   /* Surface Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
 
   /* Primary Brand Colors */
   --color-primary: var(--primary);
@@ -447,11 +458,9 @@ html.dark .card-glass {
   position: relative;
   overflow: hidden;
   border-radius: 1.5rem;
-  background: linear-gradient(
-    135deg,
-    var(--gold-bg-subtle) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(135deg,
+      var(--gold-bg-subtle) 0%,
+      transparent 100%);
   border: 1px solid var(--gold-border-subtle);
   transition: all 0.3s ease;
 }
@@ -463,12 +472,10 @@ html.dark .card-glass {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    var(--gold) 0%,
-    var(--gold-light) 50%,
-    var(--gold) 100%
-  );
+  background: linear-gradient(90deg,
+      var(--gold) 0%,
+      var(--gold-light) 50%,
+      var(--gold) 100%);
 }
 
 .card-featured:hover {
@@ -753,6 +760,7 @@ html.dark .glass-card:hover {
 
 /* Pulse animation for important elements */
 @keyframes pulse-gold {
+
   0%,
   100% {
     box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
@@ -790,12 +798,10 @@ html.dark .glass-card:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(212, 175, 55, 0.2),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(212, 175, 55, 0.2),
+      transparent);
   background-size: 1000px 100%;
   animation: shimmer 3s infinite;
   pointer-events: none;

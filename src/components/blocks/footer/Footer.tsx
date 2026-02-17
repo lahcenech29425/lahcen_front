@@ -46,6 +46,7 @@ export default function Footer() {
         id: 4,
         title: "الموارد",
         links: [
+          { id: 40, title: "أذكار وأدعية", url: "/duaa" },
           { id: 41, title: "المرئيات", url: "/resources/videos" },
           { id: 42, title: "الصوتيات", url: "/resources/audio" },
           { id: 43, title: "دروس ومحاضرات", url: "/resources/lessons" },

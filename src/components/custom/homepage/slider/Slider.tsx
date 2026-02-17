@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Slider as SliderType } from "@/types/slider";
+
 import Image from "next/image";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
-export default function Slider({ data: _data }: { data: SliderType }) {
+export default function Slider() {
   // Static data override
   const slider = {
     title: "نُورٌ وَهُدًى بَيْنَ يَدَيْكَ",
@@ -83,8 +83,8 @@ export default function Slider({ data: _data }: { data: SliderType }) {
               <div
                 key={item.id}
                 className={`absolute inset-0 transition-all duration-700 ease-in-out ${activeIdx === idx
-                    ? "opacity-100 scale-100 z-10"
-                    : "opacity-0 scale-110 z-0"
+                  ? "opacity-100 scale-100 z-10"
+                  : "opacity-0 scale-110 z-0"
                   }`}
               >
                 <Image
@@ -138,8 +138,8 @@ export default function Slider({ data: _data }: { data: SliderType }) {
               <button
                 key={idx}
                 className={`transition-all duration-500 rounded-full h-2.5 ${activeIdx === idx
-                    ? "w-12 bg-primary shadow-lg shadow-primary/30"
-                    : "w-2.5 bg-gray-300 dark:bg-border hover:bg-primary/50"
+                  ? "w-12 bg-primary shadow-lg shadow-primary/30"
+                  : "w-2.5 bg-gray-300 dark:bg-border hover:bg-primary/50"
                   }`}
                 onClick={() => setActiveIdx(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
@@ -154,8 +154,8 @@ export default function Slider({ data: _data }: { data: SliderType }) {
                 <button
                   key={item.id}
                   className={`relative h-24 rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1 ${activeIdx === idx
-                      ? "ring-4 ring-primary shadow-xl"
-                      : "ring-1 ring-gray-200 dark:ring-border opacity-70 hover:opacity-100"
+                    ? "ring-4 ring-primary shadow-xl"
+                    : "ring-1 ring-gray-200 dark:ring-border opacity-70 hover:opacity-100"
                     }`}
                   onClick={() => setActiveIdx(idx)}
                 >

@@ -180,82 +180,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // ========================================
-  // 2. SECTION BLOGS
-  // ========================================
-  const blogIndexPage: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/blogs`,
-      lastModified: currentDate,
-      changeFrequency: "daily",
-      priority: 0.9,
-    },
-  ];
-
-  // Fetch des articles de blog depuis Strapi
-  let blogPages: MetadataRoute.Sitemap = [];
-  try {
-    const strapiUrl =
-      process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-    const response = await fetch(
-      `${strapiUrl}/api/blogs?populate=*&pagination[pageSize]=100`,
-      {
-        next: { revalidate: 3600 }, // Cache 1 heure
-      },
-    );
-    if (response.ok) {
-      const data: StrapiResponse = await response.json();
-      if (data.data && Array.isArray(data.data)) {
-        blogPages = data.data.map((blog: StrapiBlog) => ({
-          url: `${baseUrl}/blogs/${blog.slug}`,
-          lastModified: blog.updatedAt ? new Date(blog.updatedAt) : currentDate,
-          changeFrequency: "weekly",
-          priority: 0.7,
-        }));
-      }
-    }
-  } catch (error) {
-    console.error("❌ Error fetching blogs for sitemap:", error);
-  }
-
-  // ========================================
-  // 3. SECTION BOOKS
-  // ========================================
-  const booksIndexPage: MetadataRoute.Sitemap = [
-    {
-      url: `${baseUrl}/books`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-  ];
-
-  // Fetch des livres depuis Strapi
-  let bookPages: MetadataRoute.Sitemap = [];
-  try {
-    const strapiUrl =
-      process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-    const response = await fetch(
-      `${strapiUrl}/api/books?populate=*&pagination[pageSize]=100`,
-      {
-        next: { revalidate: 3600 }, // Cache 1 heure
-      },
-    );
-    if (response.ok) {
-      const data = await response.json();
-      if (data.data && Array.isArray(data.data)) {
-        bookPages = data.data.map((book: any) => ({
-          url: `${baseUrl}/books/${book.slug}`,
-          lastModified: book.updatedAt ? new Date(book.updatedAt) : currentDate,
-          changeFrequency: "monthly" as const,
-          priority: 0.7,
-        }));
-      }
-    }
-  } catch (error) {
-    console.error("❌ Error fetching books for sitemap:", error);
-  }
-
-  // ========================================
   // 4. SECTION QURAN
   // ========================================
   const quranIndexPage: MetadataRoute.Sitemap = [
@@ -355,11 +279,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ========================================
   const allPages: MetadataRoute.Sitemap = [
     ...staticPages, // Pages principales
-    ...blogIndexPage, // Index des blogs
-    ...blogPages, // Articles individuels
-    ...booksIndexPage, // Index des livres
-    ...bookPages, // Livres individuels
-    ...quranIndexPage, // Index du Quran
+    ...quranIndexPage, // Index des blogs
     ...surahPages, // 114 sourates
     ...ayahPages, // 6236 versets
     ...hadithPages, // Section Hadith

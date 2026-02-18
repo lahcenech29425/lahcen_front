@@ -1,21 +1,24 @@
 "use client";
 import { Link } from "@/components/elements/Link";
-import { SurahAudioEdition } from "@/types/quranAudio";
+import type { Mp3QuranReciter } from "@/types/quranAudio";
 import { Headphones, Play } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ReciterCardProps {
-  edition: SurahAudioEdition;
+  reciter: Mp3QuranReciter;
   delay?: number;
 }
 
 /** First Arabic letter for the avatar. */
-function getInitials(arabicName: string): string {
-  return arabicName.charAt(0) ?? "";
+function getInitials(name: string): string {
+  return name.charAt(0) ?? "";
 }
 
-export default function ReciterCard({ edition, delay = 0 }: ReciterCardProps) {
-  const initials = getInitials(edition.arabicName);
+export default function ReciterCard({ reciter, delay = 0 }: ReciterCardProps) {
+  const initials = getInitials(reciter.name);
+  const firstMoshaf = reciter.moshaf[0];
+  const totalSurahs = firstMoshaf?.surah_total ?? 0;
+  const moshafName = firstMoshaf?.name ?? "";
 
   return (
     <motion.div
@@ -23,8 +26,8 @@ export default function ReciterCard({ edition, delay = 0 }: ReciterCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: delay / 1000, duration: 0.35 }}
     >
-      <Link href={`/quran-audio/${edition.id}`} className="group block">
-        <div className="bg-white dark:bg-white/5 rounded-3xl border border-primary/10 shadow-md hover:shadow-xl hover:border-primary/25 transition-all duration-300 overflow-hidden">
+      <Link href={`/quran-audio/${reciter.id}`} className="group block">
+        <div className="bg-card rounded-3xl border border-border shadow-md hover:shadow-xl hover:border-primary transition-all duration-300 overflow-hidden">
           <div className="p-5 pb-4">
             <div className="flex items-center gap-4">
               {/* Avatar */}
@@ -41,10 +44,10 @@ export default function ReciterCard({ edition, delay = 0 }: ReciterCardProps) {
               {/* Name */}
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-foreground truncate group-hover:text-primary transition-colors duration-200">
-                  {edition.arabicName}
+                  {reciter.name}
                 </h3>
                 <p className="text-xs text-muted-foreground truncate mt-0.5">
-                  {edition.englishName}
+                  {moshafName}
                 </p>
               </div>
             </div>
@@ -53,15 +56,14 @@ export default function ReciterCard({ edition, delay = 0 }: ReciterCardProps) {
           {/* Footer */}
           <div className="px-5 pb-4">
             <div className="flex items-center justify-between">
-              {edition.style ? (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/8 text-primary border border-primary/10">
-                  <Headphones size={11} />
-                  {edition.style}
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/8 text-primary border border-primary/10">
-                  <Headphones size={11} />
-                  114 سورة
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-primary/8 text-primary border border-primary/10">
+                <Headphones size={11} />
+                {totalSurahs} سورة
+              </span>
+
+              {reciter.moshaf.length > 1 && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-muted text-muted-foreground">
+                  {reciter.moshaf.length} روايات
                 </span>
               )}
 

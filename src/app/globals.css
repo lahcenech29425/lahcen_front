@@ -582,6 +582,52 @@ html.dark .card-glass {
   animation: fade-in-up 0.7s cubic-bezier(0.23, 1.01, 0.32, 1) both;
 }
 
+@layer utilities {
+  .animate-sound-wave {
+    animation: sound-wave 1s ease-in-out infinite;
+  }
+}
+
+@keyframes sound-wave {
+
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pulse-soft {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Fullscreen Player Global Overrides */
+html.player-fullscreen header,
+html.player-fullscreen [aria-label="Go to top"],
+html.player-fullscreen button[aria-label="القائمة"],
+html.player-fullscreen .announcement-bar {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .animate-scroll-fade {
   opacity: 0;
   transform: translateY(30px);

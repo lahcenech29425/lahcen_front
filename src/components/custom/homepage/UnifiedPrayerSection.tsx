@@ -66,10 +66,10 @@ export default function UnifiedPrayerSection() {
                     >
                         <div className="absolute inset-0 z-0">
                             <Image
-                                src="/prayer-times-home.png"
+                                src={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771248764/prayer-time-header_hvuokf.png`}
                                 alt="مواقيت الصلاة"
                                 fill
-                                className="object-cover opacity-20 group-hover:scale-105 transition-transform duration-700"
+                                className="object-cover opacity-100 group-hover:scale-105 transition-transform duration-700"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-transparent" />
                         </div>
@@ -111,7 +111,7 @@ export default function UnifiedPrayerSection() {
                                 </div>
                                 <h4 className="text-2xl font-bold mb-3 font-momken">التقويم الهجري</h4>
                                 <p className="text-white/80 mb-6 text-base">
-                                  متابعة دقيقة لأيام وشهور السنة الهجرية.
+                                    متابعة دقيقة لأيام وشهور السنة الهجرية.
                                 </p>
                                 <Link
                                     href="/hijri-calendar"

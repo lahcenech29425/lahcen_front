@@ -1,29 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
-import type { FooterSocialLink } from "@/types/footer";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Facebook,
-  Instagram,
-  Youtube,
-  X,
-  Phone,
-  Share2,
-} from "lucide-react";
+import { Share2, X as XIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// Fallback social links when Strapi is unavailable
-const FALLBACK_LINKS = [
-  { id: 1, platform: "facebook", url: "https://www.facebook.com/lahcen29325", icon: Facebook },
-  { id: 2, platform: "instagram", url: "https://www.instagram.com/lahcen29325", icon: Instagram },
-  { id: 3, platform: "youtube", url: "https://www.youtube.com/@Lahcen-25", icon: Youtube },
-  { id: 4, platform: "tiktok", url: "https://www.tiktok.com/@lahcen29325", icon: Share2 },
-  { id: 5, platform: "x", url: "https://x.com/lahcen29325", icon: X },
-  { id: 6, platform: "whatsapp", url: "https://whatsapp.com/channel/0029VbC1lyi2ER6lkE0e5j0s", icon: Phone },
-];
+import { SOCIAL_LINKS } from "@/config/social";
 
 export default function SocialMediaBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,12 +15,9 @@ export default function SocialMediaBar() {
     setIsClient(true);
   }, []);
 
-  const displayLinks = FALLBACK_LINKS;
-  const base = ""; // Strapi base URL is no longer needed
-
   if (!isClient) return null; // Prevent hydration mismatch
 
-  if (!displayLinks.length) return null;
+  if (!SOCIAL_LINKS.length) return null;
 
   return (
     <div
@@ -59,20 +38,9 @@ export default function SocialMediaBar() {
             exit={{ opacity: 0 }}
             className="flex flex-col gap-2"
           >
-            {displayLinks.map((item, index) => {
-              const rawIcon = "icon" in item ? (item as any).icon : null;
-              // Simplified IconComponent logic as rawIcon directly holds the component
-              const IconComponent = rawIcon;
-
-              const iconUrl =
-                !IconComponent &&
-                  rawIcon &&
-                  typeof rawIcon === "object" &&
-                  rawIcon.url
-                  ? rawIcon.url.startsWith("http")
-                    ? rawIcon.url
-                    : `${base}${rawIcon.url}`
-                  : null;
+            {SOCIAL_LINKS.map((item, index) => {
+              const Icon = item.icon;
+              const isStringIcon = typeof Icon === 'string';
 
               return (
                 <motion.div
@@ -94,27 +62,22 @@ export default function SocialMediaBar() {
                     className="group flex items-center justify-center w-12 h-12 rounded-2xl bg-card/90 backdrop-blur-xl border border-border/50 hover:border-primary hover:bg-primary shadow-lg hover:shadow-xl hover:shadow-primary/20 transition-all duration-300 hover:scale-110"
                     aria-label={item.platform}
                   >
-                    {IconComponent ? (
-                      <IconComponent
+                    {!isStringIcon ? (
+                      <Icon
                         size={22}
                         strokeWidth={2}
                         className="text-gray-700 dark:text-[#eadfd6] group-hover:text-white transition-colors duration-300"
                       />
-                    ) : iconUrl ? (
+                    ) : (
                       <div className="relative w-6 h-6">
                         <Image
-                          src={iconUrl}
+                          src={Icon}
                           alt={item.platform}
                           fill
-                          className="object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+                          unoptimized
+                          className="object-contain opacity-70 group-hover:opacity-100 transition-opacity duration-300 dark:invert group-hover:invert dark:group-hover:invert-0"
                         />
                       </div>
-                    ) : (
-                      <span className="text-sm font-bold text-gray-700 dark:text-gray-300 group-hover:text-white">
-                        {typeof item.platform === "string"
-                          ? item.platform[0].toUpperCase()
-                          : "S"}
-                      </span>
                     )}
                   </Link>
                 </motion.div>
@@ -151,7 +114,7 @@ export default function SocialMediaBar() {
           className="relative z-10"
         >
           {isOpen ? (
-            <X size={26} strokeWidth={2.5} />
+            <XIcon size={26} strokeWidth={2.5} />
           ) : (
             <Share2 size={26} strokeWidth={2.5} />
           )}

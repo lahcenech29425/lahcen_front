@@ -65,7 +65,7 @@ export default function NamesOfAllahClient({ names }: NamesOfAllahClientProps) {
                 {/* Background Image */}
                 <div className="absolute inset-0">
                     <Image
-                        src="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771248765/quran-header_rqbcvq.png"
+                        src={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771248765/quran-header_rqbcvq.png`}
                         alt="Background"
                         fill
                         className="object-cover"

@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, BookOpen, Heart, HandHelping, Quote, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { Calendar, BookOpen, Heart, HandHelping, Quote } from "lucide-react";
 import { useState, useEffect } from "react";
 import Breadcrumb from "@/components/elements/Breadcrumb";
 import { motion } from "framer-motion";
+import { SOCIAL_LINKS } from "@/config/social";
 
 export default function AboutPageClient() {
   const [isClient, setIsClient] = useState(false);
@@ -27,25 +28,20 @@ export default function AboutPageClient() {
     duaTitle: "اُدْعُوا لِوَالِدِي",
     duaIntro: "يعد الدعاء من أعظم العبادات التي يتقرب بها المسلم إلى الله تعالى، وهو سلاح المؤمن في السراء والضراء. فادعوا لأخيكم المتوفى بالرحمة والمغفرة، فإن الدعاء ينفع الميت بإذن الله، ويكون له صدقة جارية. وقد قال رسول الله ﷺ:",
     duaContent: "اللَّهُمَّ اغْفِرْ لِوَالِدِي، وَارْحَمْهُ رَحْمَةً وَاسِعَةً تَمْلَأُ قَلْبَهُ وَبَدَنَهُ وَرُوحَهُ، وَعَافِهِ فِي بَدَنِهِ وَدِينِهِ وَدُنْيَاهُ وَآخِرَتِهِ، وَاعْفُ عَنْهُ وَعَنْ سَيِّئَاتِهِ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهِ مِنَ الذُّنُوبِ وَالْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الأَبْيَضُ مِنَ الدَّنَسِ. اللَّهُمَّ اجْعَلْ قَبْرَهُ رَوْضَةً مِنْ رِيَاضِ الجَنَّةِ، وَامْلَأْهُ نُورًا وَطُمَأْنِينَةً، وَلَا تَجْعَلْهُ حُفْرَةً مِنْ حُفَرِ النَّارِ، وَوَسِّعْ مَدْخَلَهُ، وَأَكْرِمْ نُزُلَهُ، وَاجْعَلْ كُلَّ لَحْظَةٍ يَمْضِيها فِي قَبْرِهِ رَاحَةً وَرَاحَةً أَبَدِيَّةً. اللَّهُمَّ اجْعَلْ هٰذَا الْمَشْرُوعَ وَكُلَّ خَيْرٍ نَنْشُرُهُ بَعْدَهُ فِي مِيزَانِ حَسَنَاتِهِ، وَوَازِنْ بِهِ حَسَنَاتِنَا وَحَسَنَاتِ جَمِيعِ أُمُوَاتِ الْمُسْلِمِينَ، وَاغْفِرْ لِجَمِيعِ مُوتَى الْمُسْلِمِينَ وَوَسِّعْ قُبُورَهُمْ، وَامْلَأْهُمْ رَحْمَةً وَرِضْوَانًا، وَاغْسِلْهُمْ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَجِّنْهُمْ مِنْ عَذَابِ الْقَبْرِ، وَاغْفِرْ لَهُمْ مَا تَقَدَّمَ مِنْ ذُنُوبِهِمْ وَمَا تَأَخَّرَ. اللَّهُمَّ اجْعَلْنَا وَإِيَّاهُ مِنَ الَّذِينَ يَسْتَمِعُونَ الْقَوْلَ فَيَتَّبِعُونَ أَحْسَنَهُ، وَوَفِّقْنَا لِنَشْرِ الْعِلْمِ وَالدَّعْوَةِ وَالذِّكْرِ، وَامْلَأْ قُلُوبَنَا رَحْمَةً وَهُدًى، وَارْزُقْنَا وَلِأُمُوَاتِ الْمُسْلِمِينَ الْفِرْدَوْسَ الْأَعْلَى بِلَا عَذَابٍ وَلَا خَوْفٍ، وَامْنَحْنَا الصَّبْرَ وَالرِّضَا وَالتَّقْوَى فِي حَيَاتِنَا، وَاغْفِرْ لَنَا وَلَهُمْ ذُنُوبَنَا جَمِيعًا. اللَّهُمَّ اجْعَلْ أَعْمَالَنَا خَالِصَةً لِوَجْهِكَ الْكَرِيمِ، وَاجْعَلْ هٰذَا الْمَشْرُوعَ صَدَقَةً جَارِيَةً، يَظَلُّ لَهُ أَثَرٌ طَيِّبٌ عِنْدَكَ، وَيَكُونُ سَبَبًا فِي نَفْعِ الْمُسْلِمِينَ فِي الدُّنْيَا وَالآخِرَةِ. آمِينَ يَا أَرْحَمَ الرَّاحِمِينَ.",
-    socialMedia: [
-      { platform: "facebook", url: "#", type: "lucide" as const, Icon: Facebook },
-      { platform: "instagram", url: "#", type: "lucide" as const, Icon: Instagram },
-      { platform: "twitter", url: "#", type: "lucide" as const, Icon: Twitter },
-      { platform: "twitter", url: "#", type: "lucide" as const, Icon: Youtube },
-      { platform: "tiktok", url: "#", type: "svg" as const, icon: "/assets/icons/tiktok.svg" },
-      { platform: "whatsapp", url: "#", type: "svg" as const, icon: "/assets/icons/whatsapp.svg" },
-    ]
   };
 
   return (
     <main dir="rtl" className="bg-background min-h-screen">
       {/* Hero Section with Parallax Effect */}
       <div className="relative h-[50vh] md:h-[60vh] overflow-hidden flex items-center justify-center">
+        {/* ... (Hero content omitted for brevity, keeping existing structure) ... */}
+        {/* Note: I'm not rendering the hero content here because I can't overwrite the whole file easily without providing full content. */}
+        {/* I'll use target/replacement instead for minimal edits if needed, but here I'm replacing the top part including imports and staticContent */}
         {/* Image background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url(https://res.cloudinary.com/dpuhywxsf/image/upload/v1771257221/hero_bajvdi.png)`,
+            backgroundImage: `url(${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771257221/hero_bajvdi.png)`,
             backgroundAttachment: isClient ? "fixed" : "scroll",
           }}
         ></div>
@@ -360,29 +356,35 @@ export default function AboutPageClient() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="flex flex-wrap justify-center gap-6 mt-8"
           >
-            {staticContent.socialMedia.map((social, index) => (
-              <Link
-                key={index}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.platform}
-                className="inline-flex items-center justify-center p-4 bg-card hover:bg-primary/10 rounded-2xl border border-primary/10 hover:border-primary/20 transition-all hover:scale-110"
-              >
-                {social.type === "lucide" ? (
-                  <social.Icon size={40} className="text-foreground" />
-                ) : (
-                  <Image
-                    src={social.icon}
-                    alt={social.platform}
-                    width={40}
-                    height={40}
-                    className="object-contain invert dark:invert-0"
-                    loading="lazy"
-                  />
-                )}
-              </Link>
-            ))}
+            {SOCIAL_LINKS.map((social, index) => {
+              const Icon = social.icon;
+              const isStringIcon = typeof Icon === 'string';
+
+              return (
+                <Link
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.platform}
+                  className="inline-flex items-center justify-center p-4 bg-card hover:bg-primary/10 rounded-2xl border border-primary/10 hover:border-primary/20 transition-all hover:scale-110"
+                >
+                  {!isStringIcon ? (
+                    <Icon size={40} className="text-foreground" />
+                  ) : (
+                    <Image
+                      src={Icon}
+                      alt={social.platform}
+                      width={40}
+                      height={40}
+                      className="object-contain dark:invert"
+                      loading="lazy"
+                      unoptimized
+                    />
+                  )}
+                </Link>
+              )
+            })}
           </motion.div>
         </div>
       </section>

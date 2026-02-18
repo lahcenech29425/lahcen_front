@@ -16,25 +16,25 @@ export default function Slider() {
         id: 1,
         title: "نور القرآن بين يديك",
         description: "تصفح آيات الله، استمع لتلاواتها، وتدبر معانيها حيثما كنت",
-        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249646/audio_quran_hd6c0l.png"
+        image: `${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249646/audio_quran_hd6c0l.png`
       },
       {
         id: 2,
         title: "الحديث الشريف يضيء الطريق",
         description: "كل حديث نبوي شريف هو مصدر هداية وسكينة لقلب المؤمن",
-        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249645/quran_ykrns1.png"
+        image: `${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249645/quran_ykrns1.png`
       },
       {
         id: 3,
         title: "المجتمع الإسلامي حول العالم",
         description: "نشارك الآلاف حول العالم في نور القرآن والسنة، لنرتقي بروحنا معًا",
-        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249651/society_kissl8.png"
+        image: `${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249651/society_kissl8.png`
       },
       {
         id: 4,
         title: "سراج يضيء دربك",
         description: "منصة تُهديك الطمأنينة، وترشدك في كل خطوة على طريق الإيمان",
-        image: "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249644/siraj_fjzxdi.png"
+        image: `${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249644/siraj_fjzxdi.png`
       }
     ]
   };
@@ -70,7 +70,7 @@ export default function Slider() {
             {slider.title}
           </h2>
           {slider.description && (
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-white/70 max-w-3xl mx-auto leading-relaxed">
               {slider.description}
             </p>
           )}

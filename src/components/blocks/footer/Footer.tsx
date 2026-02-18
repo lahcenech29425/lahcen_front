@@ -1,55 +1,46 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Instagram, Youtube, Twitter, Phone, MessageCircle } from "lucide-react";
+import { SOCIAL_LINKS } from "@/config/social";
 
 export default function Footer() {
   const footerData = {
     description: "سِرَاجٌ يُضِيءُ الدَّرْبَ… نُورٌ لِلرُّوحِ وَسَكِينَةٌ لِلْقَلْبِ",
-    socialLinks: [
-      { id: 1, platform: "facebook", url: "https://facebook.com", icon: Facebook },
-      { id: 2, platform: "instagram", url: "https://instagram.com", icon: Instagram },
-      { id: 3, platform: "youtube", url: "https://youtube.com", icon: Youtube },
-      { id: 4, platform: "x", url: "https://x.com", icon: Twitter },
-      { id: 5, platform: "tiktok", url: "https://tiktok.com", icon: MessageCircle }, // Using MessageCircle as placeholder for TikTok
-      { id: 6, platform: "whatsapp", url: "https://whatsapp.com", icon: Phone },
-    ],
     menu: [
       {
         id: 1,
-        title: "القرآن الكريم",
+        title: "القرآن والسنة",
         links: [
-          { id: 11, title: "تلاوات صوتية", url: "/quran/recitations" },
-          { id: 12, title: "ترجمات القرآن", url: "/quran/translations" },
-          { id: 13, title: "البحث في السور والآيات", url: "/quran/search" },
+          { id: 11, title: "القرآن الكريم", url: "/quran" },
+          { id: 12, title: "الحديث الشريف", url: "/hadith" },
+          { id: 13, title: "القرآن الصوتي", url: "/quran-audio" },
         ],
       },
       {
         id: 2,
-        title: "الحديث الشريف",
+        title: "العبادات",
         links: [
-          { id: 21, title: "حديث اليوم", url: "/hadith/today" },
-          { id: 22, title: "البحث في الأحاديث", url: "/hadith/search" },
-          { id: 23, title: "التصنيف حسب الموضوع", url: "/hadith/topics" },
+          { id: 21, title: "مواقيت الصلاة", url: "/prayer-times" },
+          { id: 22, title: "التقويم الهجري", url: "/hijri-calendar" },
+          { id: 23, title: "أسماء الله الحسنى", url: "/names-of-allah" },
         ],
       },
       {
         id: 3,
-        title: "المقالات",
+        title: "الأذكار",
         links: [
-          { id: 31, title: "تدبر القرآن", url: "/articles/quran-reflections" },
-          { id: 32, title: "السيرة النبوية", url: "/articles/prophet-biography" },
-          { id: 33, title: "الأخلاق والسلوك", url: "/articles/ethics" },
+          { id: 31, title: "أذكار الصباح والمساء", url: "/duaa" },
+          { id: 32, title: "أدعية قرآنية", url: "/duaa" },
+          { id: 33, title: "أدعية متنوعة", url: "/duaa" },
         ],
       },
       {
         id: 4,
-        title: "الموارد",
+        title: "عام",
         links: [
-          { id: 40, title: "أذكار وأدعية", url: "/duaa" },
-          { id: 41, title: "المرئيات", url: "/resources/videos" },
-          { id: 42, title: "الصوتيات", url: "/resources/audio" },
-          { id: 43, title: "دروس ومحاضرات", url: "/resources/lessons" },
+          { id: 41, title: "عن المنصة", url: "/about" },
+          { id: 42, title: "تواصل معنا", url: "/contact" },
+          { id: 43, title: "سياسة الخصوصية", url: "/privacy" },
         ],
       },
     ],
@@ -61,7 +52,7 @@ export default function Footer() {
       className="relative bg-[#3E2723] dark:bg-[#2D1B14] text-white pt-16 md:pt-20 pb-8 md:pb-12 overflow-hidden"
       dir="rtl"
     >
-      {/* Dark Islamic pattern - bg1.svg for dark sections */}
+      {/* Dark Islamic pattern */}
       <div
         className="absolute inset-0 opacity-[0.05] pointer-events-none"
         style={{
@@ -70,8 +61,8 @@ export default function Footer() {
         }}
       />
 
-      {/* Brown gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#2D1B14] to-transparent pointer-events-none opacity-60" />
+      {/* Solid Overlay instead of transparent gradient */}
+      <div className="absolute inset-0 bg-[#2D1B14]/20 pointer-events-none" />
 
       {/* Top gold accent line */}
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
@@ -87,6 +78,7 @@ export default function Footer() {
                 width={120}
                 height={50}
                 className="brightness-0 invert opacity-90 group-hover:opacity-100 transition-opacity"
+                unoptimized
               />
             </Link>
             <p className="text-white/70 text-base mb-6 leading-relaxed">
@@ -95,17 +87,32 @@ export default function Footer() {
 
             {/* Social Links - Enhanced with brown hover */}
             <div className="flex gap-4 justify-start">
-              {footerData.socialLinks.map((item) => {
+              {SOCIAL_LINKS.map((item) => {
                 const Icon = item.icon;
+                const isStringIcon = typeof Icon === 'string';
+
                 return (
                   <Link
                     key={item.id}
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-primary hover:bg-primary transition-all duration-300 group shadow-lg hover:shadow-primary/20"
+                    className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:border-primary hover:bg-primary transition-all duration-300 group shadow-lg hover:shadow-primary/20 flex items-center justify-center"
+                    aria-label={item.platform}
                   >
-                    <Icon className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                    {isStringIcon ? (
+                      <div className="relative w-5 h-5">
+                        <Image
+                          src={Icon}
+                          alt={item.platform}
+                          fill
+                          className="object-contain brightness-0 invert group-hover:scale-110 transition-transform"
+                          unoptimized
+                        />
+                      </div>
+                    ) : (
+                      <Icon className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                    )}
                   </Link>
                 );
               })}

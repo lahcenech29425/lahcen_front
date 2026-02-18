@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { fetchSurahList } from "@/utils/quranApi";
 import { Link } from "@/components/elements/Link";
 import dynamic from "next/dynamic";
-import Breadcrumb from "@/components/elements/Breadcrumb";
 import { Surah } from "@/types/Surah";
 import { getSurahSlug } from "@/utils/surahHelpers";
 import { motion } from "framer-motion";
 import { Search, BookOpen, Star, ChevronDown, Filter } from "lucide-react";
+import PageHero from "@/components/blocks/hero/PageHero";
 
 // Dynamically import PdfFlipbook (client-only, no SSR) to avoid pdfjs-dist build issues
 const PdfFlipbook = dynamic(() => import("@/components/elements/PdfFlipbook"), {
@@ -144,70 +144,46 @@ export default function QuranPageClient() {
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] dark:opacity-[0.05] bg-[url('/assets/bg.svg')] bg-repeat bg-center dark:invert"></div>
 
       {/* Full-Width Hero Section */}
-      <div
-        className="relative w-full h-[450px] md:h-[550px] overflow-hidden bg-primary/20"
+      <PageHero
+        backgroundImage={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771248765/quran-header_rqbcvq.png`}
+        breadcrumbs={[{ label: "القرآن الكريم", href: "/quran" }]}
         dir="rtl"
       >
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/quran-header.png')" }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl text-center"
         >
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
+          <div className="inline-flex justify-center items-center w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-lg mb-6 text-white">
+            <BookOpen size={36} />
+          </div>
 
-        {/* Breadcrumbs */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-32">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-start">
-            <div className="bg-black/20 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/10">
-              <Breadcrumb
-                items={[{ label: "القرآن الكريم", href: "/quran" }]}
-                textColor="text-white"
-                showHomeLabel={false}
-                className="!mb-0"
-              />
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 font-momken text-white drop-shadow-lg">
+            القرآن الكريم
+          </h1>
+
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed mb-8 font-light">
+            تصفح سور القرآن الكريم، ابحث باسم السورة أو الفلترة حسب مكان
+            النزول، واستمتع بتلاوة مباشرة بروايات حفص، ورش، والرسم الشرمالي.
+          </p>
+
+          {/* Quick Stats */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+              <span>{surahs.length} سورة</span>
+            </div>
+            <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+              <span>{meccanCount} مكية</span>
+            </div>
+            <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
+              <span>{medinanCount} مدنية</span>
             </div>
           </div>
-        </div>
-
-        {/* Hero Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-24">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mt-12"
-          >
-            <div className="inline-flex justify-center items-center w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-full shadow-lg mb-6 text-white">
-              <BookOpen size={36} />
-            </div>
-
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 font-momken text-white drop-shadow-lg">
-              القرآن الكريم
-            </h1>
-
-            <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed mb-8 font-light">
-              تصفح سور القرآن الكريم، ابحث باسم السورة أو الفلترة حسب مكان
-              النزول، واستمتع بتلاوة مباشرة بروايات حفص، ورش، والرسم الشرمالي.
-            </p>
-
-            {/* Quick Stats */}
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>{surahs.length} سورة</span>
-              </div>
-              <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                <span>{meccanCount} مكية</span>
-              </div>
-              <div className="px-5 py-2 rounded-full bg-black/30 backdrop-blur-md border border-white/10 text-white font-medium flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
-                <span>{medinanCount} مدنية</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </PageHero>
 
       <div
         className="max-w-7xl mx-auto py-8 px-4 mb-20 relative min-h-screen"
@@ -337,7 +313,7 @@ export default function QuranPageClient() {
             >
               <Link
                 href={`/quran/${getSurahSlug(s)}`}
-                className="group relative block p-6 h-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-1 transition-all duration-300"
+                className="group relative block p-6 h-full bg-card border border-border rounded-2xl shadow-lg hover:shadow-2xl hover:border-primary hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex justify-between items-start mb-4">
                   {/* Number Badge */}

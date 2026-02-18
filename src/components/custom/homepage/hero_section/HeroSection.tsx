@@ -15,7 +15,7 @@ export default function HeroSection({ data: _data }: { data: HeroSectionType }) 
   const buttonTitle = "انطلق";
   const buttonUrl = "/";
   const isExternal = false;
-  const imageUrl = "https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249644/siraj_fjzxdi.png";
+  const imageUrl = `${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249644/siraj_fjzxdi.png`;
 
   // Live clock state
   const [currentTime, setCurrentTime] = useState<string>("");

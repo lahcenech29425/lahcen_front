@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { findEditionById } from "@/utils/quranAudioApi";
+import { fetchReciterById } from "@/utils/quranAudioApi";
 import ReciterPageClient from "./ReciterPageClient";
 import { notFound } from "next/navigation";
 
@@ -10,49 +10,50 @@ interface PageProps {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  const { reciter: editionId } = await params;
-  const edition = findEditionById(editionId);
+  const { reciter: reciterId } = await params;
+  const reciter = await fetchReciterById(reciterId);
 
-  if (!edition) {
+  if (!reciter) {
     return { title: "قارئ غير موجود | الاستماع للقرآن الكريم" };
   }
 
+  const moshafName = reciter.moshaf[0]?.name ?? "";
+
   return {
-    title: `${edition.arabicName} | الاستماع للقرآن الكريم`,
-    description: `استمع إلى القرآن الكريم كاملاً بصوت القارئ ${edition.arabicName}. تلاوات عالية الجودة لجميع السور.`,
+    title: `${reciter.name} | الاستماع للقرآن الكريم`,
+    description: `استمع إلى القرآن الكريم كاملاً بصوت القارئ ${reciter.name}. ${moshafName}. تلاوات عالية الجودة لجميع السور.`,
     keywords: [
-      edition.arabicName,
-      edition.englishName,
+      reciter.name,
+      moshafName,
       "القرآن الكريم",
       "استماع القرآن",
       "تلاوة",
-      edition.style || "",
     ],
     openGraph: {
-      title: `${edition.arabicName} | الاستماع للقرآن الكريم`,
-      description: `استمع إلى القرآن الكريم بصوت ${edition.arabicName}`,
-      url: `/quran-audio/${editionId}`,
+      title: `${reciter.name} | الاستماع للقرآن الكريم`,
+      description: `استمع إلى القرآن الكريم بصوت ${reciter.name}`,
+      url: `/quran-audio/${reciterId}`,
       siteName: "سِرَاجٌ يُضِيءُالدَّرْبَ",
       locale: "ar-SA",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${edition.arabicName} | الاستماع للقرآن الكريم`,
-      description: `استمع إلى القرآن الكريم بصوت ${edition.arabicName}`,
+      title: `${reciter.name} | الاستماع للقرآن الكريم`,
+      description: `استمع إلى القرآن الكريم بصوت ${reciter.name}`,
       images: ["/og-quran-audio.jpg"],
     },
     alternates: {
-      canonical: `/quran-audio/${editionId}`,
+      canonical: `/quran-audio/${reciterId}`,
     },
   };
 }
 
 export default async function ReciterPage({ params }: PageProps) {
-  const { reciter: editionId } = await params;
-  const edition = findEditionById(editionId);
+  const { reciter: reciterId } = await params;
+  const reciter = await fetchReciterById(reciterId);
 
-  if (!edition) notFound();
+  if (!reciter) notFound();
 
-  return <ReciterPageClient edition={edition} />;
+  return <ReciterPageClient reciter={reciter} />;
 }

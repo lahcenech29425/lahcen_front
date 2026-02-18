@@ -415,16 +415,16 @@ export default function PrayerPageClient() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white dark:bg-card rounded-[2rem] shadow-xl border border-border p-6 md:p-8"
+          className="bg-white dark:bg-[#1E1E1E] rounded-[2rem] shadow-xl border border-border/50 p-6 md:p-8"
         >
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Hijri Date */}
             {day && (
-              <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 dark:bg-[#8B4513]/10 rounded-2xl min-w-[200px] justify-center">
+              <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 dark:bg-[#2A2A2A] rounded-2xl min-w-[200px] justify-center">
                 <div className="w-10 h-10 rounded-xl bg-[#8B4513]/10 dark:bg-[#8B4513]/20 flex items-center justify-center">
-                  <Moon className="text-[#8B4513] dark:text-primary" size={20} />
+                  <Moon className="text-[#8B4513] dark:text-[#D4B996]" size={20} />
                 </div>
-                <span className="font-bold text-foreground text-base font-sans">
+                <span className="font-bold text-foreground dark:text-gray-200 text-base font-sans">
                   {day.hijri.readable}
                 </span>
               </div>
@@ -448,11 +448,11 @@ export default function PrayerPageClient() {
             </div>
 
             {/* Gregorian Date */}
-            <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 dark:bg-[#8B4513]/10 rounded-2xl min-w-[200px] justify-center">
+            <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 dark:bg-[#2A2A2A] rounded-2xl min-w-[200px] justify-center">
               <div className="w-10 h-10 rounded-xl bg-[#8B4513]/10 dark:bg-[#8B4513]/20 flex items-center justify-center">
-                <Calendar className="text-[#8B4513] dark:text-primary" size={20} />
+                <Calendar className="text-[#8B4513] dark:text-[#D4B996]" size={20} />
               </div>
-              <span className="font-bold text-foreground text-base font-amiri">
+              <span className="font-bold text-foreground dark:text-gray-200 text-base font-amiri">
                 <span className="font-sans ml-1">{now.getDate()}</span>
                 {new Intl.DateTimeFormat("ar-SA", { month: "long" }).format(
                   now,
@@ -462,20 +462,20 @@ export default function PrayerPageClient() {
             </div>
 
             {/* Divider */}
-            <div className="hidden md:block w-[1px] h-10 bg-primary/10" />
+            <div className="hidden md:block w-[1px] h-10 bg-primary/10 dark:bg-white/10" />
 
             {/* Change Location Button */}
             <button
               onClick={() => setShowLocationSelector(true)}
-              className="group flex items-center gap-3 px-6 py-3 bg-gray-50 dark:bg-[#8B4513]/10 hover:bg-gray-100 dark:hover:bg-[#8B4513]/20 rounded-2xl transition-all duration-300 border border-[#8B4513]/10 hover:border-[#8B4513]/30 hover:shadow-md"
+              className="group flex items-center gap-3 px-6 py-3 bg-gray-50 dark:bg-[#2A2A2A] hover:bg-gray-100 dark:hover:bg-[#333] rounded-2xl transition-all duration-300 border border-[#8B4513]/10 dark:border-white/5 hover:border-[#8B4513]/30 hover:shadow-md"
             >
               <div className="w-10 h-10 rounded-xl bg-[#8B4513]/10 dark:bg-[#8B4513]/20 flex items-center justify-center group-hover:bg-[#8B4513] transition-colors duration-300">
                 <Settings
-                  className="text-[#8B4513] dark:text-primary group-hover:text-white group-hover:rotate-90 transition-all duration-300"
+                  className="text-[#8B4513] dark:text-[#D4B996] group-hover:text-white group-hover:rotate-90 transition-all duration-300"
                   size={20}
                 />
               </div>
-              <span className="font-bold text-foreground text-base">
+              <span className="font-bold text-foreground dark:text-gray-200 text-base">
                 تغيير الموقع
               </span>
             </button>
@@ -489,10 +489,10 @@ export default function PrayerPageClient() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-white dark:bg-card rounded-[3rem] shadow-xl border border-border p-8 md:p-12 relative overflow-hidden"
+          className="bg-white dark:bg-[#1E1E1E] rounded-[3rem] shadow-xl border border-border/50 p-8 md:p-12 relative overflow-hidden"
         >
 
-          <h2 className="text-3xl font-bold font-momken text-center mb-12 text-foreground">
+          <h2 className="text-3xl font-bold font-momken text-center mb-12 text-foreground dark:text-white">
             مواقيت الصلاة اليوم
           </h2>
 
@@ -515,11 +515,11 @@ export default function PrayerPageClient() {
                       key={pName}
                       className={`relative group p-6 rounded-3xl text-center border transition-all duration-500 ${isNext
                         ? "bg-gradient-to-br from-[#8B4513] to-[#5d3119] text-white border-transparent shadow-[0_15px_40px_rgba(139,69,19,0.3)] scale-110 z-10 ring-4 ring-[#8B4513]/20"
-                        : "bg-white dark:bg-card text-gray-900 dark:text-foreground border-transparent hover:border-primary/20 hover:shadow-lg hover:-translate-y-1"
+                        : "bg-gray-50 dark:bg-[#2A2A2A] text-gray-900 dark:text-gray-100 border-transparent hover:border-primary/20 hover:shadow-lg hover:-translate-y-1"
                         }`}
                     >
                       <div
-                        className={`text-sm mb-3 font-bold ${isNext ? "opacity-100" : "opacity-60"}`}
+                        className={`text-sm mb-3 font-bold ${isNext ? "opacity-100" : "opacity-60 dark:opacity-50"}`}
                       >
                         {PRAYER_NAMES_AR[pName]}
                       </div>
@@ -546,7 +546,7 @@ export default function PrayerPageClient() {
 
       {/* SECTION 3: VIRTUES GRID (BENTO) */}
       <section className="container mx-auto px-4 max-w-6xl pb-24">
-        <h2 className="text-3xl font-bold font-momken text-center mb-12 text-foreground">
+        <h2 className="text-3xl font-bold font-momken text-center mb-12 text-foreground dark:text-white">
           فضائل وآداب
         </h2>
 
@@ -563,10 +563,10 @@ export default function PrayerPageClient() {
                 className="object-contain"
               />
             </div>
-            <h3 className="text-3xl font-bold font-momken mb-6 relative z-10">
+            <h3 className="text-3xl font-bold font-momken mb-6 relative z-10 text-white">
               مكانة الصلاة
             </h3>
-            <p className="text-xl leading-relaxed relative z-10 opacity-90 font-amiri">
+            <p className="text-xl leading-relaxed relative z-10 opacity-90 font-amiri text-white/90">
               "أَرَأَيْتُمْ لَوْ أَنَّ نَهْرًا بِبَابِ أَحَدِكُمْ يَغْتَسِلُ
               مِنْهُ كُلَّ يَوْمٍ خَمْسَ مَرَّاتٍ، هَلْ يَبْقَى مِنْ دَرَنِهِ
               شَيْءٌ؟"
@@ -577,54 +577,54 @@ export default function PrayerPageClient() {
           </div>
 
           {/* Small Card 1 */}
-          <div className="bg-card border border-border rounded-[2.5rem] p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-300 group">
-            <div className="bg-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
-              <Clock className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+          <div className="bg-white dark:bg-[#1E1E1E] border border-border/50 rounded-[2.5rem] p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-[#8B4513]/10 dark:bg-[#8B4513]/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#8B4513] transition-colors duration-300">
+              <Clock className="w-8 h-8 text-[#8B4513] dark:text-[#D4B996] group-hover:text-white transition-colors duration-300" />
             </div>
-            <h3 className="text-xl font-bold font-momken text-foreground mb-3">
+            <h3 className="text-xl font-bold font-momken text-foreground dark:text-white mb-3">
               الصلاة في وقتها
             </h3>
-            <p className="text-gray-600 dark:text-[#d4c5b9] text-sm leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
               أحب الأعمال إلى الله الصلاة على وقتها. احرص على أداء الفريضة فور
               سماع الأذان.
             </p>
           </div>
 
           {/* Small Card 2 */}
-          <div className="bg-card border border-border rounded-[2.5rem] p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-300 group">
-            <div className="bg-primary/5 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300">
-              <Moon className="w-8 h-8 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
+          <div className="bg-white dark:bg-[#1E1E1E] border border-border/50 rounded-[2.5rem] p-8 hover:border-primary/30 hover:shadow-xl transition-all duration-300 group">
+            <div className="bg-[#8B4513]/10 dark:bg-[#8B4513]/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#8B4513] transition-colors duration-300">
+              <Moon className="w-8 h-8 text-[#8B4513] dark:text-[#D4B996] group-hover:text-white transition-colors duration-300" />
             </div>
-            <h3 className="text-xl font-bold font-momken text-foreground mb-3">
+            <h3 className="text-xl font-bold font-momken text-foreground dark:text-white mb-3">
               قيام الليل
             </h3>
-            <p className="text-gray-600 dark:text-[#d4c5b9] text-sm leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
               شرف المؤمن قيامه بالليل. ركعتان في جوف الليل خير من الدنيا وما
               فيها.
             </p>
           </div>
 
           {/* Medium Card */}
-          <div className="md:col-span-2 bg-primary/5 rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-10 overflow-hidden relative">
+          <div className="md:col-span-2 bg-[#8B4513]/5 dark:bg-[#8B4513]/10 rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-10 overflow-hidden relative border border-transparent dark:border-[#8B4513]/10">
             <div className="flex-1 relative z-10">
-              <h3 className="text-2xl font-bold font-momken text-primary mb-6">
+              <h3 className="text-2xl font-bold font-momken text-[#8B4513] dark:text-[#D4B996] mb-6">
                 آداب المسجد
               </h3>
-              <ul className="space-y-4 text-slate-700 dark:text-[#eadfd6]">
+              <ul className="space-y-4 text-slate-700 dark:text-gray-300">
                 <li className="flex items-center gap-4 group">
-                  <span className="w-8 h-8 rounded-full bg-background flex items-center justify-center text-primary font-bold shadow-sm group-hover:scale-110 transition-transform">
+                  <span className="w-8 h-8 rounded-full bg-white dark:bg-[#2A2A2A] flex items-center justify-center text-[#8B4513] dark:text-[#D4B996] font-bold shadow-sm group-hover:scale-110 transition-transform">
                     1
                   </span>
                   تقديم الرجل اليمنى عند الدخول
                 </li>
                 <li className="flex items-center gap-4 group">
-                  <span className="w-8 h-8 rounded-full bg-background flex items-center justify-center text-primary font-bold shadow-sm group-hover:scale-110 transition-transform">
+                  <span className="w-8 h-8 rounded-full bg-white dark:bg-[#2A2A2A] flex items-center justify-center text-[#8B4513] dark:text-[#D4B996] font-bold shadow-sm group-hover:scale-110 transition-transform">
                     2
                   </span>
                   صلاة ركعتين تحية المسجد
                 </li>
                 <li className="flex items-center gap-4 group">
-                  <span className="w-8 h-8 rounded-full bg-background flex items-center justify-center text-primary font-bold shadow-sm group-hover:scale-110 transition-transform">
+                  <span className="w-8 h-8 rounded-full bg-white dark:bg-[#2A2A2A] flex items-center justify-center text-[#8B4513] dark:text-[#D4B996] font-bold shadow-sm group-hover:scale-110 transition-transform">
                     3
                   </span>
                   الحفاظ على الهدوء والسكينة
@@ -632,10 +632,10 @@ export default function PrayerPageClient() {
               </ul>
             </div>
             <div className="relative">
-              <div className="w-48 h-48 bg-background rounded-full flex items-center justify-center shadow-2xl relative z-10">
-                <BookOpen className="w-20 h-20 text-primary" />
+              <div className="w-48 h-48 bg-white dark:bg-[#2A2A2A] rounded-full flex items-center justify-center shadow-2xl relative z-10">
+                <BookOpen className="w-20 h-20 text-[#8B4513] dark:text-[#D4B996]" />
               </div>
-              <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full" />
+              <div className="absolute inset-0 bg-[#8B4513]/10 blur-3xl rounded-full" />
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
 import { HadithCard } from "@/components/elements/HadithCard";
-import Breadcrumb from "@/components/elements/Breadcrumb";
+import PageHero from "@/components/blocks/hero/PageHero";
 import type { MutableRefObject } from "react";
 import { Search, BookOpen, Filter, Book } from "lucide-react";
 import { motion } from "framer-motion";
@@ -232,45 +232,28 @@ export default function HadithPageClient() {
       </div>
 
       {/* 1. HERO SECTION */}
-      <div className="relative w-full h-[350px] md:h-[400px] overflow-hidden bg-primary/20 z-10">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/hadith-header.png')" }}
+      <PageHero
+        backgroundImage={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771248764/hadith-header_xhaqg4.png`}
+        breadcrumbs={[{ label: "الحديث الشريف" }]}
+        showHomeLabel={true}
+        heightClass="h-[350px] md:h-[400px]"
+        overlayClass="bg-black/60"
+        dir="rtl"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl text-center"
         >
-          <div className="absolute inset-0 bg-black/60" />
-        </div>
-
-        {/* Breadcrumb */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-32">
-          <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="bg-black/20 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/10">
-              <Breadcrumb
-                items={[{ label: "الحديث الشريف" }]}
-                textColor="text-white"
-                showHomeLabel={true}
-                className="!mb-0"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Hero Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-momken text-white drop-shadow-2xl">
-              الحديث الشريف
-            </h1>
-            <p className="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
-              تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث لتعميق
-              فهمك للسنة النبوية.
-            </p>
-          </motion.div>
-        </div>
-      </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-momken text-white drop-shadow-2xl">
+            الحديث الشريف
+          </h1>
+          <p className="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
+            تصفح كتب الحديث، اختر الكتاب والفصل، أو ابحث في نص الحديث لتعميق
+            فهمك للسنة النبوية.
+          </p>
+        </motion.div>
+      </PageHero>
 
       {/* 2. FILTERS & SEARCH */}
       <div className="container mx-auto px-4 -mt-10 relative z-20 mb-12">
@@ -278,7 +261,7 @@ export default function HadithPageClient() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-white dark:bg-black/20 rounded-2xl shadow-xl border border-primary/10 p-6 md:p-8"
+          className="bg-card rounded-2xl shadow-xl border border-primary/10 p-6 md:p-8"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {/* Book Select */}

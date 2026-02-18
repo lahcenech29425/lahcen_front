@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
 
   // Fix pdfjs-dist build: exclude node-specific modules from client/SSR bundles
   webpack: (config, { isServer }) => {
+    // Treat canvas as an external dependency so webpack leaves it to the runtime (Node.js)
+    if (isServer) {
+      config.externals.push("canvas", "jsdom");
+    }
+
     if (!isServer) {
       config.resolve.alias = {
         ...config.resolve.alias,

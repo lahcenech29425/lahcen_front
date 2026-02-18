@@ -49,7 +49,7 @@ export default function HeaderBlock() {
               <button
                 onClick={() => setDrawerOpen(true)}
                 className={`flex items-center gap-3 pl-4 pr-2 py-2 transition-all group ${isScrolled
-                  ? "text-foreground hover:text-primary"
+                  ? "text-foreground dark:text-[rgb(93, 64, 55)] hover:text-primary dark:hover:text-primary"
                   : "text-white hover:text-primary"
                   }`}
                 aria-label="القائمة"
@@ -64,14 +64,22 @@ export default function HeaderBlock() {
 
             {/* CENTER - Logo (Absolute Centered) */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-              <Link href="/">
-                <Image
-                  src="/assets/logo.svg"
-                  alt="سِرَاجٌ"
-                  width={140}
-                  height={60}
-                  className={`object-contain transition-all duration-300 ${isScrolled ? 'h-8 md:h-10 w-auto' : 'h-10 md:h-14 w-auto brightness-0 invert'}`}
-                  priority
+              <Link href="/" className="flex items-center gap-3 group">
+                <div
+                  className={`transition-all duration-300 ${isScrolled
+                      ? "w-20 h-8 bg-[rgb(93,64,55)] dark:bg-white"
+                      : "w-24 h-10 bg-white"
+                    }`}
+                  style={{
+                    WebkitMaskImage: "url('/assets/logo.svg')",
+                    maskImage: "url('/assets/logo.svg')",
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
+                  }}
                 />
               </Link>
             </div>
@@ -82,7 +90,7 @@ export default function HeaderBlock() {
               <button
                 onClick={() => setSearchOpen(true)}
                 className={`group p-2 flex items-center gap-2 transition-all ${isScrolled
-                  ? "text-foreground hover:text-primary"
+                  ? "text-foreground dark:text-[rgb(93, 64, 55)] hover:text-primary dark:hover:text-primary"
                   : "text-white hover:text-primary"
                   }`}
                 aria-label="بحث"

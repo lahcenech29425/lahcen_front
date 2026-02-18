@@ -212,25 +212,29 @@ export default function NavigationDrawer({
                       }`}
                     style={{ transitionDelay: `${50 + index * 50}ms` }}
                   >
-                    <div className="relative p-6 flex items-center gap-5">
-                      {/* Icon Container */}
-                      <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-secondary text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 group-hover:scale-110">
-                        <Icon className="w-6 h-6" strokeWidth={1.5} />
-                      </div>
+                    <div className="relative p-4 md:p-6 flex items-center justify-between gap-4 h-full">
 
-                      {/* Text Content */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-xl font-bold font-momken text-foreground group-hover:text-primary transition-colors duration-300 mb-1 leading-tight">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm font-amiri text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
-                          {item.description}
-                        </p>
+                      <div className="flex items-center gap-4 flex-1">
+                        {/* Icon Container */}
+                        <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-xl bg-secondary text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 group-hover:scale-110">
+                          <Icon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.5} />
+                        </div>
+
+                        {/* Title */}
+                        <div className="flex flex-col justify-center">
+                          <h3 className="text-lg md:text-xl font-bold font-momken text-foreground group-hover:text-primary transition-colors duration-300 mt-1 md:mt-0 md:mb-1 leading-none self-center md:self-start">
+                            {item.title}
+                          </h3>
+                          {/* Description - Desktop Only */}
+                          <p className="hidden md:block text-sm font-amiri text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
                       </div>
 
                       {/* Arrow */}
-                      <div className="w-10 h-10 rounded-full border border-primary/10 flex items-center justify-center text-primary/50 group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground transition-all duration-300 transform group-hover:-rotate-45 rtl:group-hover:rotate-45">
-                        <ArrowLeft size={18} />
+                      <div className="flex-shrink-0 w-8 h-8 md:w-10 md:h-10 rounded-full border border-primary/10 flex items-center justify-center text-primary/50 group-hover:bg-primary group-hover:border-primary group-hover:text-primary-foreground transition-all duration-300 transform group-hover:-45 rtl:group-hover:rotate-45">
+                        <ArrowLeft className="w-4 h-4 md:w-[18px] md:h-[18px]" />
                       </div>
                     </div>
                   </Link>
@@ -244,9 +248,8 @@ export default function NavigationDrawer({
             >
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
                 {/* Description - Left aligned or hidden on very small screens if needed */}
-                <p className="hidden md:block text-sm text-gray-500 dark:text-gray-400 font-amiri">
-                  استكشف كنوز المعرفة الإسلامية
-                </p>
+                <span className="text-xs text-muted-foreground whitespace-nowrap hidden sm:inline-block">© 2026</span>
+
 
                 <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
                   {/* CTA Button */}
@@ -268,7 +271,6 @@ export default function NavigationDrawer({
                     <div className="scale-90">
                       <ThemeSwitcher />
                     </div>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap hidden sm:inline-block">© 2026</span>
                   </div>
                 </div>
               </div>

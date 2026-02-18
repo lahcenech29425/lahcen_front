@@ -73,33 +73,33 @@ export function HadithCard({
   return (
     <div
       ref={setRefs}
-      className={`bg-white dark:bg-card rounded-2xl border border-[#8B4513]/10 shadow-sm p-6 md:p-8 relative transition-all duration-500 hover:shadow-xl hover:border-[#8B4513]/30 group ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+      className={`bg-card rounded-2xl border border-border shadow-sm p-6 md:p-8 relative transition-all duration-500 hover:shadow-xl hover:border-primary group ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
     >
       {/* Card Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-gray-100 dark:border-[#333] pb-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-border/50 pb-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-[#8B4513]/10 dark:bg-primary/15 text-[#8B4513] dark:text-primary flex items-center justify-center font-bold">
             {numberVal}
           </div>
           <div>
-            <h3 className="font-bold text-gray-800 dark:text-gray-100 text-lg flex items-center gap-2">
+            <h3 className="font-bold text-foreground text-lg flex items-center gap-2">
               <Book size={16} className="text-[#8B4513] dark:text-primary" />
               {bookLabel || "—"}
             </h3>
             {chapterLabelFinal && (
-              <span className="text-xs text-gray-500 dark:text-gray-400 block mt-1">{chapterLabelFinal}</span>
+              <span className="text-xs text-muted-foreground block mt-1">{chapterLabelFinal}</span>
             )}
           </div>
         </div>
 
-        <div className={`px-3 py-1 rounded-full text-sm font-medium ${isSahih ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-gray-100 text-gray-600 dark:bg-[#333] dark:text-gray-300'}`}>
+        <div className={`px-3 py-1 rounded-full text-sm font-medium ${isSahih ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-primary/10 text-primary'}`}>
           {statusAr}
         </div>
       </div>
 
       {/* Hadith Text */}
       <div className="mb-8 text-center relative">
-        <p className="text-2xl md:text-3xl font-amiri leading-[2.4] text-[#2c1810] dark:text-[#ededed] drop-shadow-sm py-4">
+        <p className="text-2xl md:text-3xl font-amiri leading-[2.4] text-foreground drop-shadow-sm py-4">
           {h.hadithArabic ?? h.text ?? h.hadithEnglish ?? ""}
         </p>
 
@@ -111,15 +111,15 @@ export function HadithCard({
       </div>
 
       {/* Card Footer / Actions */}
-      <div className="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-[#333]">
-        <div className="text-xs text-gray-400">
+      <div className="flex justify-between items-center pt-4 border-t border-border/50">
+        <div className="text-xs text-muted-foreground">
           رقم: {numberVal}
         </div>
 
         <div className="flex gap-2">
           <button
             onClick={() => onDownload(idx)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#f8f5f2] dark:bg-card text-[#8B4513] dark:text-primary hover:bg-[#8B4513] hover:text-white transition-colors text-sm font-medium"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary text-primary hover:bg-primary hover:text-primary-foreground transition-colors text-sm font-medium"
           >
             <Download size={16} />
             <span className="hidden sm:inline">تحميل صورة</span>

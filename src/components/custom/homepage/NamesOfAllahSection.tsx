@@ -112,7 +112,7 @@ export default function NamesOfAllahSection() {
                         href="/names-of-allah"
                         className="inline-flex items-center gap-3 px-10 py-4 bg-white text-[#3d2a1a] rounded-full font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-2xl shadow-black/20"
                     >
-                        <span>تصفح الأسماء الحسنى</span>
+                        <span>تصفح</span>
                         <ChevronLeft className="w-5 h-5" />
                     </Link>
                 </motion.div>

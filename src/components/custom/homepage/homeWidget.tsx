@@ -26,7 +26,7 @@ export default function HomeWidget() {
           description="اقرأ الآيات المباركة مع تفسير مبسط يساعدك على فهم المعاني بعمق، واستمد طمأنينة القلب وروحانية تغذي يومك بالسكينة والإيمان."
           buttonText="اكتشف الآن"
           buttonUrl="/quran"
-          imageUrl="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771248724/quran-explore_rpuovb.png"
+          imageUrl={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771248724/quran-explore_rpuovb.png`}
           imageAlt="نُورُ القُرْآنِ الكَرِيمِ"
           imagePosition="left"
         />
@@ -38,7 +38,7 @@ export default function HomeWidget() {
           description="استكشف أحاديث النبي ﷺ، واستلهم منها الهداية والسلوك القويم لتُضيء درب حياتك بالإيمان والقيم."
           buttonText="اقرأ الآن"
           buttonUrl="/hadith"
-          imageUrl="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771250022/hadith-explore_hfcxcj.png"
+          imageUrl={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771250022/hadith-explore_hfcxcj.png`}
           imageAlt="كُنُوزُ السُّنَّةِ النَّبَوِيَّةِ"
           imagePosition="right"
         />
@@ -48,17 +48,17 @@ export default function HomeWidget() {
         <UnifiedPrayerSection />
       </div>
 
-        {/* Quran Audio (Listen) */}
-        <SplitSection
-          badge="القرآن الصوتي"
-          title="خشوع التلاوة وجمال الصوت"
-          description="استمع إلى عذب التلاوات من أشهر القراء في العالم الإسلامي، بجودة عالية تأخذك في رحلة روحانية تملأ قلبك بالخشوع."
-          buttonText="استمع الآن"
-          buttonUrl="/quran-audio"
-          imageUrl="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249646/audio_quran_hd6c0l.png"
-          imageAlt="القرآن الصوتي"
-          imagePosition="bottom"
-        />
+      {/* Quran Audio (Listen) */}
+      <SplitSection
+        badge="القرآن الصوتي"
+        title="خشوع التلاوة وجمال الصوت"
+        description="استمع إلى عذب التلاوات من أشهر القراء في العالم الإسلامي، بجودة عالية تأخذك في رحلة روحانية تملأ قلبك بالخشوع."
+        buttonText="استمع الآن"
+        buttonUrl="/quran-audio"
+        imageUrl={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249646/audio_quran_hd6c0l.png`}
+        imageAlt="القرآن الصوتي"
+        imagePosition="bottom"
+      />
       {/* Names of Allah Section - Brown themed */}
       <NamesOfAllahSection />
 

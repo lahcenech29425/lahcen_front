@@ -12,7 +12,7 @@ import Image from "next/image";
 import Breadcrumb from "@/components/elements/Breadcrumb";
 
 // Cloudinary Base URL from Environment Variables
-const CLOUDINARY_BASE = process.env.NEXT_PUBLIC_CLOUDINARY_ADHAKAR_BASE_URL || "https://res.cloudinary.com/dpuhywxsf/video/upload/v1771290813/siraj/adhkar";
+const CLOUDINARY_BASE = `${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/video/upload/v1771290813/siraj/adhkar` || '';
 const AUDIO_MAPPING: Record<string, string> = {};
 
 interface AdkharItem {
@@ -201,7 +201,7 @@ export default function DuaaClient({ categories }: DuaaClientProps) {
             <section className="relative h-[450px] md:h-[550px] flex flex-col justify-center overflow-hidden bg-background" dir="rtl">
                 <div className="absolute inset-0">
                     <Image
-                        src="https://res.cloudinary.com/dpuhywxsf/image/upload/v1771249644/siraj_fjzxdi.png"
+                        src={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249644/siraj_fjzxdi.png`}
                         alt="Background"
                         fill
                         className="object-cover"

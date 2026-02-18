@@ -5,9 +5,9 @@ import { Link } from "@/components/elements/Link";
 import { Surah } from "@/types/Surah";
 import { getSurahNumberFromSlug } from "@/utils/surahHelpers";
 import { ChevronLeft, ChevronRight, BookOpen, Info, Type } from "lucide-react";
-import Breadcrumb from "@/components/elements/Breadcrumb";
 import { motion } from "framer-motion";
 import { useQuranFont } from "@/hooks/useQuranFont";
+import PageHero from "@/components/blocks/hero/PageHero";
 
 type TafseerAuthor = {
   id: number;
@@ -143,59 +143,40 @@ export default function AyahDetailClient({ params }: Props) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* 1. HERO SECTION */}
-      <div className="relative w-full h-[400px] md:h-[450px] overflow-hidden bg-primary/20">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/quran-header.png')" }}
+      <PageHero
+        backgroundImage="/assets/quran-header.png"
+        breadcrumbs={[
+          { label: "القرآن الكريم", href: "/quran" },
+          {
+            label: surah.name || surah.surahNameArabic || "",
+            href: `/quran/${surahSlug}`,
+          },
+          { label: `الآية ${ayahNumber}` },
+        ]}
+        heightClass="h-[400px] md:h-[450px]"
+        dir="rtl"
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl text-center"
         >
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-momken text-white drop-shadow-2xl">
+            تفسير الآية {ayahNumber} من {surah.name || surah.surahNameArabic}
+          </h1>
 
-        {/* Breadcrumb */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-32 px-4">
-          <div className="max-w-7xl mx-auto">
-            <div className="bg-black/20 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/10">
-              <Breadcrumb
-                items={[
-                  { label: "القرآن الكريم", href: "/quran" },
-                  {
-                    label: surah.name || surah.surahNameArabic || "",
-                    href: `/quran/${surahSlug}`,
-                  },
-                  { label: `الآية ${ayahNumber}` },
-                ]}
-                textColor="text-white"
-                showHomeLabel={false}
-                className="!mb-0"
+          <div className="flex flex-wrap justify-center gap-4 mt-6">
+            <div className="px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold flex items-center gap-3 shadow-lg">
+              <span
+                className={`w-2 h-2 rounded-full ${surah.revelationPlace === "Mecca" ? "bg-primary" : "bg-secondary"}`}
               />
+              <span>
+                {surah.revelationPlace === "Mecca" ? "مكية" : "مدنية"}
+              </span>
             </div>
           </div>
-        </div>
-
-        {/* Hero Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mt-10"
-          >
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 font-momken text-white drop-shadow-2xl">
-              تفسير الآية {ayahNumber} من {surah.name || surah.surahNameArabic}
-            </h1>
-
-            <div className="flex flex-wrap justify-center gap-4 mt-6">
-              <div className="px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold flex items-center gap-3 shadow-lg">
-                <span
-                  className={`w-2 h-2 rounded-full ${surah.revelationPlace === "Mecca" ? "bg-primary" : "bg-secondary"}`}
-                />
-                <span>
-                  {surah.revelationPlace === "Mecca" ? "مكية" : "مدنية"}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </PageHero>
 
       {/* 2. MAIN CONTENT */}
       <div className="flex-1 -mt-16 relative z-20 pb-20 px-4">

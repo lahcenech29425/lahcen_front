@@ -22,9 +22,9 @@ import {
   List,
 } from "lucide-react";
 import { getSurahNumberFromSlug, getSurahSlug } from "@/utils/surahHelpers";
-import Breadcrumb from "@/components/elements/Breadcrumb";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuranFont } from "@/hooks/useQuranFont";
+import PageHero from "@/components/blocks/hero/PageHero";
 
 // Types pour le tafsir
 type TafseerAuthor = {
@@ -207,7 +207,7 @@ export default function SurahDetailClient({ params }: Props) {
           setTafseerAuthors([...arabicTafsirs]); // Keep it simple for now or merge
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   const reciters = useMemo(() => {
@@ -294,69 +294,44 @@ export default function SurahDetailClient({ params }: Props) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[url('/assets/bg.svg')] bg-repeat bg-center"></div>
-      
+
       {/* 1. HERO SECTION */}
-      <div
-        className="relative w-full h-[450px] md:h-[550px] overflow-hidden bg-primary/20"
+      <PageHero
+        backgroundImage="/assets/quran-header.png"
+        breadcrumbs={[
+          { label: "القرآن الكريم", href: "/quran" },
+          { label: surah.name || surah.surahNameArabic || "" },
+        ]}
         dir="rtl"
       >
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/assets/quran-header.png')" }}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-4xl text-center"
         >
-          <div className="absolute inset-0 bg-black/50" />
-        </div>
+          <h1
+            className="text-6xl md:text-8xl font-medium mb-6 text-white drop-shadow-2xl"
+            style={{ fontFamily: "var(--font-surah-name)" }}
+          >
+            {surah.name || surah.surahNameArabic}
+          </h1>
 
-        {/* Breadcrumb */}
-        <div className="absolute top-0 left-0 right-0 z-20 pt-32">
-          <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-start">
-            <div className="bg-black/20 backdrop-blur-sm inline-block px-4 py-2 rounded-lg border border-white/10">
-              <Breadcrumb
-                items={[
-                  { label: "القرآن الكريم", href: "/quran" },
-                  {
-                    label: surah.name || surah.surahNameArabic || "",
-                  },
-                ]}
-                textColor="text-white"
-                showHomeLabel={false}
-                className="!mb-0"
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold flex items-center gap-3 shadow-lg">
+              <span
+                className={`w-2 h-2 rounded-full ${surah.revelationPlace === "Mecca" ? "bg-primary" : "bg-secondary"}`}
               />
+              <span>
+                {surah.revelationPlace === "Mecca" ? "مكية" : "مدنية"}
+              </span>
+            </div>
+            <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold flex items-center gap-3 shadow-lg">
+              <BookOpen size={18} className="text-primary" />
+              <span>{surah.totalAyah} آية</span>
             </div>
           </div>
-        </div>
-
-        {/* Hero Content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="max-w-4xl mt-10"
-          >
-            <h1
-              className="text-6xl md:text-8xl font-medium mb-6 text-white drop-shadow-2xl"
-              style={{ fontFamily: "var(--font-surah-name)" }}
-            >
-              {surah.name || surah.surahNameArabic}
-            </h1>
-
-            <div className="flex flex-wrap justify-center gap-4 mt-8">
-              <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold flex items-center gap-3 shadow-lg">
-                <span
-                  className={`w-2 h-2 rounded-full ${surah.revelationPlace === "Mecca" ? "bg-primary" : "bg-secondary"}`}
-                />
-                <span>
-                  {surah.revelationPlace === "Mecca" ? "مكية" : "مدنية"}
-                </span>
-              </div>
-              <div className="px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold flex items-center gap-3 shadow-lg">
-                <BookOpen size={18} className="text-primary" />
-                <span>{surah.totalAyah} آية</span>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+        </motion.div>
+      </PageHero>
 
       {/* 2. MAIN CONTENT */}
       <div className="flex-1 -mt-10 relative z-20 pb-20">
@@ -450,22 +425,20 @@ export default function SurahDetailClient({ params }: Props) {
               <div className="flex items-center gap-2 bg-card px-3 py-2 rounded-full border border-primary/10 shadow-sm">
                 <button
                   onClick={() => setViewMode("ayah")}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all ${
-                    viewMode === "ayah"
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all ${viewMode === "ayah"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                    }`}
                 >
                   <List size={16} />
                   <span className="text-sm font-bold">آية بآية</span>
                 </button>
                 <button
                   onClick={() => setViewMode("mushaf")}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all ${
-                    viewMode === "mushaf"
-                      ? "bg-primary text-primary-foreground shadow-sm"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all ${viewMode === "mushaf"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:text-foreground"
+                    }`}
                 >
                   <LayoutGrid size={16} />
                   <span className="text-sm font-bold">مصحف</span>

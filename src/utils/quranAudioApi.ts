@@ -1,64 +1,23 @@
-// Quran Audio API utilities
-// Uses Islamic Network CDN for surah-level audio streaming
+// Quran Audio API utilities — mp3quran.net v3
+import type { Mp3QuranReciter, Mp3QuranResponse } from "@/types/quranAudio";
 
-import {
-  SurahAudioEdition,
-  SURAH_AUDIO_EDITIONS,
-  // Legacy imports kept for backward-compat
-  Reciter,
-  ReciterWithArabic,
-  ChapterRecitation,
-  RECITER_ARABIC_NAMES,
-} from "@/types/quranAudio";
-
-const CDN_BASE = "https://cdn.islamic.network/quran/audio-surah";
-const DEFAULT_BITRATE = 128;
-const API_BASE_URL = "https://api.quran.com/api/v4";
-
-// ─── CDN-based helpers ─────────────────────────────────
+const API_BASE = "https://mp3quran.net/api/v3";
 
 /**
- * Build the audio URL for a surah on the Islamic Network CDN.
- *
- * @example getSurahAudioUrl("ar.alafasy", 1) →
- *   "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3"
+ * Fetch all reciters from the mp3quran.net API.
+ * @param language - Language code (default "ar")
  */
-export function getSurahAudioUrl(
-  editionId: string,
-  surahNumber: number,
-  bitrate: number = DEFAULT_BITRATE,
-): string {
-  return `${CDN_BASE}/${bitrate}/${editionId}/${surahNumber}.mp3`;
-}
-
-/** Return the full curated editions list (sync, no network). */
-export function getSurahEditions(): SurahAudioEdition[] {
-  return SURAH_AUDIO_EDITIONS;
-}
-
-/** Find an edition by its CDN id. */
-export function findEditionById(id: string): SurahAudioEdition | undefined {
-  return SURAH_AUDIO_EDITIONS.find((e) => e.id === id);
-}
-
-// ─── Legacy Quran.com API helpers (kept for compat) ────
-
-/**
- * Fetch all available reciters from Quran.com API
- */
-export async function fetchReciters(): Promise<ReciterWithArabic[]> {
+export async function fetchReciters(
+  language: string = "ar",
+): Promise<Mp3QuranReciter[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/resources/recitations`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-
-    return data.recitations.map((reciter: Reciter) => ({
-      ...reciter,
-      arabic_name:
-        RECITER_ARABIC_NAMES[reciter.reciter_name] || reciter.reciter_name,
-    }));
+    const res = await fetch(
+      `${API_BASE}/reciters?language=${language}`,
+      { next: { revalidate: 3600 } },
+    );
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    const data: Mp3QuranResponse = await res.json();
+    return data.reciters ?? [];
   } catch (error) {
     console.error("Error fetching reciters:", error);
     return [];
@@ -66,69 +25,61 @@ export async function fetchReciters(): Promise<ReciterWithArabic[]> {
 }
 
 /**
- * Fetch audio file for a specific chapter by a reciter
+ * Fetch a single reciter by ID.
  */
-export async function fetchChapterAudio(
-  recitationId: number,
-  chapterNumber: number,
-): Promise<ChapterRecitation | null> {
+export async function fetchReciterById(
+  id: number | string,
+  language: string = "ar",
+): Promise<Mp3QuranReciter | null> {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/chapter_recitations/${recitationId}/${chapterNumber}`,
+    const res = await fetch(
+      `${API_BASE}/reciters?reciter=${id}&language=${language}`,
+      { next: { revalidate: 3600 } },
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return await response.json();
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    const data: Mp3QuranResponse = await res.json();
+    return data.reciters?.[0] ?? null;
   } catch (error) {
-    console.error(`Error fetching audio for chapter ${chapterNumber}:`, error);
+    console.error(`Error fetching reciter ${id}:`, error);
     return null;
   }
 }
 
 /**
- * Fetch all chapters audio for a specific reciter
+ * Build the audio URL for a surah.
+ * mp3quran.net convention: surah numbers are zero-padded to 3 digits.
+ * @example getSurahAudioUrl("https://server8.mp3quran.net/afs/", 1) → ".../001.mp3"
  */
-export async function fetchAllChaptersAudio(
-  recitationId: number,
-): Promise<ChapterRecitation[]> {
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/chapter_recitations/${recitationId}`,
-    );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+export function getSurahAudioUrl(
+  serverUrl: string,
+  surahNumber: number,
+): string {
+  const paddedNumber = surahNumber.toString().padStart(3, "0");
+  return `${serverUrl}${paddedNumber}.mp3`;
+}
+
+/**
+ * Parse a comma-separated surah_list string into an array of numbers.
+ */
+export function parseSurahList(surahList: string): number[] {
+  return surahList
+    .split(",")
+    .map((s) => parseInt(s.trim(), 10))
+    .filter((n) => !isNaN(n));
+}
+
+/**
+ * Extract unique rewaya (recitation style) names from a list of reciters.
+ * Used to populate the rewaya filter dropdown.
+ */
+export function extractUniqueRewayat(
+  reciters: Mp3QuranReciter[],
+): string[] {
+  const set = new Set<string>();
+  for (const r of reciters) {
+    for (const m of r.moshaf) {
+      set.add(m.name);
     }
-    const data = await response.json();
-    return data.audio_files || [];
-  } catch (error) {
-    console.error("Error fetching all chapters audio:", error);
-    return [];
   }
-}
-
-/**
- * Generate a slug from reciter name
- */
-export function getReciterSlug(reciter: ReciterWithArabic): string {
-  const baseName = reciter.reciter_name
-    .toLowerCase()
-    .replace(/[`']/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
-
-  if (reciter.style) {
-    return `${baseName}-${reciter.style.toLowerCase()}`;
-  }
-  return baseName;
-}
-
-/**
- * Get reciter by slug
- */
-export function findReciterBySlug(
-  reciters: ReciterWithArabic[],
-  slug: string,
-): ReciterWithArabic | undefined {
-  return reciters.find((r) => getReciterSlug(r) === slug);
+  return Array.from(set).sort();
 }

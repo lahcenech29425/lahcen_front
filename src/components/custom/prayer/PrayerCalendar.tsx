@@ -280,11 +280,11 @@ export default function PrayerCalendar({
                   ].map((head, i) => (
                     <th
                       key={head}
-                      className={`px-3 py-3.5 text-center text-xs md:text-sm font-bold text-white/90 tracking-wide whitespace-nowrap ${i === 0
-                          ? "border-l border-white/10"
-                          : i === 7
-                            ? "border-r border-white/10"
-                            : ""
+                      className={`px-3 py-3.5 text-center text-xs md:text-sm font-bold text-white tracking-wide whitespace-nowrap ${i === 0
+                        ? "border-l border-white/10"
+                        : i === 7
+                          ? "border-r border-white/10"
+                          : ""
                         }`}
                     >
                       {head}
@@ -292,7 +292,7 @@ export default function PrayerCalendar({
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-primary/5">
+              <tbody className="divide-y divide-border/20">
                 {calendarData.map((day, idx) => {
                   const isToday =
                     parseInt(day.gregorianDay) === today.getDate() &&
@@ -308,13 +308,13 @@ export default function PrayerCalendar({
                       animate={{ opacity: 1 }}
                       transition={{ delay: idx * 0.015 }}
                       className={`transition-colors duration-200 ${isToday
-                          ? "bg-primary/10 dark:bg-primary/20"
-                          : isFriday
-                            ? "bg-primary/4"
-                            : idx % 2 === 0
-                              ? "bg-white dark:bg-white/2"
-                              : "bg-card dark:bg-white/4"
-                        } hover:bg-primary/8 dark:hover:bg-primary/12`}
+                        ? "bg-primary/10"
+                        : isFriday
+                          ? "bg-primary/5"
+                          : idx % 2 === 0
+                            ? "bg-card"
+                            : "bg-muted/30"
+                        } hover:bg-primary/20 transition-colors duration-200`}
                     >
                       {/* Hijri Date Column */}
                       <td className="px-3 py-2.5 text-center whitespace-nowrap">
@@ -344,7 +344,7 @@ export default function PrayerCalendar({
 
                       {/* Gregorian Date Column */}
                       <td className="px-3 py-2.5 text-center whitespace-nowrap">
-                        <span className="text-xs md:text-sm font-bold text-foreground">
+                        <span className="text-xs md:text-sm font-bold text-muted-foreground">
                           {day.gregorianDay} {ARABIC_MONTHS[month - 1]}
                         </span>
                       </td>

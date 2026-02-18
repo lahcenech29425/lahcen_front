@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import * as htmlToImage from "html-to-image";
 import { HadithCard } from "@/components/elements/HadithCard";
+import Pagination from "@/components/elements/Pagination";
 import PageHero from "@/components/blocks/hero/PageHero";
 import type { MutableRefObject } from "react";
 import { Search, BookOpen, Filter, Book } from "lucide-react";
@@ -76,7 +77,7 @@ export default function HadithPageClient() {
   const [search, setSearch] = useState("");
   const [hadithNumber, setHadithNumber] = useState("");
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>(
     [] as (HTMLDivElement | null)[],
@@ -88,6 +89,8 @@ export default function HadithPageClient() {
       if (Array.isArray(bs) && bs.length) {
         const first = (bs as BookInfo[])[0];
         if (first?.slug) setSelectedBook(first.slug);
+      } else {
+        setLoading(false);
       }
     });
   }, []);
@@ -449,27 +452,12 @@ export default function HadithPageClient() {
 
         {/* Pagination */}
         {hadiths.length > 0 && (
-          <div className="flex justify-center gap-2 mt-12">
-            {page > 1 && (
-              <button
-                className="px-5 py-2.5 rounded-xl bg-background border border-border hover:border-primary text-foreground transition-all shadow-sm"
-                onClick={() => setPage(page - 1)}
-              >
-                السابق
-              </button>
-            )}
-            <span className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-bold shadow-lg shadow-primary/20">
-              {page}
-            </span>
-            {hadiths.length === PAGE_SIZE && (
-              <button
-                className="px-5 py-2.5 rounded-xl bg-background border border-border hover:border-primary text-foreground transition-all shadow-sm"
-                onClick={() => setPage(page + 1)}
-              >
-                التالي
-              </button>
-            )}
-          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={hadiths.length < PAGE_SIZE ? page : page + 1}
+            onPageChange={setPage}
+            className="mt-12"
+          />
         )}
       </div>
     </div>

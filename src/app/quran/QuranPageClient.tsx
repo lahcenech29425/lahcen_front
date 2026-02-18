@@ -8,6 +8,7 @@ import { getSurahSlug } from "@/utils/surahHelpers";
 import { motion } from "framer-motion";
 import { Search, BookOpen, Star, ChevronDown, Filter } from "lucide-react";
 import PageHero from "@/components/blocks/hero/PageHero";
+import Pagination from "@/components/elements/Pagination";
 
 // Dynamically import PdfFlipbook (client-only, no SSR) to avoid pdfjs-dist build issues
 const PdfFlipbook = dynamic(() => import("@/components/elements/PdfFlipbook"), {
@@ -360,52 +361,12 @@ export default function QuranPageClient() {
 
         {/* Smart Pagination */}
         {pageCount > 1 && (
-          <div
-            className="flex justify-center items-center gap-2 py-8 select-none"
-            dir="ltr"
-          >
-            <button
-              disabled={page === 1}
-              className="w-12 h-12 flex items-center justify-center rounded-2xl bg-card shadow-md text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-primary-foreground hover:shadow-lg transition-all"
-              onClick={() => setPage(page - 1)}
-            >
-              <ChevronDown className="rotate-90" size={20} />
-            </button>
-
-            <div className="flex items-center gap-2">
-              {getPaginationRange().map((pageNum, idx) =>
-                pageNum === "..." ? (
-                  <span
-                    key={`dots-${idx}`}
-                    className="w-10 h-10 flex items-center justify-center text-muted-foreground font-bold"
-                  >
-                    ...
-                  </span>
-                ) : (
-                  <button
-                    key={pageNum}
-                    className={`w-12 h-12 flex items-center justify-center rounded-2xl transition-all font-bold text-lg ${page === pageNum
-                      ? "bg-primary text-white shadow-xl shadow-primary/40 scale-105"
-                      : "bg-card shadow-md text-foreground/80 hover:bg-primary/10 hover:text-primary hover:shadow-lg"
-                      }`}
-                    onClick={() =>
-                      typeof pageNum === "number" && setPage(pageNum)
-                    }
-                  >
-                    {pageNum}
-                  </button>
-                ),
-              )}
-            </div>
-
-            <button
-              disabled={page === pageCount}
-              className="w-12 h-12 flex items-center justify-center rounded-2xl bg-card shadow-md text-foreground disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary hover:text-primary-foreground hover:shadow-lg transition-all"
-              onClick={() => setPage(page + 1)}
-            >
-              <ChevronDown className="-rotate-90" size={20} />
-            </button>
-          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={pageCount}
+            onPageChange={setPage}
+            className="py-8"
+          />
         )}
       </div>
     </div>

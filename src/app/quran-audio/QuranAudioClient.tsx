@@ -4,6 +4,7 @@ import { Search, X, Headphones, Loader2, Filter, ChevronDown } from "lucide-reac
 import type { Mp3QuranReciter } from "@/types/quranAudio";
 import { extractUniqueRewayat } from "@/utils/quranAudioApi";
 import ReciterCard from "@/components/custom/quran-audio/ReciterCard";
+import Pagination from "@/components/elements/Pagination";
 import { motion, AnimatePresence } from "framer-motion";
 import PageHero from "@/components/blocks/hero/PageHero";
 
@@ -351,60 +352,13 @@ export default function QuranAudioClient() {
           )}
 
           {/* Pagination */}
-          {!loading && pageCount > 1 && (
-            <div className="flex justify-center items-center gap-2 mt-14">
-              {page > 1 && (
-                <button
-                  onClick={() => setPage(page - 1)}
-                  className="px-5 py-2.5 rounded-2xl bg-card border border-border hover:border-primary shadow-md hover:shadow-lg transition-all text-foreground font-bold"
-                >
-                  السابق
-                </button>
-              )}
-
-              <div className="flex gap-1.5">
-                {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => {
-                  const show =
-                    p === 1 ||
-                    p === pageCount ||
-                    (p >= page - 1 && p <= page + 1);
-                  if (!show) {
-                    if (p === page - 2 || p === page + 2)
-                      return (
-                        <span
-                          key={p}
-                          className="px-2 py-2 text-muted-foreground"
-                        >
-                          ...
-                        </span>
-                      );
-                    return null;
-                  }
-                  return (
-                    <button
-                      key={p}
-                      onClick={() => setPage(p)}
-                      className={`min-w-10 h-10 rounded-xl font-bold text-sm transition-all ${page === p
-                        ? "bg-linear-to-r from-[#8B4513] to-[#5d3119] text-white shadow-lg shadow-primary/30"
-                        : "bg-card border border-border text-foreground hover:border-primary hover:shadow-md"
-                        }`}
-                    >
-                      {p}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {page < pageCount && (
-                <button
-                  onClick={() => setPage(page + 1)}
-                  className="px-5 py-2.5 rounded-2xl bg-card border border-border hover:border-primary shadow-md hover:shadow-lg transition-all text-foreground font-bold"
-                >
-                  التالي
-                </button>
-              )}
-            </div>
-          )}
+          {/* Pagination */}
+          <Pagination
+            currentPage={page}
+            totalPages={pageCount}
+            onPageChange={setPage}
+            className="mt-14"
+          />
         </div>
       </section >
     </>

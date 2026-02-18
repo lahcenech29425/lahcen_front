@@ -10,6 +10,7 @@ import {
     type IslamicMonth,
 } from "@/utils/prayerApi";
 import Breadcrumb from "@/components/elements/Breadcrumb";
+import PageHero from "@/components/blocks/hero/PageHero";
 import { motion } from "framer-motion";
 import {
     Moon,
@@ -131,53 +132,57 @@ export default function HijriCalendarClient() {
             <div className="fixed inset-0 pointer-events-none opacity-[0.03] bg-[url('/assets/bg.svg')] bg-repeat bg-center" />
 
             {/* ─── Hero Section ─── */}
-            <section className="relative pt-32 pb-20 overflow-hidden">
-                <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[900px] md:h-[900px] bg-primary opacity-[0.06] blur-[120px] rounded-full pointer-events-none" />
-
-                <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-                    {/* Breadcrumb */}
-                    <div className="w-full flex justify-start mb-8">
-                        <Breadcrumb items={[{ label: "التقويم الهجري" }]} />
+            <PageHero
+                backgroundImage={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771431621/calendar_kwoj5c.png`}
+                breadcrumbs={[{ label: "التقويم الهجري" }]}
+                description="تابع التواريخ الهجرية والميلادية في تقويم تفاعلي شامل."
+                title="التقويم الهجري"
+                surahName="التقويم الإسلامي"
+                revelationPlace="Meccan" // Just as a placeholder or remove if not needed, PageHero might expect specific props or children.
+            // Wait, PageHero definition (viewed earlier) takes `children`.
+            // Checking PageHero definition again:
+            // interface PageHeroProps { ... children: ReactNode; ... }
+            // It does NOT take title/description as direct props in the version I saw.
+            // The version I saw in Step 1231:
+            // export default function PageHero({ ... children ... }: PageHeroProps)
+            // So I must pass the content as children.
+            >
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center max-w-3xl mx-auto"
+                >
+                    <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm">
+                        <Moon className="w-4 h-4 text-white" />
+                        <span className="text-sm font-bold uppercase tracking-wider text-white">
+                            التقويم الإسلامي
+                        </span>
                     </div>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-momken text-white mb-4 drop-shadow-xl">
+                        التقويم الهجري
+                    </h1>
+                    <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+                        تابع التواريخ الهجرية والميلادية في تقويم تفاعلي شامل.
+                    </p>
+                </motion.div>
 
-                    {/* Title */}
+                {/* Current Hijri Info Badge */}
+                {(currentHijriMonthName || islamicYear) && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-center max-w-3xl mx-auto mb-10"
+                        transition={{ delay: 0.2 }}
+                        className="flex justify-center mt-8"
                     >
-                        <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
-                            <Moon className="w-4 h-4 text-primary" />
-                            <span className="text-sm font-bold uppercase tracking-wider text-primary">
-                                التقويم الإسلامي
+                        <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/10 border border-white/20 backdrop-blur-sm rounded-full shadow-lg">
+                            <Calendar className="w-5 h-5 text-white" />
+                            <span className="text-base font-bold text-white">
+                                {currentHijriMonthName ?? ""} {islamicYear ? `${islamicYear} هـ` : ""}
                             </span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-momken text-foreground mb-4">
-                            التقويم الهجري
-                        </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                            تابع التواريخ الهجرية والميلادية في تقويم تفاعلي شامل.
-                        </p>
                     </motion.div>
-
-                    {/* Current Hijri Info Badge */}
-                    {(currentHijriMonthName || islamicYear) && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="flex justify-center mb-6"
-                        >
-                            <div className="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 border border-primary/20 backdrop-blur-sm rounded-full">
-                                <Calendar className="w-5 h-5 text-primary" />
-                                <span className="text-base font-bold text-foreground">
-                                    {currentHijriMonthName ?? ""} {islamicYear ? `${islamicYear} هـ` : ""}
-                                </span>
-                            </div>
-                        </motion.div>
-                    )}
-                </div>
-            </section>
+                )}
+            </PageHero>
 
             {/* ─── Calendar Grid ─── */}
             <section className="container mx-auto px-4 max-w-5xl pb-24">
@@ -185,7 +190,7 @@ export default function HijriCalendarClient() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="bg-card rounded-[2rem] md:rounded-[3rem] shadow-xl border border-border p-4 md:p-10 relative overflow-hidden"
+                    className="bg-card rounded-[2rem] md:rounded-[3rem] shadow-xl border border-border p-4 mt-10 md:p-10 relative overflow-hidden"
                 >
                     {/* Month Navigation */}
                     <div className="flex items-center justify-between mb-8">
@@ -253,10 +258,10 @@ export default function HijriCalendarClient() {
                                         <div
                                             key={day.gregorian.date}
                                             className={`aspect-square rounded-2xl flex flex-col items-center justify-center p-1 transition-all duration-200 relative group cursor-default ${isToday
-                                                    ? "bg-primary text-white shadow-lg shadow-primary/20 scale-105"
-                                                    : hasHoliday
-                                                        ? "bg-primary/10 border border-primary/20 hover:bg-primary/15"
-                                                        : "hover:bg-secondary"
+                                                ? "bg-primary text-white shadow-lg shadow-primary/20 scale-105"
+                                                : hasHoliday
+                                                    ? "bg-primary/10 border border-primary/20 hover:bg-primary/15"
+                                                    : "hover:bg-secondary"
                                                 }`}
                                         >
                                             {/* Gregorian Day (normal) */}

@@ -1,25 +1,29 @@
 import HeroSection from "./hero_section/HeroSection";
-import StatsSection from "./stats_section/StatsSection";
-import ServicesSection from "./services_section/ServicesSection";
 import SplitSection from "./SplitSection";
-import Slider from "./slider/Slider";
-import UnifiedPrayerSection from "./UnifiedPrayerSection";
-import NamesOfAllahSection from "./NamesOfAllahSection";
-import DuaaSection from "./DuaaSection";
+import dynamic from "next/dynamic";
 
+// Lazy load below-the-fold sections
+const UnifiedPrayerSection = dynamic(() => import("./UnifiedPrayerSection"), {
+  loading: () => <div className="h-[600px] w-full bg-muted/5 animate-pulse" />,
+});
+const Slider = dynamic(() => import("./slider/Slider"), {
+  loading: () => <div className="h-[500px] w-full bg-muted/5 animate-pulse" />,
+});
+const NamesOfAllahSection = dynamic(() => import("./NamesOfAllahSection"));
+const DuaaSection = dynamic(() => import("./DuaaSection"));
+const StatsSection = dynamic(() => import("./stats_section/StatsSection"));
+const ServicesSection = dynamic(() => import("./services_section/ServicesSection"));
 
 export default function HomeWidget() {
   return (
     <main className="">
-      {/* Render Hero Section */}
+      {/* Render Hero Section - Eager Load */}
       <HeroSection data={{} as any} />
-
-
 
       {/* Static Content Blocks */}
       <div className="w-full bg-gradient-to-b from-background via-muted/10 to-background">
 
-        {/* Quran (Read) */}
+        {/* Quran (Read) - Near fold, keep static or eager */}
         <SplitSection
           badge="القُرْآنِ الكَرِيمِ"
           title="نُورُ القُرْآنِ الكَرِيمِ"

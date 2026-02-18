@@ -3,6 +3,7 @@
 import { useState, useRef, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import PageHero from "@/components/blocks/hero/PageHero";
+import Pagination from "@/components/elements/Pagination";
 import type { Mp3QuranReciter, Mp3QuranMoshaf } from "@/types/quranAudio";
 import { SURAHS_LIST, SurahInfo } from "@/data/surahs";
 import { getSurahAudioUrl, parseSurahList } from "@/utils/quranAudioApi";
@@ -120,6 +121,20 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
         s.number.toString() === q,
     );
   }, [search, availableSurahs]);
+
+  // Pagination
+  const PAGE_SIZE = 15;
+  const [page, setPage] = useState(1);
+  const pagedSurahs = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    return filteredSurahs.slice(start, start + PAGE_SIZE);
+  }, [filteredSurahs, page]);
+  const pageCount = Math.ceil(filteredSurahs.length / PAGE_SIZE);
+
+  // Reset page when search or filters change
+  useEffect(() => {
+    setPage(1);
+  }, [search, selectedMoshafIndex]);
 
   // ── Audio actions ─────────────────────────────────────
 
@@ -371,7 +386,7 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
 
           {/* Surahs Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredSurahs.map((surah, idx) => {
+            {pagedSurahs.map((surah, idx) => {
               const isActive = currentSurah?.number === surah.number;
               return (
                 <motion.button
@@ -434,6 +449,16 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
               <Search className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
               <p className="text-muted-foreground">لم يتم العثور على سور</p>
             </div>
+          )}
+
+          {/* Pagination */}
+          {pageCount > 1 && (
+            <Pagination
+              currentPage={page}
+              totalPages={pageCount}
+              onPageChange={setPage}
+              className="mt-12"
+            />
           )}
         </div>
       </section>

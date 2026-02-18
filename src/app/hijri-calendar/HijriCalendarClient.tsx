@@ -135,17 +135,6 @@ export default function HijriCalendarClient() {
             <PageHero
                 backgroundImage={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771431621/calendar_kwoj5c.png`}
                 breadcrumbs={[{ label: "التقويم الهجري" }]}
-                description="تابع التواريخ الهجرية والميلادية في تقويم تفاعلي شامل."
-                title="التقويم الهجري"
-                surahName="التقويم الإسلامي"
-                revelationPlace="Meccan" // Just as a placeholder or remove if not needed, PageHero might expect specific props or children.
-            // Wait, PageHero definition (viewed earlier) takes `children`.
-            // Checking PageHero definition again:
-            // interface PageHeroProps { ... children: ReactNode; ... }
-            // It does NOT take title/description as direct props in the version I saw.
-            // The version I saw in Step 1231:
-            // export default function PageHero({ ... children ... }: PageHeroProps)
-            // So I must pass the content as children.
             >
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}

@@ -297,7 +297,7 @@ export default function SurahDetailClient({ params }: Props) {
 
       {/* 1. HERO SECTION */}
       <PageHero
-        backgroundImage="/assets/quran-header.png"
+        backgroundImage={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249645/quran_ykrns1.png`}
         breadcrumbs={[
           { label: "القرآن الكريم", href: "/quran" },
           { label: surah.name || surah.surahNameArabic || "" },

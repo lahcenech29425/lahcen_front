@@ -104,7 +104,6 @@ export default function UnifiedPrayerSection() {
                     >
                         {/* Calendar Card */}
                         <div className="flex-1 rounded-[40px] bg-primary p-8 text-white relative overflow-hidden group shadow-lg">
-                            <CalendarIcon className="absolute -bottom-6 -left-6 w-32 h-32 opacity-10 group-hover:rotate-12 transition-transform duration-500" />
                             <div className="relative z-10">
                                 <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center mb-6">
                                     <CalendarIcon className="w-6 h-6" />
@@ -124,7 +123,6 @@ export default function UnifiedPrayerSection() {
 
                         {/* Converter Card */}
                         <div className="flex-1 rounded-[40px] bg-secondary p-8 border border-primary/10 relative overflow-hidden group shadow-lg">
-                            <ArrowLeftRight className="absolute -top-6 -right-6 w-32 h-32 text-primary/5 group-hover:-rotate-12 transition-transform duration-500" />
                             <div className="relative z-10">
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
                                     <ArrowLeftRight className="w-6 h-6 text-primary" />
@@ -153,7 +151,7 @@ export default function UnifiedPrayerSection() {
                     >
                         <div className="absolute inset-0 z-0">
                             <Image
-                                src="/download-calendar-home.png"
+                                src={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}//image/upload/v1771431621/calendar_kwoj5c.png`}
                                 alt="تحميل التقويم"
                                 fill
                                 className="object-cover opacity-30 group-hover:scale-105 transition-transform duration-700"

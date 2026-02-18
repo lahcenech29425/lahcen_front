@@ -559,15 +559,6 @@ export default function PrayerPageClient() {
           {/* Large Card */}
           <div className="md:col-span-2 bg-primary text-primary-foreground rounded-[2.5rem] p-10 relative overflow-hidden group hover:shadow-2xl transition-all duration-500">
             <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent" />
-            <div className="absolute top-[-20%] right-[-10%] opacity-10 rotate-12 transition-transform duration-700 group-hover:rotate-6 group-hover:scale-110">
-              <Image
-                src="/assets/quran-header.png"
-                alt="pattern"
-                width={400}
-                height={400}
-                className="object-contain"
-              />
-            </div>
             <h3 className="text-3xl font-bold font-momken mb-6 relative z-10 text-white">
               مكانة الصلاة
             </h3>

@@ -77,7 +77,7 @@ export default function HadithPageClient() {
   const [search, setSearch] = useState("");
   const [hadithNumber, setHadithNumber] = useState("");
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const cardRefs = useRef<(HTMLDivElement | null)[]>(
     [] as (HTMLDivElement | null)[],
@@ -89,8 +89,6 @@ export default function HadithPageClient() {
       if (Array.isArray(bs) && bs.length) {
         const first = (bs as BookInfo[])[0];
         if (first?.slug) setSelectedBook(first.slug);
-      } else {
-        setLoading(false);
       }
     });
   }, []);
@@ -451,10 +449,28 @@ export default function HadithPageClient() {
         </div>
 
         {/* Pagination */}
+        {/* Pagination */}
         {hadiths.length > 0 && (
           <Pagination
             currentPage={page}
-            totalPages={hadiths.length < PAGE_SIZE ? page : page + 1}
+            totalPages={hadiths.length < PAGE_SIZE ? page : page + 1} // Hadith API might be infinite scrolling or basic pagination. The existing code just had prev/next/curr page number. It didn't seem to know total pages?
+            // Wait, existing code: {page} in center. Next button if hadiths.length === PAGE_SIZE.
+            // This suggests offset-based pagination without knowing total count.
+            // My Pagination component expects totalPages.
+            // Use a workaround or adapt logic?
+            // If I don't know totalPages, I can't use the numbered pagination accurately.
+            // However, Looking at HadithPageClient code: fetchHadiths returns list.
+            // Maybe I should keep the simple prev/next for Hadith if total is unknown?
+            // Or assume a large number?
+            // Let's re-read HadithPageClient.
+            // It calls `fetchHadiths` with `page`.
+            // The API logic isn't fully visible but the UI only showed: Prev [Page] Next.
+            // The Next button appeared if `hadiths.length === PAGE_SIZE`.
+            // This is "Load More" style pagination.
+            // My new Pagination component is "Numbered" (1 2 3 ... 10).
+            // Numbered pagination requires knowing the total count.
+            // If I can't get total count, I should probably stick to simple nav or pass a fake "total" if Next is available.
+            // Let's use a dynamic totalPages: if full page, assume current + 1 exists.
             onPageChange={setPage}
             className="mt-12"
           />

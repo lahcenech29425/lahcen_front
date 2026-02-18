@@ -473,6 +473,21 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-0 left-0 right-0 bg-card/90 backdrop-blur-2xl border-t border-border shadow-2xl z-50 px-4 py-4"
           >
+            {/* Mobile Absolute Buttons */}
+            <button
+              onClick={closePlayer}
+              className="md:hidden absolute top-4 left-4 p-2 rounded-full bg-background/50 backdrop-blur-sm border border-border/50 text-muted-foreground hover:bg-muted transition z-10"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <button
+              onClick={toggleFullscreen}
+              className="md:hidden absolute top-4 right-4 p-2 rounded-full bg-background/50 backdrop-blur-sm border border-border/50 text-muted-foreground hover:bg-muted transition z-10"
+            >
+              <Maximize2 className="w-5 h-5" />
+            </button>
+
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-4">
               {/* Current Surah Info */}
               <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -490,7 +505,7 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
               </div>
 
               {/* Controls */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4 md:gap-2">
                 <button onClick={skipPrevious} className="p-2 rounded-full hover:bg-primary/10 transition">
                   <SkipForward className="w-5 h-5 text-muted-foreground" />
                 </button>
@@ -522,6 +537,13 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
 
               {/* Volume & Fullscreen & Close (LTR) */}
               <div className="hidden md:flex items-center gap-2" dir="ltr">
+                <button onClick={closePlayer} className="p-2 rounded-full hover:bg-primary/10 transition">
+                  <X className="w-5 h-5 text-muted-foreground" />
+                </button>
+                <button onClick={toggleFullscreen} className="p-2 rounded-full hover:bg-primary/10 transition ml-1" title="Fullscreen">
+                  <Maximize2 className="w-5 h-5 text-muted-foreground" />
+                </button>
+                <div className="w-px h-6 bg-border mx-2" /> {/* Divider */}
                 <button onClick={toggleMute} className="p-2 rounded-full hover:bg-primary/10 transition">
                   {isMuted ? <VolumeX className="w-5 h-5 text-muted-foreground" /> : <Volume2 className="w-5 h-5 text-muted-foreground" />}
                 </button>
@@ -534,12 +556,6 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
                   onChange={handleVolumeChange}
                   className="w-16 h-1.5 bg-primary/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#8B4513]"
                 />
-                <button onClick={toggleFullscreen} className="p-2 rounded-full hover:bg-primary/10 transition ml-1" title="Fullscreen">
-                  <Maximize2 className="w-5 h-5 text-muted-foreground" />
-                </button>
-                <button onClick={closePlayer} className="p-2 rounded-full hover:bg-primary/10 transition">
-                  <X className="w-5 h-5 text-muted-foreground" />
-                </button>
               </div>
             </div>
           </motion.div>
@@ -678,7 +694,7 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
                       {/* Play / Pause */}
                       <button
                         onClick={togglePlay}
-                        className="relative w15 h-15 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
+                        className="relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
                       >
                         {/* Glow ring */}
                         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#c8956c] to-[#8B4513] opacity-80 blur-sm" />

@@ -90,21 +90,19 @@ export async function generateStaticParams() {
 export default async function SurahDetailPage({ params }: Props) {
   let ssrSnippet = "";
   let jsonLd = null as Record<string, unknown> | null;
-
-  const { surah: surahSlug } = await params;
-  const surahNumber = await getSurahNumberFromSlug(surahSlug);
-
-  // Validate slug to prevent defaulting to Al-Fatiha for invalid slugs
-  const isInvalidSlug =
-    surahNumber === 1 &&
-    surahSlug !== "1" &&
-    surahSlug.toLowerCase() !== "al-faatiha";
-
-  if (isInvalidSlug) {
-    notFound();
-  }
-
   try {
+    const { surah: surahSlug } = await params;
+    const surahNumber = await getSurahNumberFromSlug(surahSlug);
+
+    const isInvalidSlug =
+      surahNumber === 1 &&
+      surahSlug !== "1" &&
+      surahSlug.toLowerCase() !== "al-faatiha";
+
+    if (isInvalidSlug) {
+      notFound();
+    }
+
     const surah = await fetchSurahDetail(surahNumber);
     const name =
       surah.surahNameArabicLong ||
@@ -137,9 +135,7 @@ export default async function SurahDetailPage({ params }: Props) {
       },
       inLanguage: "ar",
     };
-  } catch (error) {
-    console.error("Error fetching surah details:", error);
-  }
+  } catch { }
 
   return (
     <>

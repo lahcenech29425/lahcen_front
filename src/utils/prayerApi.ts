@@ -1,14 +1,3 @@
-// Helper for safe JSON parsing
-async function safeJson<T>(res: Response): Promise<T> {
-  const text = await res.text();
-  if (!text) throw new Error("Empty body");
-  try {
-    return JSON.parse(text);
-  } catch (e) {
-    throw new Error(`Failed to parse JSON: ${text.substring(0, 100)}...`);
-  }
-}
-
 // Get country code from lat/lng using Nominatim API
 export async function getCountryCodeFromLatLng(
   lat: number,
@@ -18,7 +7,7 @@ export async function getCountryCodeFromLatLng(
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=3&addressdetails=1`;
     const res = await fetch(url);
     if (!res.ok) return undefined;
-    const json = await safeJson<{ address?: { country_code?: string } }>(res);
+    const json = await res.json();
     return json?.address?.country_code?.toUpperCase();
   } catch {
     return undefined;
@@ -74,7 +63,7 @@ export async function fetchAladhanTimings(
       `Failed to fetch prayer timings: ${res.status} ${res.statusText}`,
     );
   }
-  const json = await safeJson<RawAladhanTimingsResponse>(res);
+  const json = (await res.json()) as RawAladhanTimingsResponse;
   return json;
 }
 

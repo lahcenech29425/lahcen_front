@@ -115,13 +115,8 @@ export const SURAH_NAMES = [
   "an-naas",
 ];
 
-export function getSurahSlug(surah: { number: number; englishName?: string }): string {
-  // Use the canonical slug from SURAH_NAMES if available
-  if (surah.number >= 1 && surah.number <= 114) {
-    return SURAH_NAMES[surah.number - 1];
-  }
-  // Fallback to englishName if for some reason number is invalid (shouldn't happen)
-  return surah.englishName ? surah.englishName.toLowerCase() : "";
+export function getSurahSlug(surah: { englishName: string }): string {
+  return surah.englishName.toLowerCase();
 }
 
 export async function getSurahNumberFromSlug(slug: string): Promise<number> {

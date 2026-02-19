@@ -338,12 +338,12 @@ export default function QuranPageClient() {
 
                 <div className="text-center mb-2">
                   <h3
-                    className="text-6xl font-medium text-gray-900 dark:text-white mb-1 group-hover:text-primary transition-colors"
+                    className="text-6xl font-medium text-gray-900 [.dark_&]:text-white mb-1 group-hover:text-primary transition-colors"
                     style={{ fontFamily: "var(--font-surah-name)" }}
                   >
                     {s.name}
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                  <p className="text-sm text-gray-600 [.dark_&]:text-gray-400 group-hover:text-gray-900 [.dark_&]:group-hover:text-white transition-colors">
                     {s.englishName}
                   </p>
                 </div>

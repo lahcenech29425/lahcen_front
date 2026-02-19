@@ -5,7 +5,6 @@ import { Link } from "@/components/elements/Link";
 import { Surah } from "@/types/Surah";
 import { getSurahNumberFromSlug } from "@/utils/surahHelpers";
 import { ChevronLeft, ChevronRight, BookOpen, Info, Type } from "lucide-react";
-import { motion } from "framer-motion";
 import { useQuranFont } from "@/hooks/useQuranFont";
 import PageHero from "@/components/blocks/hero/PageHero";
 
@@ -144,7 +143,7 @@ export default function AyahDetailClient({ params }: Props) {
     <div className="min-h-screen flex flex-col bg-background">
       {/* 1. HERO SECTION */}
       <PageHero
-        backgroundImage="/assets/quran-header.png"
+        backgroundImage={`${process.env.NEXT_PUBLIC_CLOUDINARY_ROOT}/image/upload/v1771249645/quran_ykrns1.png`}
         breadcrumbs={[
           { label: "القرآن الكريم", href: "/quran" },
           {
@@ -219,7 +218,7 @@ export default function AyahDetailClient({ params }: Props) {
 
             <div className="relative z-10">
               <p
-                className="text-4xl md:text-6xl leading-[2.5] text-foreground relative"
+                className="text-3xl md:text-4xl leading-[2.5] text-foreground relative"
                 style={{
                   lineHeight: "2.2",
                   fontFamily: getFontFamily(),
@@ -276,7 +275,7 @@ export default function AyahDetailClient({ params }: Props) {
                 <div className="w-8 h-8 border-4 border-current border-t-transparent rounded-full animate-spin" />
               </div>
             ) : tafseerContent ? (
-              <div className="prose prose-lg max-w-none dark:prose-invert">
+              <div className="prose prose-lg max-w-none [.dark_&]:prose-invert">
                 <p className="text-xl leading-relaxed text-foreground text-justify font-normal">
                   {tafseerContent.text}
                 </p>

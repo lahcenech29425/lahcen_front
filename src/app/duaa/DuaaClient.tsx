@@ -295,7 +295,7 @@ export default function DuaaClient({ categories }: DuaaClientProps) {
             {/* Detail Modal */}
             <AnimatePresence>
                 {selectedCategory && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 md:p-4">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -314,7 +314,7 @@ export default function DuaaClient({ categories }: DuaaClientProps) {
                             className="relative w-full max-w-4xl max-h-[90vh] mt-20 bg-card rounded-[40px] shadow-2xl overflow-hidden border border-primary/20"
                         >
                             {/* Modal Header */}
-                            <div className="px-8 py-6 border-b border-primary/10 flex items-center justify-between sticky top-0 bg-card/95 backdrop-blur-md z-[110]">
+                            <div className="px-4 md:px-8 py-6 border-b border-primary/10 flex items-center justify-between sticky top-0 bg-card/95 backdrop-blur-md z-[110]">
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                                         {getCategoryIcon(selectedCategory.category)}
@@ -336,7 +336,7 @@ export default function DuaaClient({ categories }: DuaaClientProps) {
                             </div>
 
                             {/* Modal Content */}
-                            <div className="p-8 overflow-y-auto max-h-[calc(90vh-100px)] custom-scrollbar">
+                            <div className="p-4 md:p-10 overflow-y-auto max-h-[calc(90vh-100px)] custom-scrollbar">
                                 <div className="space-y-8">
                                     {selectedCategory.array.map((item, idx) => (
                                         <motion.div
@@ -344,7 +344,7 @@ export default function DuaaClient({ categories }: DuaaClientProps) {
                                             initial={{ opacity: 0, x: 20 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: idx * 0.05 }}
-                                            className="relative p-8 rounded-3xl bg-secondary/30 border border-primary/5 hover:border-primary/20 transition-all group"
+                                            className="relative py-5 md:p-8 rounded-3xl bg-secondary/30 border border-primary/5 hover:border-primary/20 transition-all group"
                                         >
                                             <div className="flex flex-col gap-8">
                                                 <div className="text-2xl md:text-4xl font-amiri leading-[2.2] text-foreground text-center px-4">

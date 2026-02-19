@@ -49,7 +49,7 @@ export default function HeaderBlock() {
               <button
                 onClick={() => setDrawerOpen(true)}
                 className={`flex items-center gap-3 pl-4 pr-2 py-2 transition-all group ${isScrolled
-                  ? "text-foreground dark:text-[rgb(93, 64, 55)] hover:text-primary dark:hover:text-primary"
+                  ? "text-foreground [.dark_&]:text-[rgb(93,64,55)] hover:text-primary"
                   : "text-white hover:text-primary"
                   }`}
                 aria-label="القائمة"
@@ -67,8 +67,8 @@ export default function HeaderBlock() {
               <Link href="/" className="flex items-center gap-3 group">
                 <div
                   className={`transition-all duration-300 ${isScrolled
-                      ? "w-20 h-8 bg-[rgb(93,64,55)] dark:bg-white"
-                      : "w-24 h-10 bg-white"
+                    ? "w-20 h-8 bg-[rgb(93,64,55)] [.dark_&]:bg-white"
+                    : "w-24 h-10 bg-white"
                     }`}
                   style={{
                     WebkitMaskImage: "url('/assets/logo.svg')",
@@ -90,7 +90,7 @@ export default function HeaderBlock() {
               <button
                 onClick={() => setSearchOpen(true)}
                 className={`group p-2 flex items-center gap-2 transition-all ${isScrolled
-                  ? "text-foreground dark:text-[rgb(93, 64, 55)] hover:text-primary dark:hover:text-primary"
+                  ? "text-foreground [.dark_&]:text-[rgb(93,64,55)] hover:text-primary"
                   : "text-white hover:text-primary"
                   }`}
                 aria-label="بحث"

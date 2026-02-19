@@ -326,7 +326,7 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
             <div className="relative group">
               {/* Glow accent */}
               <div className="absolute -inset-px rounded-2xl bg-gradient-to-r from-primary/30 via-primary/10 to-primary/30 opacity-0 group-focus-within:opacity-100 transition-opacity duration-500 blur-sm" />
-              <div className="relative flex items-center bg-background/95 dark:bg-card/80 backdrop-blur-xl border border-border/60 group-focus-within:border-primary/50 rounded-2xl shadow-lg transition-all duration-300">
+              <div className="relative flex items-center backdrop-blur-xl border border-border/60 group-focus-within:border-primary/50 rounded-2xl shadow-lg transition-all duration-300 bg-background/95 [.dark_&]:bg-card/80">
                 <Search
                   className="absolute right-5 top-1/2 -translate-y-1/2 text-primary/60 group-focus-within:text-primary transition-colors duration-300"
                   size={22}
@@ -408,7 +408,7 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
                     <div
                       className={`w-12 h-12 rounded-2xl flex items-center justify-center text-lg font-bold transition-colors ${isActive
                         ? "bg-linear-to-br from-[#8B4513] to-[#5d3119] text-white"
-                        : "bg-[#8B4513]/8 text-[#8B4513] dark:text-[#d4a574] group-hover:bg-[#8B4513]/15"
+                        : "bg-[#8B4513]/8 text-[#8B4513] [.dark_&]:text-[#d4a574] group-hover:bg-[#8B4513]/15"
                         }`}
                     >
                       {surah.number}
@@ -434,7 +434,7 @@ export default function ReciterPageClient({ reciter }: ReciterPageClientProps) {
                       {isActive && isPlaying ? (
                         <Pause className="w-5 h-5 text-white" />
                       ) : (
-                        <Play className="w-5 h-5 text-[#8B4513] dark:text-[#d4a574] group-hover:text-white" />
+                        <Play className="w-5 h-5 text-[#8B4513] [.dark_&]:text-[#d4a574] group-hover:text-white" />
                       )}
                     </div>
                   </div>

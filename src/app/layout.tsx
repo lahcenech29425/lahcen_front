@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins, Lateef, Noto_Naskh_Arabic } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/blocks/header/Header";
@@ -19,6 +19,26 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const poppins = Poppins({
+  weight: ["400", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
+const lateef = Lateef({
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
+  subsets: ["arabic"],
+  variable: "--font-lateef",
+  display: "swap",
+});
+
+const notoNaskhArabic = Noto_Naskh_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-noto-naskh-arabic",
+  display: "swap",
 });
 
 const thuluth = localFont({
@@ -284,7 +304,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${thuluth.variable} ${momken.variable} ${amiri.variable} ${warshQuran.variable} ${elgharibHafs.variable} ${kfgqpcWarsh.variable} ${kfgqpcHafs.variable} ${surahName.variable} antialiased flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} ${lateef.variable} ${notoNaskhArabic.variable} ${thuluth.variable} ${momken.variable} ${amiri.variable} ${warshQuran.variable} ${elgharibHafs.variable} ${kfgqpcWarsh.variable} ${kfgqpcHafs.variable} ${surahName.variable} antialiased flex flex-col min-h-screen`}
       >
         {!isNotFoundRoute && <AnnouncementBar />}
         {!isNotFoundRoute && <Header />}

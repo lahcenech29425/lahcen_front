@@ -1,6 +1,7 @@
 import { SeoBlog } from "@/types/blog";
 import { ImageType } from "@/types/image";
 import { MetadataRoute } from "next";
+import { fetchReciters } from "@/utils/quranAudioApi";
 
 interface StrapiBlog {
   id: number;
@@ -177,6 +178,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/duaa`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/hijri-calendar`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/names-of-allah`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 
   // ========================================
@@ -249,6 +268,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // Pages des 114 sourates
+  const reciters = await fetchReciters();
+  const reciterPages: MetadataRoute.Sitemap = reciters.map((r) => ({
+    url: `${baseUrl}/quran-audio/${r.id}`,
+    lastModified: currentDate,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   // ========================================
   // 7. AUTRES PAGES (si vous en avez)
   // ========================================
@@ -285,6 +313,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...hadithPages, // Section Hadith
     ...prayerPages, // Section Prayer Times
     ...quranAudioPages, // Section Quran Audio
+    ...reciterPages, // Dynamic Reciter Pages
     ...additionalPages, // Autres pages
   ];
 

@@ -5,6 +5,7 @@ import { Link } from "@/components/elements/Link";
 import { Surah } from "@/types/Surah";
 import { getSurahNumberFromSlug } from "@/utils/surahHelpers";
 import { ChevronLeft, ChevronRight, BookOpen, Info, Type } from "lucide-react";
+import { motion } from "framer-motion";
 import { useQuranFont } from "@/hooks/useQuranFont";
 import PageHero from "@/components/blocks/hero/PageHero";
 
